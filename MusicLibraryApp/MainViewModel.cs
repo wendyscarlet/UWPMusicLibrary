@@ -10,12 +10,12 @@ namespace MusicLibraryApp
     class MainViewModel
     {
 
-        static public  List<Song> SongsList { get; set; }
+      //  static public  List<Song> SongsList { get; set; }
 
 
-        public void AddSong(Song s) {
+      //  public void AddSong(Song s) {
 
 
-        }
+        //}
     }
 }

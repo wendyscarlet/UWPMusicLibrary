@@ -26,5 +26,14 @@ namespace MusicLibraryApp
         {
             this.InitializeComponent();
         }
+
+        private async void AddSong_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new AddSongContentDialog();
+            await dialog.ShowAsync();
+           // AddSongContentDialog addSongDialog = new AddSongContentDialog();
+            //await addSongDialog.ShowAsync();
+
+        }
     }
 }
