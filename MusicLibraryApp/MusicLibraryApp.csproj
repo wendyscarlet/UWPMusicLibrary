@@ -92,6 +92,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FileHelper.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Model\Song.cs" />
     <Compile Include="App.xaml.cs">
