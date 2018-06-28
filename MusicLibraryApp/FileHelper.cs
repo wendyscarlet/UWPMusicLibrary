@@ -18,10 +18,11 @@ namespace MusicLibraryApp
         public static async Task<ICollection<Model.Song>> GetSongsAsync()
         {
             List<Model.Song> songs = new List<Model.Song>();
-
             StorageFolder folder = ApplicationData.Current.LocalFolder;
+
             StorageFile songFile = await folder.GetFileAsync(FILE_NAME);
             var lines = await FileIO.ReadLinesAsync(songFile);
+
 
             foreach (var line in lines)
             {
