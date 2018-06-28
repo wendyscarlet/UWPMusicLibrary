@@ -30,14 +30,20 @@ namespace MusicLibraryApp
         {
             this.InitializeComponent();
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.DataContext = Song.GetSongList();
            
 =======
+=======
+>>>>>>> a8c69a646f01b22223aa076be1e4940975431efa
             //  this.DataContext = Song.GetSongList();
 
             vm = new MainViewModel();
             vm.CreateDummySongs();
             this.DataContext = vm;
+<<<<<<< HEAD
+>>>>>>> a8c69a646f01b22223aa076be1e4940975431efa
+=======
 >>>>>>> a8c69a646f01b22223aa076be1e4940975431efa
         }
 
