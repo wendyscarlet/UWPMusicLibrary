@@ -57,8 +57,8 @@
                 </Grid>
             </SplitView.Content> -->
         </SplitView>
-       
-        <GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{Binding}">
+
+        <GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.SongsList}">
             <GridView.ItemTemplate >
                 <DataTemplate x:DataType="local1:Song">
                     <StackPanel  Margin ="50" Name="Display">

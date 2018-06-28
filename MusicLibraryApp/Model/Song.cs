@@ -15,34 +15,34 @@ namespace MusicLibraryApp.Model
        public BitmapImage CoverImage { get; set; }     
         public string AudioFilePath { get; set; }
 
-        public static ICollection<Song> GetSongList()
-        {
+        //public static ICollection<Song> GetSongList()
+        //{
 
-            List<Song> SongsList = new List<Song>();
+        //    List<Song> SongsList = new List<Song>();
 
-            var s1 = new Song
-            {
-                Title = "Lemonade",
-                Artist = "Beyonce",
-                Album = "her first"
-            };
-            var s2 = new Song
-            {
-                Title = "Hello",
-                Artist = "Adele",
-                Album = "her second"
-            };
-            var s3 = new Song
-            {
-                Title = "Billie Jean",
-                Artist = "Michael Jackson",
-                Album = "Hits"
-            };
-            SongsList.Add(s1);
-            SongsList.Add(s2);
-            SongsList.Add(s3);
+        //    var s1 = new Song
+        //    {
+        //        Title = "Lemonade",
+        //        Artist = "Beyonce",
+        //        Album = "her first"
+        //    };
+        //    var s2 = new Song
+        //    {
+        //        Title = "Hello",
+        //        Artist = "Adele",
+        //        Album = "her second"
+        //    };
+        //    var s3 = new Song
+        //    {
+        //        Title = "Billie Jean",
+        //        Artist = "Michael Jackson",
+        //        Album = "Hits"
+        //    };
+        //    SongsList.Add(s1);
+        //    SongsList.Add(s2);
+        //    SongsList.Add(s3);
 
-            return SongsList;
-        }
+        //    return SongsList;
+        //}
     }
 }
