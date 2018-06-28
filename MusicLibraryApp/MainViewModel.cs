@@ -12,6 +12,11 @@ namespace MusicLibraryApp.Model
     class MainViewModel
     {
 
+<<<<<<< HEAD
+=======
+ 
+
+>>>>>>> 8e4d5e0ff9de69d19e9e05c1964b7df303c37d7d
          public  ObservableCollection<Song> SongsList { get; private set; }
         /// <summary>
         /// Constructor
@@ -53,7 +58,10 @@ namespace MusicLibraryApp.Model
             });
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8e4d5e0ff9de69d19e9e05c1964b7df303c37d7d
         }
 
         public void AddDummySong() {
@@ -64,6 +72,9 @@ namespace MusicLibraryApp.Model
                 Album = "Evolve"
             });
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8e4d5e0ff9de69d19e9e05c1964b7df303c37d7d
     }
 }
