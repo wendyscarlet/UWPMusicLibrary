@@ -10,8 +10,8 @@
     PrimaryButtonText="Add"
     SecondaryButtonText="Cancel"
     PrimaryButtonClick="ContentDialog_AddButtonClick"
-    SecondaryButtonClick="ContentDialog_CancelButtonClick" Width="910" Height="488">
-
+    SecondaryButtonClick="ContentDialog_CancelButtonClick" Width="910" Height="488"
+    IsPrimaryButtonEnabled="True">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width = "Auto"/>
@@ -38,8 +38,7 @@
             Height="54"
             Margin="5,0,5,0"
             HorizontalAlignment="center"
-            VerticalAlignment="top"
-            Click="ContentDialog_TakeImage_Clicked" 
+            VerticalAlignment="top" 
             Content="Add Cover Image" />
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -61,7 +60,7 @@
             Margin="10,10,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            PlaceholderText=""
+            PlaceholderText="Enter Title"
             TextWrapping="Wrap"
             />
         </StackPanel>
@@ -81,7 +80,7 @@
             Margin="10,10,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            PlaceholderText=""
+            PlaceholderText="Enter Artist"
             TextWrapping="Wrap"
             />
         </StackPanel>
@@ -91,9 +90,9 @@
                 TextWrapping="WrapWholeWords"
                 Margin="10,0,0,0"
                 TextAlignment="Center"
-                HorizontalAlignment="Center"
-                Text="Song"
-                Width="100"/>
+                HorizontalAlignment="Left"
+                Text="SongFilePath"
+                Width="100" Height="24" VerticalAlignment="Stretch"/>
             <TextBox 
             x:Name="Song"
             Width="206"
