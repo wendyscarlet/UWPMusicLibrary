@@ -28,11 +28,6 @@ namespace MusicLibraryApp
 
         public MainPage()
         {
-<<<<<<< HEAD
-            this.InitializeComponent();
-            //  this.DataContext = Song.GetSongList();
-
-=======
             this.InitializeComponent();       
 >>>>>>> 8e4d5e0ff9de69d19e9e05c1964b7df303c37d7d
             vm = new MainViewModel();
