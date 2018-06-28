@@ -21,6 +21,31 @@
             <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
 
+        <RelativePanel Background="LightGray"  Grid.Row="0" Grid.Column="1">
+           
+
+            <TextBlock
+                    Name="Username"
+                    Margin="10,10,6,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    FontSize="20"
+                    Opacity="1.0"
+                    Text="User"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" Foreground="Black"  RelativePanel.AlignRightWithPanel="True"/>
+            <TextBlock
+                 x:Name="TextGreeting"
+                    Margin="10,10,6,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    FontSize="20"
+                    Opacity="1.0"
+                    Text="Good Afternoon"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" Foreground="Black"  RelativePanel.LeftOf ="Username"/>
+        </RelativePanel>
+        
         <SplitView Grid.Row="0" Grid.RowSpan="2" x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
                CompactPaneLength="50" OpenPaneLength="220">
             <SplitView.Pane>
@@ -63,11 +88,11 @@
             <GridView.ItemTemplate >
                 <DataTemplate x:DataType="local1:Song">
                     <StackPanel  Margin ="50" Name="Display">
-                        <Image Margin="6" Width="80" Height="20"></Image>
-                        <TextBlock Text="{x:Bind Title}" />
-                        <TextBlock Text="{x:Bind Artist}" />
-                        <TextBlock x:Name="Album" Text="{x:Bind Album}" />
-                        <Button Name="Play Button" Foreground="Black" Margin="6">Play</Button>
+                        <Image Margin="6" Width="150" Height="150" Source="ms-appx:///Assets/beyoncecover.jpg" Stretch="Fill"></Image>
+                        <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" />
+                        <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Artist}" />
+                        <TextBlock x:Name="Album" TextAlignment="Center" FontSize="14" Text="{x:Bind Album}" />
+                        
                     </StackPanel>
                 </DataTemplate>
             </GridView.ItemTemplate>

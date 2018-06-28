@@ -12,12 +12,6 @@ namespace MusicLibraryApp.Model
     class MainViewModel
     {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        static public  ObservableCollection<Song> SongsList { get; set; }
-=======
-=======
->>>>>>> a8c69a646f01b22223aa076be1e4940975431efa
          public  ObservableCollection<Song> SongsList { get; private set; }
         /// <summary>
         /// Constructor
@@ -25,10 +19,6 @@ namespace MusicLibraryApp.Model
         public MainViewModel() {
             SongsList = new ObservableCollection<Song>();
         }
-<<<<<<< HEAD
->>>>>>> a8c69a646f01b22223aa076be1e4940975431efa
-=======
->>>>>>> a8c69a646f01b22223aa076be1e4940975431efa
 
         /// <summary>
         /// Add a new Song to the Collection.
@@ -63,16 +53,7 @@ namespace MusicLibraryApp.Model
             });
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        // }
-        //public static ICollection<Song> GetSongList()
-        //  {
-        //  }
-        
-=======
-=======
->>>>>>> a8c69a646f01b22223aa076be1e4940975431efa
+
         }
 
         public void AddDummySong() {
@@ -84,9 +65,5 @@ namespace MusicLibraryApp.Model
             });
         }
 
-<<<<<<< HEAD
->>>>>>> a8c69a646f01b22223aa076be1e4940975431efa
-=======
->>>>>>> a8c69a646f01b22223aa076be1e4940975431efa
     }
 }
