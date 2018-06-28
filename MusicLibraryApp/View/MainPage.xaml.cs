@@ -29,7 +29,6 @@ namespace MusicLibraryApp
         public MainPage()
         {
             this.InitializeComponent();       
->>>>>>> 8e4d5e0ff9de69d19e9e05c1964b7df303c37d7d
             vm = new MainViewModel();
             vm.CreateDummySongs();
             this.DataContext = vm;
