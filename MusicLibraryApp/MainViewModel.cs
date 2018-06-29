@@ -77,6 +77,11 @@ namespace MusicLibraryApp.Model
             }
         }
 
+        public void CreateDummySongs()
+        {
+
+        }
+
         /*********************
          public  ObservableCollection<Song> SongsList { get; private set; }
         /// <summary>
@@ -120,7 +125,7 @@ namespace MusicLibraryApp.Model
 
 
         }
-
+     
         public void AddDummySong() {
             SongsList.Add(new Song
             {
@@ -130,6 +135,6 @@ namespace MusicLibraryApp.Model
             });
         }
     
-    ***************************************************************/
+    ************************/
     }
 }
