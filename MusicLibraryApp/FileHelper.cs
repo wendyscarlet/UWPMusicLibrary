@@ -31,7 +31,10 @@ namespace MusicLibraryApp
                 song.Title = songData[0];
                 song.Artist = songData[1];
                 song.Album = songData[2];
-                song.AudioFilePath = songData[3];
+                //WeakReference need to look at this property
+
+
+                //song.AudioFilePath = songData[3];
 
                 songs.Add(song);
             }

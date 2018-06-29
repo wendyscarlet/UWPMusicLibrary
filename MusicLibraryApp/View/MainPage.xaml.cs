@@ -30,8 +30,8 @@ namespace MusicLibraryApp
         {
             this.InitializeComponent();       
             vm = new MainViewModel();
-            vm.CreateDummySongs();
-            this.DataContext = vm;
+            //vm.CreateDummySongs();
+            this.DataContext = vm.Songs; ;
         }
 
         private void SoundGridView_ItemClick(object sender, ItemClickEventArgs e)
@@ -62,7 +62,7 @@ namespace MusicLibraryApp
 
         private void AddSongButton_Click(object sender, RoutedEventArgs e)
         {
-            vm.AddDummySong();
+            //vm.AddDummySong();
         }
     }
 }
