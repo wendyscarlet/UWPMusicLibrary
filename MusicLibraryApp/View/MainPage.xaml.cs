@@ -57,12 +57,18 @@ namespace MusicLibraryApp
 
         private void DisplaySongList_Click(object sender, RoutedEventArgs e)
         {
-            //list all songs
+            vm.SearchSongs(SearchAutoSuggestBox.Text);
+            this.SongGridView.ItemsSource = vm.SongsList;
         }
 
         private void AddSongButton_Click(object sender, RoutedEventArgs e)
         {
             vm.AddDummySong();
+        }
+
+        private void SearchAutoSuggestBox_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            
         }
     }
 }

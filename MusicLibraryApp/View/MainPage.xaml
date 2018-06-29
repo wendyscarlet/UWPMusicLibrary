@@ -46,7 +46,7 @@
                             Width="150" Height="50"
                             QueryIcon="Find"
                             TextChanged="SearchAutoSuggestBox_TextChanged"
-                            QuerySubmitted="SearchAutoSuggestBox_QuerySubmitted"
+                            QuerySubmitted="SearchAutoSuggestBox_QuerySubmitted" Tapped="SearchAutoSuggestBox_Tapped"
                             />
                     </StackPanel>
                 </StackPanel>
