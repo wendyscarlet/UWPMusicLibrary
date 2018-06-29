@@ -1,4 +1,5 @@
-﻿using MusicLibraryApp.Model;
+﻿using MusicLibraryApp.AppDialogs;
+using MusicLibraryApp.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,14 +25,15 @@ namespace MusicLibraryApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        MainViewModel vm;
+        SongsDAO songDao;
 
         public MainPage()
         {
             this.InitializeComponent();       
-            vm = new MainViewModel();
-            vm.CreateDummySongs();
-            this.DataContext = vm;
+            songDao = new SongsDAO();
+            songDao.GetAllSongs();
+            this.DataContext = songDao;
+
         }
 
         private void SoundGridView_ItemClick(object sender, ItemClickEventArgs e)
@@ -57,12 +59,19 @@ namespace MusicLibraryApp
 
         private void DisplaySongList_Click(object sender, RoutedEventArgs e)
         {
-            //list all songs
+            songDao.GetAllSongs();
+            this.DataContext = songDao;
         }
 
-        private void AddSongButton_Click(object sender, RoutedEventArgs e)
+        private async void AddSongButton_Click(object sender, RoutedEventArgs e)
         {
-            vm.AddDummySong();
+            var dialog = new ContentDialog1();
+            await dialog.ShowAsync();
+        }
+
+        private void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
