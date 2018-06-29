@@ -63,12 +63,12 @@
                         <TextBlock Text="Add Song" FontSize="14" VerticalAlignment="Center" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Search" FontFamily="Segoe MDL2 Assets" Content="&#59166;"
+                        <Button x:Name="Search" FontFamily="Segoe MDL2 Assets" Content="&#59166;" 
                         Width="50" Height="50" Background="Transparent" Click="Search_Click"/>
                      
                         <AutoSuggestBox Name="SearchAutoSuggestBox"
-                            PlaceholderText="Search for songs"  FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0"
-                            Width="150" Height="50"
+                            PlaceholderText="Search for songs"  FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,0"
+                            Width="190" Height="30"
                             QueryIcon="Find"
                             TextChanged="SearchAutoSuggestBox_TextChanged"
                             QuerySubmitted="SearchAutoSuggestBox_QuerySubmitted" Tapped="SearchAutoSuggestBox_Tapped"
