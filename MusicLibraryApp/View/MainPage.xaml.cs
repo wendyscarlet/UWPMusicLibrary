@@ -42,7 +42,16 @@ namespace MusicLibraryApp
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
-            
+            Search.Visibility = MySplitView.IsPaneOpen ? Visibility.Collapsed : Visibility.Visible;
+
+            if (MySplitView.IsPaneOpen)
+            {
+                Search.Visibility = Visibility.Collapsed;
+
+            }
+            else
+                Search.Visibility = Visibility.Visible;
+
         }
 
         private void SearchAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -52,13 +61,13 @@ namespace MusicLibraryApp
 
         private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            //find song 
+
+            vm.SearchSongs(SearchAutoSuggestBox.Text);
+            this.SongGridView.ItemsSource = vm.SongsList;
         }
 
         private void DisplaySongList_Click(object sender, RoutedEventArgs e)
         {
-            vm.SearchSongs(SearchAutoSuggestBox.Text);
-            this.SongGridView.ItemsSource = vm.SongsList;
         }
 
         private void AddSongButton_Click(object sender, RoutedEventArgs e)
@@ -69,6 +78,12 @@ namespace MusicLibraryApp
         private void SearchAutoSuggestBox_Tapped(object sender, TappedRoutedEventArgs e)
         {
             
+        }
+
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            MySplitView.IsPaneOpen = true;
+            Search.Visibility = Visibility.Collapsed;
         }
     }
 }

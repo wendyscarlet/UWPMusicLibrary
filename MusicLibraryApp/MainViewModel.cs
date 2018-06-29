@@ -45,19 +45,19 @@ namespace MusicLibraryApp.Model
             {
                 Title = "Lemonade",
                 Artist = "Beyonce",
-                AlbumTitle = "her first"
+                Album = "her first"
             });
             AllSongs.Add(new Song
             {
                 Title = "Hello",
                 Artist = "Adele",
-                AlbumTitle = "25"
+                Album = "25"
             });
             AllSongs.Add(new Song
             {
                 Title = "Billie Jean",
                 Artist = "Michael Jackson",
-                AlbumTitle = "Hits"
+                Album = "Hits"
             });
 
             SongsList = new ObservableCollection<Song>(AllSongs);
@@ -68,7 +68,7 @@ namespace MusicLibraryApp.Model
             {
                 Title = "Thunder",
                 Artist = "Imagine Dragons",
-                AlbumTitle = "Evolve"
+                Album = "Evolve"
             };
             AllSongs.Add(newSong);
             SongsList.Add(newSong);
@@ -83,7 +83,7 @@ namespace MusicLibraryApp.Model
         public async void SearchSongsAsync(string str,int pageSize=1,int currentPage =0) {
            var allSongs = await  FileHelper.GetSongsAsync();
             var query = (from Song s in allSongs
-                         where s.Title.Contains(str)|| s.AlbumTitle.Contains(str) || s.Artist.Contains(str)
+                         where s.Title.Contains(str)|| s.Album.Contains(str) || s.Artist.Contains(str)
                          select s).Skip(pageSize * currentPage).Take(pageSize);
             SongsList = (ObservableCollection < Song >) query;
 
@@ -97,7 +97,7 @@ namespace MusicLibraryApp.Model
         public  void SearchSongs(string str, int pageSize = 1, int currentPage = 0)
         {
             var query = (from Song s in AllSongs
-                         where s.Title.Contains(str) || s.AlbumTitle.Contains(str) || s.Artist.Contains(str)
+                         where s.Title.Contains(str) || s.Album.Contains(str) || s.Artist.Contains(str)
                          select s).Skip(pageSize * currentPage).Take(pageSize);
             SongsList = new ObservableCollection<Song>(query);
            

@@ -30,7 +30,7 @@ namespace MusicLibraryApp
 
                 song.Title = songData[0];
                 song.Artist = songData[1];
-                song.AlbumTitle = songData[2];
+                song.Album = songData[2];
                 song.CoverImagePath = songData[3];
                 song.AudioFilePath = songData[4];
                 song.Genre = (Model.Genre)Enum.Parse(typeof(Model.Genre), songData[5]);
@@ -55,7 +55,7 @@ namespace MusicLibraryApp
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             StorageFile songFile = await localFolder.CreateFileAsync(FILE_NAME, CreationCollisionOption.OpenIfExists);
 
-            var songData = $"{song.Title},{song.Artist},{song.AlbumTitle},{song.CoverImagePath}{song.AudioFilePath},{song.Genre}" + Environment.NewLine;
+            var songData = $"{song.Title},{song.Artist},{song.Album},{song.CoverImagePath}{song.AudioFilePath},{song.Genre}" + Environment.NewLine;
             await FileIO.AppendTextAsync(songFile, songData);
         }
     }
