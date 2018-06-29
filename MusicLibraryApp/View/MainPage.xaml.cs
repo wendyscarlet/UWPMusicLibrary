@@ -68,6 +68,8 @@ namespace MusicLibraryApp
 
         private void DisplaySongList_Click(object sender, RoutedEventArgs e)
         {
+            vm.AllSongsToDisplay();
+            this.SongGridView.ItemsSource = vm.SongsList;
         }
 
         private void AddSongButton_Click(object sender, RoutedEventArgs e)

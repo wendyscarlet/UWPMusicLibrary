@@ -102,5 +102,9 @@ namespace MusicLibraryApp.Model
             SongsList = new ObservableCollection<Song>(query);
            
         }
+
+        public void AllSongsToDisplay() {
+            SongsList = new ObservableCollection<Song>(AllSongs);
+        }
     }
 }
