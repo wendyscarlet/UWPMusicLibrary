@@ -11,13 +11,7 @@ namespace MusicLibraryApp.Player
     {
         public async static void playSong(String filePath)
         {
-            StorageFolder Folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
-            Folder = await Folder.GetFolderAsync("MyFolder");
-            StorageFile sf = await Folder.GetFileAsync("MyFile.mp3");
-            var storageFile = await KnownFolders.MusicLibrary.GetFileAsync("line.mp3");
-            var stream = await storageFile.OpenAsync(FileAccessMode.Read);
-          //  mediaElement.SetSource(stream, storageFile.ContentType);
-            //mediaElement.Play();
+
         }
     }
 }

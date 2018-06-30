@@ -34,12 +34,14 @@ namespace MusicLibraryApp.Model
 
             foreach (var line in lines)
             {
-                var songData = line.Split(',');
+                var songData = line.Split('$');
                 songsList.Add(new Song
                 {
                     Title = songData[0],
                     Artist = songData[1],
-                    Album = songData[2]
+                    Album = songData[2],
+                    SongFileName = songData[3]
+
                 });
             }
         }
@@ -55,7 +57,7 @@ namespace MusicLibraryApp.Model
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             StorageFile songFile = await localFolder.CreateFileAsync(TEXT_FILE_NAME, CreationCollisionOption.OpenIfExists);
 
-            var songData = $"{song.Title},{song.Artist},{song.Album},{song.AudioFilePath}";
+            var songData = $"{song.Title}${song.Artist}${song.Album}${song.SongFileName}";
             await FileIO.AppendTextAsync(songFile, songData);
             await FileIO.AppendTextAsync(songFile, Environment.NewLine);
         }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -33,7 +34,7 @@ namespace MusicLibraryApp.AppDialogs
                 Title = Title.Text,
                 Artist = Artist.Text,
                 Album = "Pop",
-                AudioFilePath = Song.Text
+                SongFileName = Song.Text
             };
             SongsDAO.addSong(song);
 
@@ -55,11 +56,17 @@ namespace MusicLibraryApp.AppDialogs
             {
                 MusicProperties musicProperties = await file.Properties.GetMusicPropertiesAsync();
                 // Application now has read/write access to the picked file
-                this.Song.Text = file.Path;
+                this.Song.Text = file.Name;
                 this.Artist.Text = musicProperties.Artist;
                 this.Title.Text = musicProperties.Title;
-                
-
+                StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+                try
+                {
+                    Windows.Storage.StorageFile existingFile = await localFolder.GetFileAsync(file.Name);
+                } catch(FileNotFoundException ex) { 
+                    await file.CopyAsync(localFolder);
+                }
+                   
             }
         }
     }

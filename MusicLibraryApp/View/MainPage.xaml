@@ -22,6 +22,10 @@
         </Grid.RowDefinitions>
 
         <RelativePanel Background="LightGray"  Grid.Row="0" Grid.Column="1">
+            <MediaElement x:Name="mediaPlayer"
+                    Width="400"
+                    AutoPlay="True"
+                    AreTransportControlsEnabled="True"/>
             <TextBlock
                     Name="Username"
                     Margin="10,10,6,0"

@@ -13,8 +13,8 @@ namespace MusicLibraryApp.Model
         public string Title { get; set; }
         public string Artist { get; set; }
         public string Album { get; set; }
-       // public BitmapImage CoverImage { get; set; }     
-        public string AudioFilePath { get; set; }
+        public BitmapImage CoverImage { get; set; }     
+        public string SongFileName { get; set; }
         
     }
 }
