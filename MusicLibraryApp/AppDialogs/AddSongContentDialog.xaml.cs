@@ -22,6 +22,7 @@ namespace MusicLibraryApp.AppDialogs
 {
     public sealed partial class ContentDialog1 : ContentDialog
     {
+        private Windows.Storage.StorageFile songFile;
         public ContentDialog1()
         {
             this.InitializeComponent();
@@ -31,11 +32,10 @@ namespace MusicLibraryApp.AppDialogs
         {
             var song = new Model.Song
             {
-                Title = Title.Text,
-                Artist = Artist.Text,
-                Album = "Pop",
-                SongFileName = Song.Text
+                sourceSongFile = songFile,
+                
             };
+
             SongsDAO.addSong(song);
 
         }
@@ -54,20 +54,14 @@ namespace MusicLibraryApp.AppDialogs
             Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
             if (file != null)
             {
-                MusicProperties musicProperties = await file.Properties.GetMusicPropertiesAsync();
-                // Application now has read/write access to the picked file
-                this.Song.Text = file.Name;
-                this.Artist.Text = musicProperties.Artist;
-                this.Title.Text = musicProperties.Title;
-                StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-                try
-                {
-                    Windows.Storage.StorageFile existingFile = await localFolder.GetFileAsync(file.Name);
-                } catch(FileNotFoundException ex) { 
-                    await file.CopyAsync(localFolder);
-                }
-                   
+                songFile = file;
+                Song.Text = file.Path;
             }
+        }
+
+        private void Song_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

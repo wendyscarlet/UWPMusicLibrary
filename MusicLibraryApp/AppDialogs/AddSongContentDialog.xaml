@@ -93,16 +93,13 @@
                 HorizontalAlignment="Left"
                 Text="SongFilePath"
                 Width="100" Height="24" VerticalAlignment="Stretch"/>
-            <TextBox 
+            <TextBlock 
             x:Name="Song"
             Width="206"
             Height="38"
             Margin="10,10,0,0"
             HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            PlaceholderText=""
-            TextWrapping="Wrap" FontFamily="Segoe UI"
-            />
+            VerticalAlignment="Top"/>
             <Button 
             x:Name="Browse"
             Width="100"

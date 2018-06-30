@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 
 namespace MusicLibraryApp.Model
 {
     class SongsDAO
     {
-        const string TEXT_FILE_NAME = "SongStorage.txt";
-
         public ObservableCollection<Song> songsList { get; private set; }
         /// <summary>
         /// Constructor
@@ -29,20 +29,20 @@ namespace MusicLibraryApp.Model
         {
             songsList.Clear();
             var folder = Windows.Storage.ApplicationData.Current.LocalFolder;
-            var songFile = await folder.GetFileAsync(TEXT_FILE_NAME);
-            var lines = await Windows.Storage.FileIO.ReadLinesAsync(songFile);
-
-            foreach (var line in lines)
+            var allFiles = await folder.GetFilesAsync();
+            foreach (var file in allFiles)
             {
-                var songData = line.Split('$');
+                if (file.FileType.Equals(".mp3")) { 
+                MusicProperties musicProperties = await file.Properties.GetMusicPropertiesAsync();
                 songsList.Add(new Song
                 {
-                    Title = songData[0],
-                    Artist = songData[1],
-                    Album = songData[2],
-                    SongFileName = songData[3]
+                    Title = musicProperties.Title,
+                    Artist = musicProperties.Artist,
+                    Album = musicProperties.Album,
+                    SongFileName = file.Name
 
                 });
+            }
             }
         }
 
@@ -54,12 +54,17 @@ namespace MusicLibraryApp.Model
         /// <param name="song">the song you want to save</param>
         public static async void addSong(Model.Song song)
         {
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-            StorageFile songFile = await localFolder.CreateFileAsync(TEXT_FILE_NAME, CreationCollisionOption.OpenIfExists);
+            var songFile = song.sourceSongFile;
+            var localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            try
+            {
+                Windows.Storage.StorageFile existingFile = await localFolder.GetFileAsync(songFile.Name);
+            }
+            catch (FileNotFoundException ex)
+            {
+                await songFile.CopyAsync(localFolder);
+            }
 
-            var songData = $"{song.Title}${song.Artist}${song.Album}${song.SongFileName}";
-            await FileIO.AppendTextAsync(songFile, songData);
-            await FileIO.AppendTextAsync(songFile, Environment.NewLine);
         }
     }
 }
