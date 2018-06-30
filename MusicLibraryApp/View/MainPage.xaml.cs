@@ -6,6 +6,9 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Core;
+using Windows.Media.Playback;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,18 +28,43 @@ namespace MusicLibraryApp
     public sealed partial class MainPage : Page
     {
         MainViewModel vm;
+        MediaPlayer MyMediaPlayer;
+        bool playing;
 
         public MainPage()
         {
-            this.InitializeComponent();       
+            this.InitializeComponent();
+            
             vm = new MainViewModel();
-            //vm.CreateDummySongs();
+            vm.CreateDummySongs();
             this.DataContext = vm.Songs; ;
+
+            //MediaPlayer
+            MyMediaPlayer = new MediaPlayer();
+            playing = false;
+
         }
 
         private void SoundGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
+            //getting song from e
+            Song Clickedsong =(Song) e.ClickedItem;
+            StorageFile ClickedSongFile = Clickedsong.AudioFilePath;
+
             //play song item
+            MyMediaPlayer.AutoPlay = false;
+            MyMediaPlayer.Source = MediaSource.CreateFromStorageFile(ClickedSongFile);
+
+            if (playing)
+            {
+                playing = false;
+                MyMediaPlayer.Source = null;
+            }
+            else
+            {
+                playing = true;
+                MyMediaPlayer.Play();
+            }
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)

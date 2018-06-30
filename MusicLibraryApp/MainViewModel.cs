@@ -79,7 +79,7 @@ namespace MusicLibraryApp.Model
 
         public void CreateDummySongs()
         {
-
+            GetAllSongsCollection();
         }
 
         /*********************

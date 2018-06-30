@@ -88,7 +88,7 @@
             <GridView.ItemTemplate >
                 <DataTemplate x:DataType="local1:Song">
                     <StackPanel  Margin ="50" Name="Display">
-                        <Image Margin="6" Width="150" Height="150" Source="ms-appx:///Assets/beyoncecover.jpg" Stretch="Fill"></Image>
+                        <Image Margin="6" Width="150" Height="150" Source="{x:Bind AlbumCover}" Stretch="Fill"></Image>
                         <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" />
                         <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Artist}" />
                         <TextBlock x:Name="Album" TextAlignment="Center" FontSize="14" Text="{x:Bind Album}" />
