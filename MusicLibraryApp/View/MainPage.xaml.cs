@@ -28,7 +28,9 @@ namespace MusicLibraryApp
 
         public MainPage()
         {
-            this.InitializeComponent();       
+            this.InitializeComponent();
+            // Update greeting that appears at the top of the screen e.g. "Good morning"
+            UpdateGreeting();
             vm = new MainViewModel();
             vm.CreateDummySongs();
             this.DataContext = vm;
@@ -36,33 +38,77 @@ namespace MusicLibraryApp
 
         private void SoundGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
+           // PauseButton.Visibility = Visibility.Visible;
             //play song item
         }
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+          //  PauseButton.Visibility = Visibility.Collapsed;
+          //  PlayButton.Visibility = Visibility.Visible;
 
+        }
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            //  PauseButton.Visibility = Visibility.Collapsed;
+            //  PlayButton.Visibility = Visibility.Visible;
+
+        }
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
-            
+            Search.Visibility = MySplitView.IsPaneOpen ? Visibility.Collapsed : Visibility.Visible;
+            if (MySplitView.IsPaneOpen == true)
+            {
+                SearchAutoSuggestBox.Width = 200;
+                SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
+            }
         }
 
-        private void SearchAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            //text is added in search box
-        }
-
-        private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            //find song 
-        }
 
         private void DisplaySongList_Click(object sender, RoutedEventArgs e)
         {
-            //list all songs
+            MySplitView.IsPaneOpen = true;
+            SearchAutoSuggestBox.Width = 200;
+            Search.Visibility = Visibility.Collapsed;
+            SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
+            this.DataContext = vm.SongsList;
         }
 
         private void AddSongButton_Click(object sender, RoutedEventArgs e)
         {
+            MySplitView.IsPaneOpen = true;
+            SearchAutoSuggestBox.Width = 200;
+            SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
+            Search.Visibility = Visibility.Collapsed;
+            //call add Songs
             vm.AddDummySong();
         }
+
+        private void SearchSongButton_Click(object sender, RoutedEventArgs e)
+        {
+            MySplitView.IsPaneOpen = true;
+            SearchAutoSuggestBox.Width = 200;
+            Search.Visibility = Visibility.Collapsed;
+            SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
+
+        }
+
+        private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            //call search song 
+        }
+
+
+        private void UpdateGreeting()
+        {
+            var now = DateTime.Now;
+            var greeting =
+                now.Hour < 12 ? "Good Morning!" :
+                now.Hour < 18 ? "Good Afternoon!" :
+                /* otherwise */ "Good Evening!";
+
+            TextGreeting.Text = $"{greeting}";
+        }
+
     }
 }
