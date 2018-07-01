@@ -9,6 +9,7 @@ using Windows.Foundation.Collections;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,7 +29,7 @@ namespace MusicLibraryApp
     public sealed partial class MainPage : Page
     {
         MainViewModel vm;
-        MediaPlayer MyMediaPlayer;
+       // MediaPlayer MyMediaPlayer;
         bool playing;
 
         public MainPage()
@@ -40,30 +41,43 @@ namespace MusicLibraryApp
             this.DataContext = vm.Songs; ;
 
             //MediaPlayer
-            MyMediaPlayer = new MediaPlayer();
+            //MyMediaPlayer = new MediaPlayer();
             playing = false;
 
         }
 
-        private void SoundGridView_ItemClick(object sender, ItemClickEventArgs e)
+        private async void SoundGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
+
             //getting song from e
             Song Clickedsong =(Song) e.ClickedItem;
             StorageFile ClickedSongFile = Clickedsong.AudioFilePath;
+            if (ClickedSongFile != null)
+            {
+                IRandomAccessStream stream = await ClickedSongFile.OpenAsync(FileAccessMode.Read);
+                MyMediaElement.SetSource(stream, ClickedSongFile.ContentType);
+            }
 
             //play song item
-            MyMediaPlayer.AutoPlay = false;
-            MyMediaPlayer.Source = MediaSource.CreateFromStorageFile(ClickedSongFile);
+            //MyMediaElement.AutoPlay = false;
+            //MyMediaElement.Source = MediaSource.CreateFromStorageFile(ClickedSongFile);
 
             if (playing)
             {
                 playing = false;
-                MyMediaPlayer.Source = null;
+                //MyMediaElement.Source = null;
+                MyMediaElement.AutoPlay = false;
+                PlayButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                PauseButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
             else
             {
+                
                 playing = true;
-                MyMediaPlayer.Play();
+                MyMediaElement.AutoPlay = true;
+                //Visibility visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                PlayButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                PauseButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
         }
 
@@ -91,6 +105,48 @@ namespace MusicLibraryApp
         private void AddSongButton_Click(object sender, RoutedEventArgs e)
         {
             //vm.AddDummySong();
+        }
+
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(MyMediaElement.DefaultPlaybackRate != 1)
+            {
+                MyMediaElement.DefaultPlaybackRate = 1.0;
+            }
+            MyMediaElement.Play();
+            PlayButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            PauseButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+        }
+
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            MyMediaElement.Pause();
+            PlayButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            PauseButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+        }
+
+        private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ForwardButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void VolumeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            Slider slider = sender as Slider;
+            if (slider != null)
+            {
+                MyMediaElement.Volume = slider.Value;
+            }
+        }
+
+        private void BackwardButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

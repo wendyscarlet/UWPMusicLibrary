@@ -84,18 +84,33 @@
             </SplitView.Content> -->
         </SplitView>
 
-        <GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.Songs}">
+        <GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" 
+                  ItemsSource="{x:Bind vm.Songs}" >
             <GridView.ItemTemplate >
                 <DataTemplate x:DataType="local1:Song">
-                    <StackPanel  Margin ="50" Name="Display">
-                        <Image Margin="6" Width="150" Height="150" Source="{x:Bind AlbumCover}" Stretch="Fill"></Image>
-                        <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" />
-                        <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Artist}" />
-                        <TextBlock x:Name="Album" TextAlignment="Center" FontSize="14" Text="{x:Bind Album}" />
+                    <StackPanel  Margin ="10" Name="Display">
+                        <Image Margin="6" Width="100" Height="100" Source="{x:Bind AlbumCover}" Stretch="Fill"></Image>
+                        <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" TextWrapping="Wrap"/>
+                        <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Artist}" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="Album" TextAlignment="Center" FontSize="14" Text="{x:Bind Album}" TextWrapping="Wrap" />
                         
                     </StackPanel>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+        <Grid Grid.Row="2" Grid.Column="0">
+            <MediaElement x:Name="MyMediaElement" HorizontalAlignment="Left"></MediaElement>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <AppBarButton Icon="Back" Name="BackwardButton" Label="Backward" Click="BackwardButton_Click"></AppBarButton>
+                <AppBarButton Icon="Play" Name="PlayButton" Label="Play" Click="PlayButton_Click"></AppBarButton>
+                <AppBarButton Icon="Pause" Name="PauseButton" Label="Pause" Click="PauseButton_Click" Visibility="Collapsed"></AppBarButton>
+                <AppBarButton Icon="Forward" Name="ForwardButton" Click="ForwardButton_Click"></AppBarButton>
+                
+            </StackPanel>
+            
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Margin="0,0,5,0"  ValueChanged="VolumeSlider_ValueChanged" Width="100"></Slider>
+        </Grid>
     </Grid>
 </Page>

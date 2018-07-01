@@ -30,13 +30,13 @@ namespace MusicLibraryApp.Model
         }
         public async Task<ObservableCollection<StorageFile>> GetAllSongsFromFolderAsync()
         {
+            //this is for collecting songs from local Asset folder
+            //StorageFolder SongsFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation
+               // .GetFolderAsync(@"Assets");
 
-            StorageFolder SongsFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation
-                .GetFolderAsync(@"Assets");
-            //StorageFolder assets = await appInstalledFolder.GetFolderAsync(@"/Assets/SongFiles");
-            // var testFiles = await assets.GetFilesAsync();
-            //test=testFiles.Count.ToString();
-                      
+            //this is for collcting songs from System's Music folder
+            StorageFolder SongsFolder = KnownFolders.MusicLibrary;
+
             foreach (var songFile in await SongsFolder.GetFilesAsync())
             {
                 AllSongStorageFiles.Add(songFile);
