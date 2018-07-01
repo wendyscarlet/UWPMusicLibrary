@@ -92,27 +92,42 @@
                     TextWrapping="Wrap" Foreground="Black"  RelativePanel.LeftOf ="Username"/>
             </RelativePanel>
 
+                <Pivot x:Name="rootPivot" Title="My Music">
+                    <PivotItem Header="Songs">
+                        <!--Pivot content goes here-->
 
-                    <GridView  Name="SongGridView"  IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind songDao.songsList}" SelectionChanged="SongGridView_SelectionChanged">
-                        <!--<GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.SongsList}" ScrollViewer.VerticalScrollBarVisibility="Visible">-->
-                        <GridView.ItemTemplate >
-                            <DataTemplate x:DataType="local1:Song">
-                                <StackPanel  Margin ="50" Name="Display">
-                                    <Image Margin="6" Width="150" Height="150" Source="ms-appx:///Assets/beyoncecover.jpg" Stretch="Fill"></Image>
-                                    <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" />
-                                    <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Artist}" />
+                        <GridView  Name="SongGridView"  IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind songDao.songsList}" SelectionChanged="SongGridView_SelectionChanged" >
+                            <!--<GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.SongsList}" ScrollViewer.VerticalScrollBarVisibility="Visible">-->
+                            <GridView.ItemTemplate >
+                                <DataTemplate x:DataType="local1:Song">
+                                    <StackPanel  Margin ="50" Name="Display">
+                                        <Image Margin="6" Width="150" Height="150" Source="ms-appx:///Assets/beyoncecover.jpg" Stretch="Fill"></Image>
+                                        <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" />
+                                        <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Artist}" />
 
-                                    <Button x:Name="PauseButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
+                                        <Button x:Name="PauseButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
                                 FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE103;" Click="PauseButton_Click"/>
-                                    <Button x:Name="PlayButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
+                                        <Button x:Name="PlayButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
                                 FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE102;" Click="PlayButton_Click"/>
 
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                    </GridView>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
 
-            </StackPanel>
+
+                    </PivotItem>
+                    <PivotItem Header="Artist">
+                        <!--Pivot content goes here-->
+                        <TextBlock Text="List of Songs by Artist"/>
+                    </PivotItem>
+                    <PivotItem Header="Album">
+                        <!--Pivot content goes here-->
+                        <TextBlock Text="List of Songs by Album"/>
+                    </PivotItem>
+                </Pivot>
+
+       </StackPanel>
         </SplitView>
 
        

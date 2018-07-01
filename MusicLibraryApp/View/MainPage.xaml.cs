@@ -86,11 +86,13 @@ namespace MusicLibraryApp
 
         private void DisplaySongList_Click(object sender, RoutedEventArgs e)
         {
-           // MySplitView.IsPaneOpen = true;
-           // SearchAutoSuggestBox.Width = 200;
-           // Search.Visibility = Visibility.Collapsed;
-           // SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
-           // this.DataContext = vm.SongsList;
+            // MySplitView.IsPaneOpen = true;
+            // SearchAutoSuggestBox.Width = 200;
+            // Search.Visibility = Visibility.Collapsed;
+            // SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
+            // this.DataContext = vm.SongsList;
+            songDao.GetAllSongs();
+
         }
 
      
@@ -110,6 +112,7 @@ namespace MusicLibraryApp
         //    Search.Visibility = Visibility.Collapsed;
             var dialog = new ContentDialog1();
             await dialog.ShowAsync();
+           
         }
 
         private void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
