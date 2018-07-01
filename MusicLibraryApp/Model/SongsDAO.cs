@@ -82,5 +82,18 @@ namespace MusicLibraryApp.Model
             songsList = new ObservableCollection<Song>(query);
 
         }
+
+        public IOrderedEnumerable<IGrouping<string, Song>> GroupbyArtist()
+        {
+            //to do: We have to talk about looking for the songs in memory or in disc.
+            GetAllSongs();
+            var queryArtists =
+                from song in songsList
+                group song by song.Artist into artistGroup
+                orderby artistGroup.Key
+                select artistGroup;
+
+            return queryArtists;
+        }
     }
 }

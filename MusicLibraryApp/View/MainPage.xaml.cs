@@ -153,5 +153,9 @@ namespace MusicLibraryApp
 
         }
 
+        private void MySplitView_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
+        {
+            Search.Visibility = Visibility.Visible;
+        }
     }
 }
