@@ -76,20 +76,20 @@ namespace MusicLibraryApp
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
             Search.Visibility = MySplitView.IsPaneOpen ? Visibility.Collapsed : Visibility.Visible;
-            if (MySplitView.IsPaneOpen == true)
-            {
-                SearchAutoSuggestBox.Width = 200;
-                SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
-            }
+            //if (MySplitView.IsPaneOpen == true)
+            //{
+            //    SearchAutoSuggestBox.Width = 200;
+            //    SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
+            //}
         }
 
 
         private void DisplaySongList_Click(object sender, RoutedEventArgs e)
         {
-            MySplitView.IsPaneOpen = true;
-            SearchAutoSuggestBox.Width = 200;
-            Search.Visibility = Visibility.Collapsed;
-            SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
+           // MySplitView.IsPaneOpen = true;
+           // SearchAutoSuggestBox.Width = 200;
+           // Search.Visibility = Visibility.Collapsed;
+           // SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
            // this.DataContext = vm.SongsList;
         }
 
@@ -98,16 +98,16 @@ namespace MusicLibraryApp
         private void SearchSongButton_Click(object sender, RoutedEventArgs e)
         {
 
-            songDao.GetAllSongs();
-            this.DataContext = songDao;
+            MySplitView.IsPaneOpen = true;
+            Search.Visibility = Visibility.Collapsed;
         }
 
         private async void AddSongButton_Click(object sender, RoutedEventArgs e)
         {
-            MySplitView.IsPaneOpen = true;
-            SearchAutoSuggestBox.Width = 200;
-            SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
-            Search.Visibility = Visibility.Collapsed;
+        //    MySplitView.IsPaneOpen = true;
+        //    SearchAutoSuggestBox.Width = 200;
+        //    SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
+        //    Search.Visibility = Visibility.Collapsed;
             var dialog = new ContentDialog1();
             await dialog.ShowAsync();
         }
@@ -116,16 +116,28 @@ namespace MusicLibraryApp
         {
 
 
-            MySplitView.IsPaneOpen = true;
-            SearchAutoSuggestBox.Width = 200;
-            Search.Visibility = Visibility.Collapsed;
-            SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
+            //MySplitView.IsPaneOpen = true;
+            //SearchAutoSuggestBox.Width = 200;
+            //Search.Visibility = Visibility.Collapsed;
+            //SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
 
         }
 
         private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            //call search song 
+
+            if (SearchAutoSuggestBox.Text.Trim() != "")
+            {
+                songDao.SearchSongs(SearchAutoSuggestBox.Text);
+                this.SongGridView.ItemsSource = songDao.songsList;
+            }
+            else
+            {
+                songDao.GetAllSongs();
+                this.SongGridView.ItemsSource = songDao.songsList;
+            }
+            MySplitView.IsPaneOpen = false;
+            Search.Visibility = Visibility.Visible;
         }
 
 

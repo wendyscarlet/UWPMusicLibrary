@@ -28,9 +28,6 @@
                     AutoPlay="True"
                     AreTransportControlsEnabled="True"/>
 
-         
-
-
                 <TextBlock
                     Name="Username"
                     Margin="5,10,6,0"
@@ -60,6 +57,17 @@
                     <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
                     Width="50" Height="50"  BorderThickness="0" Background="Transparent" Click="HamburgerButton_Click"/>
 
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="Search" FontFamily="Segoe MDL2 Assets" Content="&#59166;"
+                      Width="50" Height="50"  BorderThickness="0" Background="Transparent" Click="SearchSongButton_Click"/>
+
+                        <AutoSuggestBox Name="SearchAutoSuggestBox"
+                            PlaceholderText="Search for songs"  BorderThickness="0"  FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0"
+                            Width="190" Height="30"  
+                            QueryIcon="Find"
+                            QuerySubmitted="SearchAutoSuggestBox_QuerySubmitted"
+                            />
+                    </StackPanel>
                     <Button x:Name="DisplaySongList"
                     Width="220" Height="50"  BorderThickness="0" Background="Transparent" Click="DisplaySongList_Click">
                         <StackPanel Orientation="Horizontal">
@@ -79,17 +87,7 @@
                         </StackPanel>
                     </Button>
 
-                    <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Search" FontFamily="Segoe MDL2 Assets" Content="&#59166;"
-                      Width="50" Height="50"  BorderThickness="0" Background="Transparent" Click="SearchSongButton_Click"/>
-
-                        <AutoSuggestBox Name="SearchAutoSuggestBox"
-                            PlaceholderText="Search for songs"  BorderThickness="0"  FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0"
-                            Width="50" Height="50"  
-                            QueryIcon="Find"
-                            QuerySubmitted="SearchAutoSuggestBox_QuerySubmitted"
-                            />
-                    </StackPanel>
+                   
                 </StackPanel>
             </SplitView.Pane>
 
