@@ -58,14 +58,16 @@
                     Width="50" Height="50"  BorderThickness="0" Background="Transparent" Click="HamburgerButton_Click"/>
 
                     <StackPanel Orientation="Horizontal">
+
                         <Button x:Name="Search" FontFamily="Segoe MDL2 Assets" Content="&#59166;"
-                      Width="50" Height="50"  BorderThickness="0" Background="Transparent" Click="SearchSongButton_Click"/>
+                        Width="50" Height="50" Background="Transparent" Click="SearchSongButton_Click"/>
 
                         <AutoSuggestBox Name="SearchAutoSuggestBox"
-                            PlaceholderText="Search for songs"  BorderThickness="0"  FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0"
-                            Width="190" Height="30"  
+                            PlaceholderText="Search for songs"  FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,10,10"
+                            Width="200" Height="30"
                             QueryIcon="Find"
-                            QuerySubmitted="SearchAutoSuggestBox_QuerySubmitted"
+                           
+                            QuerySubmitted="SearchAutoSuggestBox_QuerySubmitted"  Background="White" BorderThickness="0"
                             />
                     </StackPanel>
                     <Button x:Name="DisplaySongList"
