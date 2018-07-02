@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Windows.Storage;
+
+namespace MusicLibraryApp.Player
+{
+    class BackgroundPlayer
+    {
+        public async static void playSong(String filePath)
+        {
+
+        }
+    }
+}

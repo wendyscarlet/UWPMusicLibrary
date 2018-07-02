@@ -11,15 +11,21 @@ namespace MusicLibraryApp.Model
 {
     class MainViewModel
     {
-
- 
-
+        /// <summary>
+        /// Contain the Songs to be shown in the UI
+        /// </summary>
          public  ObservableCollection<Song> SongsList { get; private set; }
+        /// <summary>
+        /// Contains all the Songs
+        /// </summary>
+         private List<Song> AllSongs {  get;  set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
         public MainViewModel() {
             SongsList = new ObservableCollection<Song>();
+            AllSongs = new List<Song>();
         }
 
         /// <summary>
@@ -35,35 +41,70 @@ namespace MusicLibraryApp.Model
         /// </summary>
         public void CreateDummySongs() {   
             
-            SongsList.Add(new Song
+            AllSongs.Add(new Song
             {
                 Title = "Lemonade",
                 Artist = "Beyonce",
                 Album = "her first"
             });
-            SongsList.Add(new Song
+            AllSongs.Add(new Song
             {
                 Title = "Hello",
                 Artist = "Adele",
                 Album = "25"
             });
-            SongsList.Add(new Song
+            AllSongs.Add(new Song
             {
                 Title = "Billie Jean",
                 Artist = "Michael Jackson",
                 Album = "Hits"
             });
 
-
+            SongsList = new ObservableCollection<Song>(AllSongs);
         }
 
         public void AddDummySong() {
-            SongsList.Add(new Song
+            var newSong = new Song
             {
                 Title = "Thunder",
                 Artist = "Imagine Dragons",
                 Album = "Evolve"
-            });
+            };
+            AllSongs.Add(newSong);
+            SongsList.Add(newSong);
+            
+        }
+        /// <summary>
+        /// Search a Song from the File.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="currentPage"></param>
+        public async void SearchSongsAsync(string str,int pageSize=1,int currentPage =0) {
+           var allSongs = await  FileHelper.GetSongsAsync();
+            var query = (from Song s in allSongs
+                         where s.Title.Contains(str)|| s.Album.Contains(str) || s.Artist.Contains(str)
+                         select s).Skip(pageSize * currentPage).Take(pageSize);
+            SongsList = (ObservableCollection < Song >) query;
+
+        }
+        /// <summary>
+        /// Search a Song in the Memory.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="currentPage"></param>
+        public  void SearchSongs(string str, int pageSize = 1, int currentPage = 0)
+        {
+            var query = (from Song s in AllSongs
+                         where s.Title.Contains(str) || s.Album.Contains(str) || s.Artist.Contains(str)
+                         select s).Skip(pageSize * currentPage).Take(pageSize);
+            SongsList = new ObservableCollection<Song>(query);
+           
+        }
+
+        public void AllSongsToDisplay() {
+            SongsList = new ObservableCollection<Song>(AllSongs);
         }
     }
 }

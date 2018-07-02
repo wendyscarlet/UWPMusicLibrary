@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,7 +31,9 @@ namespace MusicLibraryApp
                 song.Title = songData[0];
                 song.Artist = songData[1];
                 song.Album = songData[2];
-                song.AudioFilePath = songData[3];
+                song.CoverImagePath = songData[3];
+                song.AudioFilePath = songData[4];
+                song.Genre = (Model.Genre)Enum.Parse(typeof(Model.Genre), songData[5]);
 
                 songs.Add(song);
             }
@@ -39,6 +41,10 @@ namespace MusicLibraryApp
             return songs;
         }
 
+        public static String convertToString(this Enum eff)
+        {
+            return Enum.GetName(eff.GetType(), eff);
+        }
         /// <summary>
         /// Appends a song to the end of a txt file in local storage storing all
         /// songs in the collection
@@ -49,7 +55,7 @@ namespace MusicLibraryApp
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             StorageFile songFile = await localFolder.CreateFileAsync(FILE_NAME, CreationCollisionOption.OpenIfExists);
 
-            var songData = $"{song.Title},{song.Artist},{song.Album},{song.AudioFilePath}" + Environment.NewLine;
+            var songData = $"{song.Title},{song.Artist},{song.Album},{song.CoverImagePath}{song.AudioFilePath},{song.Genre}" + Environment.NewLine;
             await FileIO.AppendTextAsync(songFile, songData);
         }
     }
