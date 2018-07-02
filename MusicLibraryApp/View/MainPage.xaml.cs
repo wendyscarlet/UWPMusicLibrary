@@ -60,11 +60,7 @@ namespace MusicLibraryApp
             Search.Visibility = MySplitView.IsPaneOpen ? Visibility.Collapsed : Visibility.Visible;
 
         }
-             void SearchAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-            {
-                //text is added in search box
-            }
-
+         
             private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
             {
                 if (SearchAutoSuggestBox.Text.Trim() != "")

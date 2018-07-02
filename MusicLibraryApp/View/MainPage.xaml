@@ -72,7 +72,6 @@
                             PlaceholderText="Search for songs"  FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,0"
                             Width="190" Height="30"
                             QueryIcon="Find"
-                            TextChanged="SearchAutoSuggestBox_TextChanged"
                             QuerySubmitted="SearchAutoSuggestBox_QuerySubmitted"
                             />
                     </StackPanel>
