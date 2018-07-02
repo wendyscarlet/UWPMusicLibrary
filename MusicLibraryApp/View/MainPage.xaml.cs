@@ -28,23 +28,20 @@ namespace MusicLibraryApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private SongsDAO songDao;
+        private MainViewModel vm;
         private MediaSource _mediaSource;
 
         public MainPage()
         {
-
-            this.InitializeComponent();
-            UpdateGreeting();
-            songDao = new SongsDAO();
-            songDao.GetAllSongs();
-            this.DataContext = songDao;
+            this.InitializeComponent();       
+            vm = new MainViewModel();
+            vm.GetAllSongs();
+            this.DataContext = vm;
 
         }
 
         private async void SoundGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-
             Song songInContext = (Song)e.ClickedItem;
             
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
@@ -55,59 +52,32 @@ namespace MusicLibraryApp
                 this.mediaPlayer.SetPlaybackSource(_mediaSource);
                 this.mediaPlayer.AutoPlay = true;
             }
-
-           // PauseButton.Visibility = Visibility.Visible;
-            //play song item
-
         }
-        private void PauseButton_Click(object sender, RoutedEventArgs e)
-        {
-          //  PauseButton.Visibility = Visibility.Collapsed;
-          //  PlayButton.Visibility = Visibility.Visible;
 
-        }
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            //  PauseButton.Visibility = Visibility.Collapsed;
-            //  PlayButton.Visibility = Visibility.Visible;
-
-        }
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
-            Search.Visibility = MySplitView.IsPaneOpen ? Visibility.Collapsed : Visibility.Visible;
-            //if (MySplitView.IsPaneOpen == true)
-            //{
-            //    SearchAutoSuggestBox.Width = 200;
-            //    SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
-            //}
+            
         }
 
+        private void SearchAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            //text is added in search box
+        }
+
+        private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            //find song 
+        }
 
         private void DisplaySongList_Click(object sender, RoutedEventArgs e)
         {
-           // MySplitView.IsPaneOpen = true;
-           // SearchAutoSuggestBox.Width = 200;
-           // Search.Visibility = Visibility.Collapsed;
-           // SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
-           // this.DataContext = vm.SongsList;
-        }
-
-     
-
-        private void SearchSongButton_Click(object sender, RoutedEventArgs e)
-        {
-
-            MySplitView.IsPaneOpen = true;
-            Search.Visibility = Visibility.Collapsed;
+            vm.GetAllSongs();
+            this.DataContext = vm;
         }
 
         private async void AddSongButton_Click(object sender, RoutedEventArgs e)
         {
-        //    MySplitView.IsPaneOpen = true;
-        //    SearchAutoSuggestBox.Width = 200;
-        //    SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
-        //    Search.Visibility = Visibility.Collapsed;
             var dialog = new ContentDialog1();
             await dialog.ShowAsync();
         }
@@ -115,43 +85,6 @@ namespace MusicLibraryApp
         private void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-
-            //MySplitView.IsPaneOpen = true;
-            //SearchAutoSuggestBox.Width = 200;
-            //Search.Visibility = Visibility.Collapsed;
-            //SearchAutoSuggestBox.Margin = new Thickness(10, 0, 0, 0);
-
         }
-
-        private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-
-            if (SearchAutoSuggestBox.Text.Trim() != "")
-            {
-                songDao.SearchSongs(SearchAutoSuggestBox.Text);
-                this.SongGridView.ItemsSource = songDao.songsList;
-            }
-            else
-            {
-                songDao.GetAllSongs();
-                this.SongGridView.ItemsSource = songDao.songsList;
-            }
-            MySplitView.IsPaneOpen = false;
-            Search.Visibility = Visibility.Visible;
-        }
-
-
-        private void UpdateGreeting()
-        {
-            var now = DateTime.Now;
-            var greeting =
-                now.Hour < 12 ? "Good Morning!" :
-                now.Hour < 18 ? "Good Afternoon!" :
-                /* otherwise */ "Good Evening!";
-
-            TextGreeting.Text = $"{greeting}";
-
-        }
-
     }
 }

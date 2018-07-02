@@ -10,13 +10,13 @@ using Windows.Storage.FileProperties;
 
 namespace MusicLibraryApp.Model
 {
-    class SongsDAO
+    class MainViewModel
     {
         public ObservableCollection<Song> songsList { get; private set; }
         /// <summary>
         /// Constructor
         /// </summary>
-        public SongsDAO()
+        public MainViewModel()
         {
             songsList = new ObservableCollection<Song>();
         }
