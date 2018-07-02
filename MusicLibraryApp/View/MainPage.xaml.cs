@@ -59,7 +59,7 @@ namespace MusicLibraryApp
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
             Search.Visibility = MySplitView.IsPaneOpen ? Visibility.Collapsed : Visibility.Visible;
 
-
+        }
              void SearchAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
             {
                 //text is added in search box
@@ -70,11 +70,11 @@ namespace MusicLibraryApp
                 if (SearchAutoSuggestBox.Text.Trim() != "")
                 {
                     vm.SearchSongs(SearchAutoSuggestBox.Text);
-                    this.SongGridView.ItemsSource = vm.SongsList;
+                    this.SongGridView.ItemsSource = vm.songsList;
                 }
                 else {
-                    vm.AllSongsToDisplay();
-                    this.SongGridView.ItemsSource = vm.SongsList;
+                    vm.GetAllSongs();
+                    this.SongGridView.ItemsSource = vm.songsList;
                 }
                 MySplitView.IsPaneOpen = false;
                 Search.Visibility = Visibility.Visible;
@@ -105,4 +105,4 @@ namespace MusicLibraryApp
             }
         }
     }
-}
+
