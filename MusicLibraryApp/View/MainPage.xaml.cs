@@ -109,13 +109,28 @@ namespace MusicLibraryApp
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            if(MyMediaElement.DefaultPlaybackRate != 1)
-            {
-                MyMediaElement.DefaultPlaybackRate = 1.0;
+            if (MyMediaElement.Source == null) {
+                PlayButton.IsEnabled = true;
+                //MediaStackPannel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                //MediaStackPannel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
-            MyMediaElement.Play();
-            PlayButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-            PauseButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            else
+            {
+                PlayButton.IsEnabled = true;
+                BackwardButton.IsEnabled = true;
+                ForwardButton.IsEnabled = true;
+                //MediaStackPannel.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                if (MyMediaElement.DefaultPlaybackRate != 1)
+                {
+                    MyMediaElement.DefaultPlaybackRate = 1.0;
+                }
+                MyMediaElement.Play();
+                PlayButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                PauseButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
+            }
+            
+            
         }
 
         private void PauseButton_Click(object sender, RoutedEventArgs e)
