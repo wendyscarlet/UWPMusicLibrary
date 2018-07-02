@@ -28,15 +28,15 @@ namespace MusicLibraryApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private SongsDAO songDao;
+        private MainViewModel vm;
         private MediaSource _mediaSource;
 
         public MainPage()
         {
             this.InitializeComponent();       
-            songDao = new SongsDAO();
-            songDao.GetAllSongs();
-            this.DataContext = songDao;
+            vm = new MainViewModel();
+            vm.GetAllSongs();
+            this.DataContext = vm;
 
         }
 
@@ -72,8 +72,8 @@ namespace MusicLibraryApp
 
         private void DisplaySongList_Click(object sender, RoutedEventArgs e)
         {
-            songDao.GetAllSongs();
-            this.DataContext = songDao;
+            vm.GetAllSongs();
+            this.DataContext = vm;
         }
 
         private async void AddSongButton_Click(object sender, RoutedEventArgs e)

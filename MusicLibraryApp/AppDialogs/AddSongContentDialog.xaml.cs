@@ -36,7 +36,7 @@ namespace MusicLibraryApp.AppDialogs
                 
             };
 
-            SongsDAO.addSong(song);
+            MainViewModel.addSong(song);
 
         }
 
