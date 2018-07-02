@@ -33,7 +33,7 @@ namespace MusicLibraryApp
 
         public MainPage()
         {
-            this.InitializeComponent();       
+            this.InitializeComponent();
             vm = new MainViewModel();
             vm.GetAllSongs();
             this.DataContext = vm;
@@ -43,7 +43,7 @@ namespace MusicLibraryApp
         private async void SoundGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             Song songInContext = (Song)e.ClickedItem;
-            
+
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             StorageFile file = await localFolder.GetFileAsync(songInContext.SongFileName);
             if (file != null)
@@ -60,48 +60,49 @@ namespace MusicLibraryApp
             Search.Visibility = MySplitView.IsPaneOpen ? Visibility.Collapsed : Visibility.Visible;
 
 
-        private void SearchAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            //text is added in search box
-        }
-
-        private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            if (SearchAutoSuggestBox.Text.Trim() != "")
+             void SearchAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
             {
-                vm.SearchSongs(SearchAutoSuggestBox.Text);
-                this.SongGridView.ItemsSource = vm.SongsList;
+                //text is added in search box
             }
-            else {
-                vm.AllSongsToDisplay();
-                this.SongGridView.ItemsSource = vm.SongsList;
+
+            private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+            {
+                if (SearchAutoSuggestBox.Text.Trim() != "")
+                {
+                    vm.SearchSongs(SearchAutoSuggestBox.Text);
+                    this.SongGridView.ItemsSource = vm.SongsList;
+                }
+                else {
+                    vm.AllSongsToDisplay();
+                    this.SongGridView.ItemsSource = vm.SongsList;
+                }
+                MySplitView.IsPaneOpen = false;
+                Search.Visibility = Visibility.Visible;
+
             }
-            MySplitView.IsPaneOpen = false;
-            Search.Visibility = Visibility.Visible;
 
-        }
+            private void DisplaySongList_Click(object sender, RoutedEventArgs e)
+            {
+                vm.GetAllSongs();
+                this.DataContext = vm;
+            }
 
-        private void DisplaySongList_Click(object sender, RoutedEventArgs e)
-        {
-            vm.GetAllSongs();
-            this.DataContext = vm;
-        }
+            private async void AddSongButton_Click(object sender, RoutedEventArgs e)
+            {
+                var dialog = new ContentDialog1();
+                await dialog.ShowAsync();
+            }
 
-        private async void AddSongButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new ContentDialog1();
-            await dialog.ShowAsync();
-        }
+            private void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+            {
 
-        private void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
-        }
+            }
 
-        private void Search_Click(object sender, RoutedEventArgs e)
-        {
-            MySplitView.IsPaneOpen = true;
-            Search.Visibility = Visibility.Collapsed;
+            private void Search_Click(object sender, RoutedEventArgs e)
+            {
+                MySplitView.IsPaneOpen = true;
+                Search.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }
