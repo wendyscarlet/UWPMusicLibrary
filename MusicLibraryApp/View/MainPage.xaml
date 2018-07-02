@@ -98,21 +98,19 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+        
         <ContentControl x:Name="MediaContentControl">
             <RelativePanel>
-                <Grid Grid.Row="2"
+                
         
             <MediaElement x:Name="MyMediaElement" HorizontalAlignment="Left"></MediaElement>
             <StackPanel x:Name="MediaStackPannel"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                 <AppBarButton Icon="Back" Name="BackwardButton" Label="Backward" Click="BackwardButton_Click" IsEnabled="False"></AppBarButton>
                 <AppBarButton Icon="Play" Name="PlayButton" Label="Play" Click="PlayButton_Click" IsEnabled="False"></AppBarButton>
                 <AppBarButton Icon="Pause" Name="PauseButton" Label="Pause" Click="PauseButton_Click" Visibility="Collapsed"></AppBarButton>
-                <AppBarButton Icon="Forward" Name="ForwardButton" Click="ForwardButton_Click" IsEnabled="False"></AppBarButton>
-                
-            
+                    <AppBarButton Icon="Forward" Name="ForwardButton" Click="ForwardButton_Click" IsEnabled="False"></AppBarButton>
                     <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Margin="0,0,5,0"  ValueChanged="VolumeSlider_ValueChanged" Width="100"></Slider>
-
-                    </StackPanel>
+                </StackPanel>
                 </Grid>
             </RelativePanel>
                 
