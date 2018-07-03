@@ -9,6 +9,9 @@ namespace MusicLibraryApp.Player
 {
     class BackgroundPlayer
     {
-        
+        public async static void playSong(String filePath)
+        {
+
+        }
     }
 }

@@ -22,8 +22,7 @@ namespace MusicLibraryApp.AppDialogs
 {
     public sealed partial class ContentDialog1 : ContentDialog
     {
-        IReadOnlyList<StorageFile> pickedFileList;
-        private List<StorageFile> songFile;
+        private Windows.Storage.StorageFile songFile;
         public ContentDialog1()
         {
             this.InitializeComponent();
@@ -31,17 +30,13 @@ namespace MusicLibraryApp.AppDialogs
         }
         private void ContentDialog_AddButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            foreach (StorageFile songFile in pickedFileList)
+            var song = new Model.Song
             {
-
-                var song = new Model.Song
-                {
-                    sourceSongFile = songFile,
-
-                };
+                sourceSongFile = songFile,
+                
+            };
 
             MainViewModel.addSong(song);
-        }
 
         }
 
@@ -56,25 +51,17 @@ namespace MusicLibraryApp.AppDialogs
             picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.List;
             picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.MusicLibrary;
             picker.FileTypeFilter.Add(".mp3");
-            picker.FileTypeFilter.Add(".wma");
-            picker.FileTypeFilter.Add(".wav");
-            pickedFileList = await picker.PickMultipleFilesAsync();
-            if (pickedFileList != null && pickedFileList.Count>0)
+            Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
+            if (file != null)
             {
-                foreach (StorageFile file in pickedFileList)
-                    Song.Text+=file.Name;
-                Song.TextWrapping = TextWrapping.Wrap;
+                songFile = file;
+                Song.Text = file.Path;
+            }
+        }
 
-<<<<<<< HEAD
         private void Song_TextChanged(object sender, TextChangedEventArgs e)
         {
 
-=======
-                    IsPrimaryButtonEnabled = true;
-               
-            }
->>>>>>> 78dea26b71292f8cf4d5bb6f023a9d53b26f2b3c
         }
-        
     }
 }
