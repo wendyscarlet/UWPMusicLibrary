@@ -7,14 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace MusicLibraryApp.Model
 {
     class MainViewModel
     {
         public ObservableCollection<Song> songsList { get; private set; }
-        public ObservableCollection<PlayList> playLists { get; private set; }
+        public  ObservableCollection<PlayList> playLists { get; private set; }
 
         private static int lastSongID = 0;
 
@@ -41,18 +40,13 @@ namespace MusicLibraryApp.Model
             {
                 if (file.FileType.Equals(".mp3")) { 
                 MusicProperties musicProperties = await file.Properties.GetMusicPropertiesAsync();
-                    StorageItemThumbnail storageItemThumbnail = await file.GetThumbnailAsync(ThumbnailMode.MusicView,
-                         200, ThumbnailOptions.UseCurrentScale);
-                    var AlbumCover = new BitmapImage();
-                    AlbumCover.SetSource(storageItemThumbnail);
-                    songsList.Add(new Song
+                songsList.Add(new Song
                 {
                     ID = ++lastSongID,
                     Title = musicProperties.Title,
                     Artist = musicProperties.Artist,
                     Album = musicProperties.Album,
-                    SongFileName = file.Name,
-                    CoverImage=AlbumCover
+                    SongFileName = file.Name
 
                 });
             }
@@ -88,12 +82,17 @@ namespace MusicLibraryApp.Model
             songsList = new ObservableCollection<Song>(query);
 
         }
-
-
-        public  void AddDummyPlaylist()
+        //add playlist to observalbe collection of playlist and creates a playlist file
+        public  void AddPlayList(PlayList p)
+        {
+            playLists.Add(p);
+            //also call Write to file function
+            PlayListFileHelper.WritePlayListToFileAsync(p);
+        }
+        public async void DisplayAllPlaylists()
         {
             
-            playLists.Add(new PlayList
+           /* playLists.Add(new PlayList
             {
                 PlayListName = "Favorites",
                
@@ -108,7 +107,8 @@ namespace MusicLibraryApp.Model
                 PlayListName = "Sad Songs",
 
             });
-
+            */
+            playLists = new ObservableCollection<PlayList>( await PlayListFileHelper.GetAllPlayListsAsync());
 
         }
 

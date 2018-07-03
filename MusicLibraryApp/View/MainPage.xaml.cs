@@ -129,7 +129,8 @@ namespace MusicLibraryApp
 
         private void PlayListsButton_Click(object sender, RoutedEventArgs e)
         {
-            vm.AddDummyPlaylist();
+            vm.DisplayAllPlaylists();
+            
             PlayListNames.Visibility = Visibility.Visible;
         }
 
@@ -137,7 +138,33 @@ namespace MusicLibraryApp
         {
             //call addplaylist
             var AddPlayListDialog = new AddPlaylist();
-            await AddPlayListDialog.ShowAsync();
+            var result = await AddPlayListDialog.ShowAsync();
+            //if add was selected
+            if(result == ContentDialogResult.Primary)
+            {
+                //playlistname inputted by user in textbox
+                var plname = AddPlayListDialog.Content;
+
+               
+                //create a playlist object and call AddPlayList from viewmodel
+                vm.AddPlayList(new PlayList
+                {
+                    PlayListName = plname.ToString(),
+                    
+                    //you need to add to the list of songIDs here
+
+                });
+
+            }
+            else if(result == ContentDialogResult.Secondary) //cancel was selected
+            {
+                AddPlayListDialog.Hide();
+            }
+        }
+
+        private void PlayListNames_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            //get playlist
         }
     }
     }
