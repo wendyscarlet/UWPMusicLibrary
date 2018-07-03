@@ -111,13 +111,7 @@
                 </GridView>
 
 
-                <StackPanel Name="BottonMediaPlayer" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                    <AppBarButton Icon="Back" Name="BackwardButton" Label="Backward" Click="BackwardButton_Click"></AppBarButton>
-                    <AppBarButton Icon="Play" Name="PlayButton" Label="Play" Click="PlayButton_Click"></AppBarButton>
-                    <AppBarButton Icon="Pause" Name="PauseButton" Label="Pause" Click="PauseButton_Click" Visibility="Collapsed"></AppBarButton>
-                    <AppBarButton Icon="Forward" Name="ForwardButton" Click="ForwardButton_Click"></AppBarButton>
-                </StackPanel>
-
+                
 
                 <!--</Grid>-->
 
