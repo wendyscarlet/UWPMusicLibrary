@@ -9,10 +9,12 @@
     
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
 
     <Grid>
+        
         <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="leftmenupaneColumn" Width="220" />
+            <ColumnDefinition x:Name="leftmenupaneColumn" Width="100" />
             <ColumnDefinition x:Name="songsListColumn" Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -82,7 +84,8 @@
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
             </SplitView.Content> -->
-        </SplitView>
+            </SplitView>
+        
 
         <GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" 
                   ItemsSource="{x:Bind vm.Songs}" >
@@ -98,48 +101,40 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-
-
-
-        <Grid Grid.Row="2" Grid.ColumnSpan="3" Height="50" Background="Beige" >
-            <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50" ></ColumnDefinition>
-                <ColumnDefinition Width="100" ></ColumnDefinition>
-                <ColumnDefinition Width="300" ></ColumnDefinition>
-                <ColumnDefinition Width="100" ></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-            <MediaElement x:Name="MyMediaElement"  AutoPlay="False" HorizontalAlignment="Left" AreTransportControlsEnabled="false"></MediaElement>
+       
             
+            <!--
+         <Grid Grid.Row="2" Grid.ColumnSpan="2"  Background="Beige" >
+        <MediaElement x:Name="MyMediaElement" Height="50" Width="50"  AutoPlay="False" HorizontalAlignment="Left" AreTransportControlsEnabled="false" MediaOpened="MyMediaElement_MediaOpened"></MediaElement>
+-->
+        <Grid Grid.Row="2"  Grid.Column="0"  Background="Beige" >
+           
+            <Image  x:Name="MediaElementImage" Height="50" Width="50" HorizontalAlignment="Left" Stretch="UniformToFill" ></Image>
+            <Grid Grid.Row="2"  Grid.Column="1"  Background="Beige" >
+                <MediaElement  x:Name="MyMediaElement" Stretch="Fill"  HorizontalAlignment="Right" Margin="5,5,5,5" AutoPlay="False" AreTransportControlsEnabled="True"  MediaOpened="MyMediaElement_MediaOpened">
+                    <MediaElement.TransportControls>
+                        <MediaTransportControls IsCompact="True"
+                                            IsZoomButtonVisible="False"
+                                            IsFullWindowButtonVisible="False">
 
-
-                <RelativePanel >
-                
-                    <Image  Grid.Column="0" Grid.Row="0" Width="50" Height="50"  x:Name="MediaElementImage" ></Image>
-
-
-                    <StackPanel  Grid.Column="1" x:Name="MediaStackPannel"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                    
-                
-                <AppBarButton RelativePanel.AlignRightWith="MediaElementImage" Icon="Back" Name="BackwardButton" Label="Backward" Click="BackwardButton_Click" IsEnabled="False"></AppBarButton>
-                <AppBarButton  Icon="Play" Name="PlayButton" Label="Play" Click="PlayButton_Click" IsEnabled="False"></AppBarButton>
-                <AppBarButton Icon="Pause" Name="PauseButton" Label="Pause" Click="PauseButton_Click" Visibility="Collapsed"></AppBarButton>
-                        <AppBarButton Icon="Forward" Name="ForwardButton" Click="ForwardButton_Click" IsEnabled="False"></AppBarButton>
-                    </StackPanel>
-                
-                
-                    <Slider Grid.Column="3" x:Name="VolumeSlider" HorizontalAlignment="Center" Margin="0,0,5,0"  ValueChanged="VolumeSlider_ValueChanged" Width="100"></Slider>
-                
-            </RelativePanel>
-
+                        </MediaTransportControls>
+                    </MediaElement.TransportControls>
+                </MediaElement>
 
 
             </Grid>
 
-
+            <!--
+            <StackPanel Orientation="Horizontal"  Height="100" Width="auto">
+                <Image x:Name="MediaElementImage" Height="100" Width="100"  Stretch="UniformToFill" ></Image>
+                <StackPanel  x:Name="MediaStackPannel" Margin="5,10,5,10"  Orientation="Horizontal"  HorizontalAlignment="Right">
+                    <AppBarButton Width="50" HorizontalAlignment="Center" Margin="5,5,10,5" Icon="Back" Name="BackwardButton" Label="Backward" Click="BackwardButton_Click" ></AppBarButton>
+                    <AppBarButton Width="50" Margin="5,5,10,5" Icon="Play" Name="PlayButton" Label="Play" Click="PlayButton_Click" ></AppBarButton>
+                    <AppBarButton Width="50" Margin="5,5,10,5" Icon="Pause" Name="PauseButton" Label="Pause" Click="PauseButton_Click" Visibility="Collapsed"></AppBarButton>
+                    <AppBarButton Width="50" Margin="5,5,10,5" Icon="Forward" Name="ForwardButton" Click="ForwardButton_Click" ></AppBarButton>
+                </StackPanel>
+                <Slider  x:Name="VolumeSlider" HorizontalAlignment="Center" Margin="10,0,5,50"  ValueChanged="VolumeSlider_ValueChanged" Width="100"></Slider>
+            </StackPanel>-->
         </Grid>
     </Grid>
 </Page>
