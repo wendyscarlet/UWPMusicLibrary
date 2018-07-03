@@ -48,7 +48,8 @@ namespace MusicLibraryApp
 
         private async void SoundGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-
+            //if (!mediaPlayerPopup.IsOpen) { mediaPlayerPopup.IsOpen = true; }
+            
             //getting song from e
             Song Clickedsong =(Song) e.ClickedItem;
             StorageFile ClickedSongFile = Clickedsong.AudioFilePath;
@@ -56,6 +57,10 @@ namespace MusicLibraryApp
             {
                 IRandomAccessStream stream = await ClickedSongFile.OpenAsync(FileAccessMode.Read);
                 MyMediaElement.SetSource(stream, ClickedSongFile.ContentType);
+                //MyMediaElement.AreTransportControlsEnabled = true;
+                //MyMediaElement.PosterSource = Clickedsong.AlbumCover;
+              
+        
             }
 
             //play song item
@@ -67,17 +72,18 @@ namespace MusicLibraryApp
                 playing = false;
                 //MyMediaElement.Source = null;
                 MyMediaElement.AutoPlay = false;
-                PlayButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                PauseButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                //PlayButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                //PauseButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
             else
             {
                 
                 playing = true;
                 MyMediaElement.AutoPlay = true;
+                MediaElementImage.Source = Clickedsong.AlbumCover;
                 //Visibility visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                PlayButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                PauseButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+               // PlayButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                //PauseButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
         }
 
@@ -107,61 +113,77 @@ namespace MusicLibraryApp
             //vm.AddDummySong();
         }
 
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (MyMediaElement.Source == null) {
-                PlayButton.IsEnabled = true;
-                //MediaStackPannel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                //MediaStackPannel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-            }
-            else
-            {
-                PlayButton.IsEnabled = true;
-                BackwardButton.IsEnabled = true;
-                ForwardButton.IsEnabled = true;
-                //MediaStackPannel.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                if (MyMediaElement.DefaultPlaybackRate != 1)
-                {
-                    MyMediaElement.DefaultPlaybackRate = 1.0;
-                }
-                MyMediaElement.Play();
-                PlayButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                PauseButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
-
-            }
-            
-            
-        }
-
-        private void PauseButton_Click(object sender, RoutedEventArgs e)
-        {
-            MyMediaElement.Pause();
-            PlayButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            PauseButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-        }
-
-        private void StopButton_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
 
         }
+      
 
-        private void ForwardButton_Click(object sender, RoutedEventArgs e)
+private void PlayButton_Click(object sender, RoutedEventArgs e)
+{
+   if (MyMediaElement.Source == null) {
+       PlayButton.IsEnabled = true;
+       //MediaStackPannel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+       //MediaStackPannel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+   }
+   else
+   {
+       PlayButton.IsEnabled = true;
+       BackwardButton.IsEnabled = true;
+       ForwardButton.IsEnabled = true;
+       //MediaStackPannel.Visibility = Windows.UI.Xaml.Visibility.Visible;
+       if (MyMediaElement.DefaultPlaybackRate != 1)
+       {
+           MyMediaElement.DefaultPlaybackRate = 1.0;
+       }
+       MyMediaElement.Play();
+       PlayButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+       PauseButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
+   }
+
+
+}
+
+private void PauseButton_Click(object sender, RoutedEventArgs e)
+{
+   MyMediaElement.Pause();
+   PlayButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+   PauseButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+}
+
+private void StopButton_Click(object sender, RoutedEventArgs e)
+{
+
+}
+
+private void ForwardButton_Click(object sender, RoutedEventArgs e)
+{
+
+}
+
+private void VolumeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+{
+   Slider slider = sender as Slider;
+   if (slider != null)
+   {
+       MyMediaElement.Volume = slider.Value;
+   }
+}
+
+private void BackwardButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void VolumeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            Slider slider = sender as Slider;
-            if (slider != null)
-            {
-                MyMediaElement.Volume = slider.Value;
-            }
-        }
-
-        private void BackwardButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
     }
 }
+
+
+
+
+
+
+
+

@@ -12,17 +12,17 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-        <ColumnDefinition x:Name="leftmenupaneColumn" Width="220" />
-        <ColumnDefinition x:Name="songsListColumn" Width="*" />
+            <ColumnDefinition x:Name="leftmenupaneColumn" Width="220" />
+            <ColumnDefinition x:Name="songsListColumn" Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
 
         <RelativePanel Background="LightGray"  Grid.Row="0" Grid.Column="1">
-           
+
 
             <TextBlock
                     Name="Username"
@@ -45,7 +45,7 @@
                     TextAlignment="Center"
                     TextWrapping="Wrap" Foreground="Black"  RelativePanel.LeftOf ="Username"/>
         </RelativePanel>
-        
+
         <SplitView Grid.Row="0" Grid.RowSpan="2" x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
                CompactPaneLength="50" OpenPaneLength="220">
             <SplitView.Pane>
@@ -65,7 +65,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Search" FontFamily="Segoe MDL2 Assets" Content="&#59166;"
                         Width="50" Height="50" Background="Transparent"/>
-                     
+
                         <AutoSuggestBox Name="SearchAutoSuggestBox"
                             PlaceholderText="Search for songs"  FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0"
                             Width="150" Height="50"
@@ -76,7 +76,7 @@
                     </StackPanel>
                 </StackPanel>
             </SplitView.Pane>
-           <!-- <SplitView.Content>
+            <!-- <SplitView.Content>
                 <Grid>
                     <TextBlock Text="SplitView Basic" FontSize="54" Foreground="Black"
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -93,29 +93,53 @@
                         <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" TextWrapping="Wrap"/>
                         <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Artist}" TextWrapping="Wrap"/>
                         <TextBlock x:Name="Album" TextAlignment="Center" FontSize="14" Text="{x:Bind Album}" TextWrapping="Wrap" />
-                        
+
                     </StackPanel>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        
-        <ContentControl x:Name="MediaContentControl">
-            <RelativePanel>
+
+
+
+        <Grid Grid.Row="2" Grid.ColumnSpan="3" Height="50" Background="Beige" >
+            <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" ></ColumnDefinition>
+                <ColumnDefinition Width="100" ></ColumnDefinition>
+                <ColumnDefinition Width="300" ></ColumnDefinition>
+                <ColumnDefinition Width="100" ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+            <MediaElement x:Name="MyMediaElement"  AutoPlay="False" HorizontalAlignment="Left" AreTransportControlsEnabled="false"></MediaElement>
+            
+
+
+                <RelativePanel >
                 
-        
-            <MediaElement x:Name="MyMediaElement" HorizontalAlignment="Left"></MediaElement>
-            <StackPanel x:Name="MediaStackPannel"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                <AppBarButton Icon="Back" Name="BackwardButton" Label="Backward" Click="BackwardButton_Click" IsEnabled="False"></AppBarButton>
-                <AppBarButton Icon="Play" Name="PlayButton" Label="Play" Click="PlayButton_Click" IsEnabled="False"></AppBarButton>
+                    <Image  Grid.Column="0" Grid.Row="0" Width="50" Height="50"  x:Name="MediaElementImage" ></Image>
+
+
+                    <StackPanel  Grid.Column="1" x:Name="MediaStackPannel"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                    
+                
+                <AppBarButton RelativePanel.AlignRightWith="MediaElementImage" Icon="Back" Name="BackwardButton" Label="Backward" Click="BackwardButton_Click" IsEnabled="False"></AppBarButton>
+                <AppBarButton  Icon="Play" Name="PlayButton" Label="Play" Click="PlayButton_Click" IsEnabled="False"></AppBarButton>
                 <AppBarButton Icon="Pause" Name="PauseButton" Label="Pause" Click="PauseButton_Click" Visibility="Collapsed"></AppBarButton>
-                    <AppBarButton Icon="Forward" Name="ForwardButton" Click="ForwardButton_Click" IsEnabled="False"></AppBarButton>
-                    <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Margin="0,0,5,0"  ValueChanged="VolumeSlider_ValueChanged" Width="100"></Slider>
-                </StackPanel>
-                </Grid>
-            </RelativePanel>
+                        <AppBarButton Icon="Forward" Name="ForwardButton" Click="ForwardButton_Click" IsEnabled="False"></AppBarButton>
+                    </StackPanel>
                 
-        </ContentControl>
-        
-               
+                
+                    <Slider Grid.Column="3" x:Name="VolumeSlider" HorizontalAlignment="Center" Margin="0,0,5,0"  ValueChanged="VolumeSlider_ValueChanged" Width="100"></Slider>
+                
+            </RelativePanel>
+
+
+
+            </Grid>
+
+
+        </Grid>
     </Grid>
 </Page>
