@@ -61,8 +61,7 @@ namespace MusicLibraryApp.AppDialogs
 
         private void Song_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(songFile!=null)
-            IsPrimaryButtonEnabled = true;
+
         }
     }
 }

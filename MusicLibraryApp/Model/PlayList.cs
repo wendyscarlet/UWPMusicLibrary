@@ -10,5 +10,6 @@ namespace MusicLibraryApp.Model
     {
         public string PlayListName { get; set; }
         public List<int> PlayListSongIDs { get; set; }
+        public string PlayListFilePath { get; set; }
     }
 }
