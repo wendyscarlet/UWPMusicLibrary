@@ -76,7 +76,7 @@
                     VerticalAlignment="Center"
                     FontSize="22"
                     Opacity="1.0"
-                    Text="Good Afternoon"
+                    Text="Good Night"
                     TextAlignment="Center"
                     TextWrapping="Wrap" Foreground="Black"  RelativePanel.LeftOf ="Username"/>
                 </RelativePanel>
