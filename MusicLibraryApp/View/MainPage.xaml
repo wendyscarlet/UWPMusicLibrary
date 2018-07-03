@@ -21,7 +21,7 @@
             <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <RelativePanel Background="LightGray"  Grid.Row="0" Grid.Column="1">
+        <RelativePanel Background="LightGray"  Grid.Row="0" Grid.Column="1" Margin="0,-8,0,8">
             <MediaElement x:Name="mediaPlayer"
                     Width="400"
                     AutoPlay="True"
@@ -75,14 +75,30 @@
                             QuerySubmitted="SearchAutoSuggestBox_QuerySubmitted"
                             />
                     </StackPanel>
+                    <Button x:Name="PlayListsButton"
+                        Width="220" 
+                        Height="50" 
+                        BorderThickness="0" 
+                        Background="Transparent" 
+                        Click="PlayListsButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Margin="5,0,0,0" FontFamily="Segoe MDL2 Assets" FontSize="16"  Glyph="&#59959;"/>
+                            <TextBlock Text="Playlists"  Margin="25,0,0,0"  Width="100" FontSize="14" VerticalAlignment="Center" />
+                            <Button x:Name="AddPlayListButton" Background="LightGray" BorderThickness="0"  Margin="5,0,0,0" Width="50" FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#59152;" Click="AddPlayListButton_Click"/>
+                        </StackPanel>
+                    </Button>
+                    <ListView x:Name ="PlayListNames" Visibility ="Collapsed" ItemsSource ="{x:Bind vm.playLists}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="local1:PlayList">
+                                <TextBlock Text="{x:Bind PlayListName}" FontWeight="Bold" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
                 </StackPanel>
             </SplitView.Pane>
-            <!-- <SplitView.Content>
-                <Grid>
-                    <TextBlock Text="SplitView Basic" FontSize="54" Foreground="Black"
-                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Grid>
-            </SplitView.Content> -->
+           
+            
         </SplitView>
 
         <GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged">

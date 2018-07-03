@@ -35,11 +35,24 @@ namespace MusicLibraryApp
         public MainPage()
         {
             this.InitializeComponent();
+            UpdateGreeting();
             vm = new MainViewModel();
             vm.GetAllSongs();
             this.DataContext = vm;
             playing = false;
            
+
+        }
+
+        private void UpdateGreeting()
+        {
+            var now = DateTime.Now;
+            var greeting =
+                now.Hour < 12 ? "Good Morning!" :
+                now.Hour < 18 ? "Good Afternoon!" :
+                /* otherwise */ "Good Evening!";
+
+            TextGreeting.Text = $"{greeting}";
 
         }
 
@@ -113,6 +126,19 @@ namespace MusicLibraryApp
                 MySplitView.IsPaneOpen = true;
                 Search.Visibility = Visibility.Collapsed;
             }
+
+        private void PlayListsButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.AddDummyPlaylist();
+            PlayListNames.Visibility = Visibility.Visible;
         }
+
+        private async void  AddPlayListButton_Click(object sender, RoutedEventArgs e)
+        {
+            //call addplaylist
+            var AddPlayListDialog = new AddPlaylist();
+            await AddPlayListDialog.ShowAsync();
+        }
+    }
     }
 

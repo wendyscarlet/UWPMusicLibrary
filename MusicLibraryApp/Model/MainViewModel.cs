@@ -13,12 +13,18 @@ namespace MusicLibraryApp.Model
     class MainViewModel
     {
         public ObservableCollection<Song> songsList { get; private set; }
+        public ObservableCollection<PlayList> playLists { get; private set; }
+
+        private static int lastSongID = 0;
+
+
         /// <summary>
         /// Constructor
         /// </summary>
         public MainViewModel()
         {
             songsList = new ObservableCollection<Song>();
+            playLists = new ObservableCollection<PlayList>();
         }
 
          /// <summary>
@@ -36,6 +42,7 @@ namespace MusicLibraryApp.Model
                 MusicProperties musicProperties = await file.Properties.GetMusicPropertiesAsync();
                 songsList.Add(new Song
                 {
+                    ID = ++lastSongID,
                     Title = musicProperties.Title,
                     Artist = musicProperties.Artist,
                     Album = musicProperties.Album,
@@ -75,6 +82,30 @@ namespace MusicLibraryApp.Model
             songsList = new ObservableCollection<Song>(query);
 
         }
+
+
+        public  void AddDummyPlaylist()
+        {
+            
+            playLists.Add(new PlayList
+            {
+                PlayListName = "Favorites",
+               
+            });
+            playLists.Add(new PlayList
+            {
+                PlayListName = "Happy Songs",
+
+            });
+            playLists.Add(new PlayList
+            {
+                PlayListName = "Sad Songs",
+
+            });
+
+
+        }
+
     }
 }
 
