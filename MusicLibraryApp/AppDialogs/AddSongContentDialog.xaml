@@ -6,16 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title=""
+    Title="Add Song"
     PrimaryButtonText="Add"
     SecondaryButtonText="Cancel"
     PrimaryButtonClick="ContentDialog_AddButtonClick"
     SecondaryButtonClick="ContentDialog_CancelButtonClick" Width="910" Height="488"
-    IsPrimaryButtonEnabled="False">
+    IsPrimaryButtonEnabled="True">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width = "278.536"/>
-            <ColumnDefinition Width="143.864"/>
+            <ColumnDefinition Width = "Auto"/>
             <ColumnDefinition Width="Auto "/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -24,23 +23,92 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="211,0,0,0" Grid.RowSpan="3"/>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="211,0,0,0" Grid.RowSpan="2"/>
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,0,0">
-            <TextBox 
-            x:Name="Song"
-            Width="322"
-            Height="64"
+        <StackPanel>
+            <Image 
+            x:Name="image"
+            Width="149"
+            Height="145"
+            Margin="70,0,0,0"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center" TextChanged="Song_TextChanged"/>
+            VerticalAlignment="Top"
+            Source="ms-appx:///Assets/song.jpg"/>
+            <Button 
+            x:Name="CoverImage"
+            Width="100"
+            Height="54"
+            Margin="5,0,5,0"
+            HorizontalAlignment="center"
+            VerticalAlignment="top" 
+            Content="Add Cover Image" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock 
+            x:Name="TitleBlock"
+            Width="200" 
+            Height="42"
+            Margin="10,0,0,0"
+            TextAlignment="Center"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Text="Title"
+            TextWrapping="Wrap" 
+            RenderTransformOrigin="0.916,0.508" />
+            <TextBox 
+            x:Name="Title"
+            Width="206"
+            Height="38"
+            Margin="10,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            PlaceholderText="Enter Title"
+            TextWrapping="Wrap"
+            />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock 
+                x:Name="ArtistBlock"
+                TextWrapping="WrapWholeWords"
+                Margin="10,0,0,0"
+                TextAlignment="Center"
+                HorizontalAlignment="Center"
+                Text="Artist"
+                Width="200"/>
+            <TextBox 
+            x:Name="Artist"
+            Width="200"
+            Height="38"
+            Margin="10,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            PlaceholderText="Enter Artist"
+            TextWrapping="Wrap"
+            />
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock 
+                x:Name="SongBlock"
+                TextWrapping="WrapWholeWords"
+                Margin="10,0,0,0"
+                TextAlignment="Center"
+                HorizontalAlignment="Left"
+                Text="SongFilePath"
+                Width="100" Height="24" VerticalAlignment="Stretch"/>
+            <TextBlock 
+            x:Name="Song"
+            Width="206"
+            Height="38"
+            Margin="10,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"/>
             <Button 
             x:Name="Browse"
             Width="100"
-            Height="63"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
+            Height="54"
+            Margin="5,0,5,0"
+            HorizontalAlignment="center"
+            VerticalAlignment="top"
             Click="ContentDialog_TakeImage_Clicked" 
-            Content="Browse" Margin="0,0,0,0" />
+            Content="Browse" />
         </StackPanel>
 
 
