@@ -75,10 +75,14 @@ namespace MusicLibraryApp.Model
         }
         public  void SearchSongs(string str, int pageSize = 1, int currentPage = 0)
         {
-           // GetAllSongs();
+            str = str.ToLower();
+            // GetAllSongs();
             var query = (from Song s in songsList
-                         where s.Title.Contains(str) || s.Album.Contains(str) || s.Artist.Contains(str)
-                         select s).Skip(pageSize * currentPage).Take(pageSize);
+                         where s.Title.ToLower().Contains(str)
+                         || s.Album.ToLower().Contains(str)
+                         || s.Artist.ToLower().Contains(str)
+                         select s);
+                         //.Skip(pageSize * currentPage).Take(pageSize);
             songsList = new ObservableCollection<Song>(query);
 
         }
