@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace MusicLibraryApp.Model
 {
@@ -40,13 +41,18 @@ namespace MusicLibraryApp.Model
             {
                 if (file.FileType.Equals(".mp3")) { 
                 MusicProperties musicProperties = await file.Properties.GetMusicPropertiesAsync();
-                songsList.Add(new Song
+                    StorageItemThumbnail storageItemThumbnail = await file.GetThumbnailAsync(ThumbnailMode.MusicView,
+                         200, ThumbnailOptions.UseCurrentScale);
+                    var AlbumCover = new BitmapImage();
+                    AlbumCover.SetSource(storageItemThumbnail);
+                    songsList.Add(new Song
                 {
                     ID = ++lastSongID,
                     Title = musicProperties.Title,
                     Artist = musicProperties.Artist,
                     Album = musicProperties.Album,
-                    SongFileName = file.Name
+                    SongFileName = file.Name,
+                    CoverImage=AlbumCover
 
                 });
             }
