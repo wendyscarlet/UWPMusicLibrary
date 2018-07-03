@@ -110,6 +110,7 @@ namespace MusicLibraryApp
 
             private void SearchSongButton_Click(object sender, RoutedEventArgs e)
             {
+                vm.GetAllSongs();
                 MySplitView.IsPaneOpen = true;
                 Search.Visibility = Visibility.Collapsed;
             }
