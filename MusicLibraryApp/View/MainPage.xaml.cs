@@ -129,8 +129,7 @@ namespace MusicLibraryApp
 
         private void PlayListsButton_Click(object sender, RoutedEventArgs e)
         {
-            vm.DisplayAllPlaylists();
-            
+            vm.AddDummyPlaylist();
             PlayListNames.Visibility = Visibility.Visible;
         }
 
@@ -139,11 +138,8 @@ namespace MusicLibraryApp
             //call addplaylist
             var AddPlayListDialog = new AddPlaylist();
 <<<<<<< HEAD
-<<<<<<< HEAD
             await AddPlayListDialog.ShowAsync();
 =======
-=======
->>>>>>> f7cd3a60d561eef7f4599b2f1ec2329e5aa49e24
             var result = await AddPlayListDialog.ShowAsync();
             //if add was selected
             if(result == ContentDialogResult.Primary)
@@ -171,10 +167,7 @@ namespace MusicLibraryApp
         private void PlayListNames_ItemClick(object sender, ItemClickEventArgs e)
         {
             //get playlist
-<<<<<<< HEAD
 >>>>>>> parent of 29f76cf... Merge branch 'master' of https://kalacademy.visualstudio.com/SoftwareDevC1Team5/_git/SoftwareDevC1Team5
-=======
->>>>>>> f7cd3a60d561eef7f4599b2f1ec2329e5aa49e24
         }
     }
     }
