@@ -61,8 +61,12 @@ namespace MusicLibraryApp.AppDialogs
 
         private void Song_TextChanged(object sender, TextChangedEventArgs e)
         {
+<<<<<<< HEAD
             if(songFile!=null)
             IsPrimaryButtonEnabled = true;
+=======
+
+>>>>>>> parent of 29f76cf... Merge branch 'master' of https://kalacademy.visualstudio.com/SoftwareDevC1Team5/_git/SoftwareDevC1Team5
         }
     }
 }
