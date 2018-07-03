@@ -63,6 +63,7 @@ namespace MusicLibraryApp.AppDialogs
             {
                 foreach (StorageFile file in pickedFileList)
                     Song.Text+=file.Name;
+                Song.TextWrapping = TextWrapping.Wrap;
 
                     IsPrimaryButtonEnabled = true;
                

@@ -96,10 +96,8 @@
                     <GridView.ItemTemplate >
                         <DataTemplate x:DataType="local1:Song">
                             <StackPanel  Margin ="50" Name="Display">
-                                <Image Margin="6" Width="150" Height="150" Source="{x:Bind CoverImage}" Stretch="Fill"></Image>
-                                <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" />
-                                <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Artist}" />
-
+                                <Image Margin="6" Width="200" Height="200" Source="{x:Bind CoverImage}" Stretch="Fill"></Image>
+                                <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" TextWrapping="Wrap" />
                                 <Button x:Name="PauseButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
                                 FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE103;" Click="PauseButton_Click"/>
                                 <Button x:Name="PlayButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
