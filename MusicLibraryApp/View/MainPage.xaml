@@ -11,92 +11,123 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="leftmenupaneColumn" Width="220" />
-            <ColumnDefinition x:Name="songsListColumn" Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="80"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
-        </Grid.RowDefinitions>
 
-        <RelativePanel Background="LightGray"  Grid.Row="0" Grid.Column="1">
-            <MediaElement x:Name="mediaPlayer"
+        <SplitView Grid.Row="0" Grid.RowSpan="2" x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
+               CompactPaneLength="50" OpenPaneLength="220" PaneClosing="MySplitView_PaneClosing">
+            <SplitView.Pane>
+                <StackPanel Background="LightGray">
+                    <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
+                    Width="50" Height="50"  BorderThickness="0" Background="Transparent" Click="HamburgerButton_Click"/>
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <Button x:Name="Search" FontFamily="Segoe MDL2 Assets" Content="&#59166;"
+                        Width="50" Height="50" Background="Transparent" Click="SearchSongButton_Click"/>
+
+                        <AutoSuggestBox Name="SearchAutoSuggestBox"
+                            PlaceholderText="Search for songs"  FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,10,10"
+                            Width="200" Height="30"
+                            QueryIcon="Find"
+                           
+                            QuerySubmitted="SearchAutoSuggestBox_QuerySubmitted"  Background="White" BorderThickness="0"/>
+                    </StackPanel>
+
+                    <Button x:Name="DisplaySongList"
+                    Width="220" Height="50"  BorderThickness="0" Background="Transparent" Click="DisplaySongList_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon   Margin="5,0,0,0" FontFamily="Segoe MDL2 Assets" FontSize="16"  Glyph="&#59606;"/>
+                            <TextBlock Text="Songs"  Margin="25,0,0,0" FontSize="14" Width="200" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="AddSongButton"
+                        Width="220" 
+                        Height="50" 
+                        BorderThickness="0" 
+                        Background="Transparent" 
+                        Click="AddSongButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Margin="5,0,0,0" FontFamily="Segoe MDL2 Assets" FontSize="16"  Glyph="&#59152;"/>
+                            <TextBlock Text="Add Song"  Margin="25,0,0,0"  Width="200" FontSize="14" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </SplitView.Pane>
+            <StackPanel>
+                <RelativePanel Background="White"  Grid.Row="0" Grid.Column="0">
+                    <MediaElement x:Name="mediaPlayer"
                     Width="400"
                     AutoPlay="True"
                     AreTransportControlsEnabled="True"/>
-            <TextBlock
+
+                    <TextBlock
                     Name="Username"
-                    Margin="10,10,6,0"
+                    Margin="5,10,6,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Stretch"
-                    FontSize="20"
+                    FontSize="22"
                     Opacity="1.0"
                     Text="User"
                     TextAlignment="Center"
                     TextWrapping="Wrap" Foreground="Black"  RelativePanel.AlignRightWithPanel="True"/>
-            <TextBlock
+                    <TextBlock
                  x:Name="TextGreeting"
-                    Margin="10,10,6,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Stretch"
-                    FontSize="20"
+                    Margin="10,10,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    FontSize="22"
                     Opacity="1.0"
                     Text="Good Afternoon"
                     TextAlignment="Center"
                     TextWrapping="Wrap" Foreground="Black"  RelativePanel.LeftOf ="Username"/>
-        </RelativePanel>
-        
-        <SplitView Grid.Row="0" Grid.RowSpan="2" x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
-               CompactPaneLength="50" OpenPaneLength="220">
-            <SplitView.Pane>
-                <StackPanel Background="LightGray">
-                    <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
-                    Width="50" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
-                    <StackPanel Orientation="Horizontal">
-                        <Button x:Name="DisplaySongList" FontFamily="Segoe MDL2 Assets" Content="&#59606;"
-                    Width="50" Height="50" Background="Transparent" Click="DisplaySongList_Click"/>
-                        <TextBlock Text="Songs"  FontSize="14" VerticalAlignment="Center" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Button x:Name="AddSongButton" FontFamily="Segoe MDL2 Assets" Content="&#xE109;"
-                        Width="50" Height="50" Background="Transparent" Click="AddSongButton_Click"/>
-                        <TextBlock Text="Add Song" FontSize="14" VerticalAlignment="Center" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Search" FontFamily="Segoe MDL2 Assets" Content="&#59166;"
-                        Width="50" Height="50" Background="Transparent" Click="Search_Click"/>
-                     
-                        <AutoSuggestBox Name="SearchAutoSuggestBox"
-                            PlaceholderText="Search for songs"  FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,0"
-                            Width="190" Height="30"
-                            QueryIcon="Find"
-                            QuerySubmitted="SearchAutoSuggestBox_QuerySubmitted"
-                            />
-                    </StackPanel>
+                </RelativePanel>
+
+                <!--<Pivot x:Name="rootPivot" Title="My Music">
+                    <PivotItem>Song
+
+
+                    </PivotItem>
+
+                    <PivotItem>Album</PivotItem>
+                </Pivot>-->
+
+
+                <GridView  Name="SongGridView" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged" >
+                    <!--<GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.SongsList}" ScrollViewer.VerticalScrollBarVisibility="Visible">-->
+                    <GridView.ItemTemplate >
+                        <DataTemplate x:DataType="local1:Song">
+                            <StackPanel  Margin ="50" Name="Display">
+                                <Image Margin="6" Width="150" Height="150" Source="ms-appx:///Assets/beyoncecover.jpg" Stretch="Fill"></Image>
+                                <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" />
+                                <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Artist}" />
+
+                                <Button x:Name="PauseButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
+                                FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE103;" Click="PauseButton_Click"/>
+                                <Button x:Name="PlayButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
+                                FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE102;" Click="PlayButton_Click"/>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+
+
+                <StackPanel Name="BottonMediaPlayer" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                    <AppBarButton Icon="Back" Name="BackwardButton" Label="Backward" Click="BackwardButton_Click"></AppBarButton>
+                    <AppBarButton Icon="Play" Name="PlayButton" Label="Play" Click="PlayButton_Click"></AppBarButton>
+                    <AppBarButton Icon="Pause" Name="PauseButton" Label="Pause" Click="PauseButton_Click" Visibility="Collapsed"></AppBarButton>
+                    <AppBarButton Icon="Forward" Name="ForwardButton" Click="ForwardButton_Click"></AppBarButton>
                 </StackPanel>
-            </SplitView.Pane>
-            <!-- <SplitView.Content>
-                <Grid>
-                    <TextBlock Text="SplitView Basic" FontSize="54" Foreground="Black"
-                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Grid>
-            </SplitView.Content> -->
+
+
+                <!--</Grid>-->
+
+
+            </StackPanel>
         </SplitView>
 
-        <GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged">
-            <GridView.ItemTemplate >
-                <DataTemplate x:DataType="local1:Song">
-                    <StackPanel  Margin ="50" Name="Display">
-                        <Image Margin="6" Width="150" Height="150" Source="{x:Bind CoverImage}" Stretch="Fill"></Image>
-                        <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" />
-                        <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Artist}" />
-                        <TextBlock x:Name="Album" TextAlignment="Center" FontSize="14" Text="{x:Bind Album}" />
 
-                    </StackPanel>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+
+
+
     </Grid>
 </Page>

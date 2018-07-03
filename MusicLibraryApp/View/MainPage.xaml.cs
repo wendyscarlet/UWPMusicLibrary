@@ -108,11 +108,52 @@ namespace MusicLibraryApp
 
             }
 
-            private void Search_Click(object sender, RoutedEventArgs e)
+            private void SearchSongButton_Click(object sender, RoutedEventArgs e)
             {
                 MySplitView.IsPaneOpen = true;
                 Search.Visibility = Visibility.Collapsed;
             }
+
+        private void MySplitView_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
+        {
+            Search.Visibility = Visibility.Visible;
         }
+
+        private void BackwardButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (mediaPlayer.DefaultPlaybackRate != 1)
+            {
+                mediaPlayer.DefaultPlaybackRate = 1.0;
+            }
+            mediaPlayer.Play();
+            PlayButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            PauseButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+        }
+
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Pause();
+            PlayButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            PauseButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+        }
+
+        private void ForwardButton_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void VolumeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            Slider slider = sender as Slider;
+            if (slider != null)
+            {
+                mediaPlayer.Volume = slider.Value;
+            }
+        }
+    }
     }
 
