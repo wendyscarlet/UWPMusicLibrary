@@ -123,6 +123,7 @@ namespace MusicLibraryApp
 
             private void Search_Click(object sender, RoutedEventArgs e)
             {
+                vm.GetAllSongs();
                 MySplitView.IsPaneOpen = true;
                 Search.Visibility = Visibility.Collapsed;
             }
@@ -134,6 +135,7 @@ namespace MusicLibraryApp
             PlayListNames.Visibility = Visibility.Visible;
         }
 
+<<<<<<< HEAD
         private async void  AddPlayListButton_Click(object sender, RoutedEventArgs e)
         {
             //call addplaylist
@@ -157,15 +159,31 @@ namespace MusicLibraryApp
 
             }
             else if(result == ContentDialogResult.Secondary) //cancel was selected
+=======
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (mediaPlayer.DefaultPlaybackRate != 1)
+>>>>>>> 78dea26b71292f8cf4d5bb6f023a9d53b26f2b3c
             {
                 AddPlayListDialog.Hide();
             }
+<<<<<<< HEAD
+=======
+            mediaPlayer.Play();
+            
+>>>>>>> 78dea26b71292f8cf4d5bb6f023a9d53b26f2b3c
         }
 
         private void PlayListNames_ItemClick(object sender, ItemClickEventArgs e)
         {
+<<<<<<< HEAD
             //get playlist
         }
+=======
+            mediaPlayer.Pause();
+            
+        }        
+>>>>>>> 78dea26b71292f8cf4d5bb6f023a9d53b26f2b3c
     }
     }
 

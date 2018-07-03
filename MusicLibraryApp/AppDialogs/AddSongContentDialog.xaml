@@ -95,11 +95,18 @@
                 Width="100" Height="24" VerticalAlignment="Stretch"/>
             <TextBlock 
             x:Name="Song"
+<<<<<<< HEAD
             Width="206"
             Height="38"
             Margin="10,10,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"/>
+=======
+            Width="322"
+            Height="64"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"/>
+>>>>>>> 78dea26b71292f8cf4d5bb6f023a9d53b26f2b3c
             <Button 
             x:Name="Browse"
             Width="100"

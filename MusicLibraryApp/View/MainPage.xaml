@@ -95,10 +95,43 @@
                         </ListView.ItemTemplate>
                     </ListView>
 
+<<<<<<< HEAD
                 </StackPanel>
             </SplitView.Pane>
            
             
+=======
+                    </PivotItem>
+
+                    <PivotItem>Album</PivotItem>
+                </Pivot>-->
+
+
+                <GridView  Name="SongGridView" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged" >
+                    <!--<GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.SongsList}" ScrollViewer.VerticalScrollBarVisibility="Visible">-->
+                    <GridView.ItemTemplate >
+                        <DataTemplate x:DataType="local1:Song">
+                            <StackPanel  Margin ="50" Name="Display">
+                                <Image Margin="6" Width="200" Height="200" Source="{x:Bind CoverImage}" Stretch="Fill"></Image>
+                                <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" TextWrapping="Wrap" />
+                                <Button x:Name="PauseButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
+                                FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE103;" Click="PauseButton_Click"/>
+                                <Button x:Name="PlayButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
+                                FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE102;" Click="PlayButton_Click"/>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+
+
+                
+
+                <!--</Grid>-->
+
+
+            </StackPanel>
+>>>>>>> 78dea26b71292f8cf4d5bb6f023a9d53b26f2b3c
         </SplitView>
 
         <GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged">
