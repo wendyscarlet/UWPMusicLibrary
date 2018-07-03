@@ -38,9 +38,7 @@ namespace MusicLibraryApp.AppDialogs
 
               MainViewModel.addSong(song);
               */
-            Content = this.PlayListName.Text;
-            
-            
+           
         }
 
         private void ContentDialog_CancelButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
