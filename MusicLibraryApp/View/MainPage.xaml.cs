@@ -30,6 +30,7 @@ namespace MusicLibraryApp
     {
         private MainViewModel vm;
         private MediaSource _mediaSource;
+        bool playing;
 
         public MainPage()
         {
@@ -37,6 +38,8 @@ namespace MusicLibraryApp
             vm = new MainViewModel();
             vm.GetAllSongs();
             this.DataContext = vm;
+            playing = false;
+           
 
         }
 
@@ -50,7 +53,18 @@ namespace MusicLibraryApp
             {
                 _mediaSource = MediaSource.CreateFromStorageFile(file);
                 this.mediaPlayer.SetPlaybackSource(_mediaSource);
-                this.mediaPlayer.AutoPlay = true;
+                //this.mediaPlayer.AutoPlay = true;
+            }
+            if(playing)
+            {
+                mediaPlayer.AutoPlay = false;
+                playing = false;
+            }
+            else
+            {
+                playing = true;
+                mediaPlayer.AutoPlay = true;
+
             }
         }
 
