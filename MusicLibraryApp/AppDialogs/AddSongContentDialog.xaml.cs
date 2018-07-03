@@ -22,7 +22,8 @@ namespace MusicLibraryApp.AppDialogs
 {
     public sealed partial class ContentDialog1 : ContentDialog
     {
-        private Windows.Storage.StorageFile songFile;
+        IReadOnlyList<StorageFile> pickedFileList;
+        private List<StorageFile> songFile;
         public ContentDialog1()
         {
             this.InitializeComponent();
@@ -30,13 +31,17 @@ namespace MusicLibraryApp.AppDialogs
         }
         private void ContentDialog_AddButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            var song = new Model.Song
+            foreach (StorageFile songFile in pickedFileList)
             {
-                sourceSongFile = songFile,
-                
-            };
+
+                var song = new Model.Song
+                {
+                    sourceSongFile = songFile,
+
+                };
 
             MainViewModel.addSong(song);
+        }
 
         }
 
@@ -51,18 +56,18 @@ namespace MusicLibraryApp.AppDialogs
             picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.List;
             picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.MusicLibrary;
             picker.FileTypeFilter.Add(".mp3");
-            Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
-            if (file != null)
+            picker.FileTypeFilter.Add(".wma");
+            picker.FileTypeFilter.Add(".wav");
+            pickedFileList = await picker.PickMultipleFilesAsync();
+            if (pickedFileList != null && pickedFileList.Count>0)
             {
-                songFile = file;
-                Song.Text = file.Path;
+                foreach (StorageFile file in pickedFileList)
+                    Song.Text+=file.Name;
+
+                    IsPrimaryButtonEnabled = true;
+               
             }
         }
-
-        private void Song_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if(songFile!=null)
-            IsPrimaryButtonEnabled = true;
-        }
+        
     }
 }
