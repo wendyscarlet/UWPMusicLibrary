@@ -29,18 +29,10 @@
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,0,0">
             <TextBox 
             x:Name="Song"
-<<<<<<< HEAD
             Width="322"
             Height="64"
             HorizontalAlignment="Center"
             VerticalAlignment="Center" TextChanged="Song_TextChanged"/>
-=======
-            Width="206"
-            Height="38"
-            Margin="10,10,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"/>
->>>>>>> parent of 29f76cf... Merge branch 'master' of https://kalacademy.visualstudio.com/SoftwareDevC1Team5/_git/SoftwareDevC1Team5
             <Button 
             x:Name="Browse"
             Width="100"
