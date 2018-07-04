@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\beyoncecover.jpg" />
+    <Content Include="Assets\playlisticon.jpg" />
     <Content Include="Assets\song.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
