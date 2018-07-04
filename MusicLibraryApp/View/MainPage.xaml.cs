@@ -10,6 +10,7 @@ using Windows.Foundation.Collections;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -29,7 +30,7 @@ namespace MusicLibraryApp
     public sealed partial class MainPage : Page
     {
         private MainViewModel vm;
-        private MediaSource _mediaSource;
+        //private MediaSource _mediaSource;
         bool playing;
 
         public MainPage()
@@ -63,19 +64,21 @@ namespace MusicLibraryApp
             StorageFile file = await localFolder.GetFileAsync(songInContext.SongFileName);
             if (file != null)
             {
-                _mediaSource = MediaSource.CreateFromStorageFile(file);
-                this.mediaPlayer.SetPlaybackSource(_mediaSource);
+                //_mediaSource = MediaSource.CreateFromStorageFile(file);
+                //this.mediaPlayer.SetPlaybackSource(_mediaSource);
                 //this.mediaPlayer.AutoPlay = true;
+                IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+                MyMediaElement.SetSource(stream, file.ContentType);
             }
             if(playing)
             {
-                mediaPlayer.AutoPlay = false;
+                MyMediaElement.AutoPlay = false;
                 playing = false;
             }
             else
             {
                 playing = true;
-                mediaPlayer.AutoPlay = true;
+                MyMediaElement.AutoPlay = true;
 
             }
         }
@@ -135,17 +138,17 @@ namespace MusicLibraryApp
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            if (mediaPlayer.DefaultPlaybackRate != 1)
+            if (MyMediaElement.DefaultPlaybackRate != 1)
             {
-                mediaPlayer.DefaultPlaybackRate = 1.0;
+                MyMediaElement.DefaultPlaybackRate = 1.0;
             }
-            mediaPlayer.Play();
+            MyMediaElement.Play();
             
         }
 
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
-            mediaPlayer.Pause();
+            MyMediaElement.Pause();
             
         }
 

@@ -11,6 +11,15 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="leftmenupaneColumn" Width="100" />
+            <ColumnDefinition x:Name="songsListColumn" Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
 
         <SplitView Grid.Row="0" Grid.RowSpan="2" x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
                CompactPaneLength="50" OpenPaneLength="220" PaneClosing="MySplitView_PaneClosing">
@@ -72,11 +81,11 @@
                 </StackPanel>
             </SplitView.Pane>
             <StackPanel>
-                <RelativePanel Background="White"  Grid.Row="0" Grid.Column="0">
-                    <MediaElement x:Name="mediaPlayer"
+                <RelativePanel Background="White"  Grid.Row="0" Grid.Column="1">
+                    <!--<MediaElement x:Name="mediaPlayer"
                     Width="400"
                     AutoPlay="True"
-                    AreTransportControlsEnabled="True"/>
+                    AreTransportControlsEnabled="True"/>-->
 
                     <TextBlock
                     Name="Username"
@@ -110,18 +119,18 @@
                 </Pivot>-->
 
 
-                <GridView  Name="SongGridView" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged" >
-                    <!--<GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.SongsList}" ScrollViewer.VerticalScrollBarVisibility="Visible">-->
+               <!-- <GridView  Name="SongGridView" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged" >-->
+                    <GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" ScrollViewer.VerticalScrollBarVisibility="Visible">
                     <GridView.ItemTemplate >
                         <DataTemplate x:DataType="local1:Song">
                             <StackPanel  Margin ="50" Name="Display">
                                 <Image Margin="6" Width="200" Height="200" Source="{x:Bind CoverImage}" Stretch="Fill"></Image>
                                 <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" TextWrapping="Wrap" />
-                                <Button x:Name="PauseButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
+                                <!--<Button x:Name="PauseButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
                                 FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE103;" Click="PauseButton_Click"/>
                                 <Button x:Name="PlayButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
                                 FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE102;" Click="PlayButton_Click"/>
-
+                                  -->
                             </StackPanel>
                         </DataTemplate>
                     </GridView.ItemTemplate>
@@ -135,6 +144,27 @@
 
             </StackPanel>
         </SplitView>
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" ></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image  Source="Assets/StoreLogo.png" Grid.Column="0" x:Name="MediaElementImage" Height="80" Width="80" HorizontalAlignment="Left" Stretch="Fill" ></Image>
+            <MediaElement Grid.Column="1" x:Name="MyMediaElement" Stretch="Fill"    Margin="5,5,5,5" AutoPlay="False" AreTransportControlsEnabled="True"  >
+                    <MediaElement.TransportControls>
+                        <MediaTransportControls IsCompact="True"
+                                            IsZoomButtonVisible="False"
+                                            IsFullWindowButtonVisible="False">
+
+                        </MediaTransportControls>
+                    </MediaElement.TransportControls>
+                    </MediaElement>
+                
+            
+                
+            
+        </Grid>
 
 
 
