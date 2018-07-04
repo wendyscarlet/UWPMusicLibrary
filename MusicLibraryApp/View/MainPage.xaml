@@ -12,7 +12,6 @@
     
 
     <Grid>
-        
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="leftmenupaneColumn" Width="100" />
             <ColumnDefinition x:Name="songsListColumn" Width="*" />
@@ -22,6 +21,8 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
+
+
 
         <RelativePanel Background="LightGray"  Grid.Row="0" Grid.Column="1">
 
@@ -123,6 +124,7 @@
 
 
             </Grid>
+            
 
             <!--
             <StackPanel Orientation="Horizontal"  Height="100" Width="auto">
