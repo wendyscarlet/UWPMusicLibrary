@@ -17,7 +17,7 @@
             <ColumnDefinition x:Name="songsListColumn" Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
@@ -93,11 +93,11 @@
             <GridView.ItemTemplate >
                 <DataTemplate x:DataType="local1:Song">
                     <StackPanel  Margin ="10" Name="Display">
-                        <Image Margin="6" Width="100" Height="100" Source="{x:Bind AlbumCover}" Stretch="Fill"></Image>
+                        <Image Margin="6" Width="80" Height="80" Source="{x:Bind AlbumCover}" Stretch="Fill"></Image>
                         <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" TextWrapping="Wrap"/>
-                        <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Artist}" TextWrapping="Wrap"/>
+                       <!-- <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Artist}" TextWrapping="Wrap"/>
                         <TextBlock x:Name="Album" TextAlignment="Center" FontSize="14" Text="{x:Bind Album}" TextWrapping="Wrap" />
-
+                        -->
                     </StackPanel>
                 </DataTemplate>
             </GridView.ItemTemplate>
@@ -108,23 +108,24 @@
          <Grid Grid.Row="2" Grid.ColumnSpan="2"  Background="Beige" >
         <MediaElement x:Name="MyMediaElement" Height="50" Width="50"  AutoPlay="False" HorizontalAlignment="Left" AreTransportControlsEnabled="false" MediaOpened="MyMediaElement_MediaOpened"></MediaElement>
 -->
-        <Grid Grid.Row="2"  Grid.Column="0"  Background="Beige" >
-           
-            <Image  x:Name="MediaElementImage" Height="50" Width="50" HorizontalAlignment="Left" Stretch="UniformToFill" ></Image>
-            <Grid Grid.Row="2"  Grid.Column="1"  Background="Beige" >
-                <MediaElement  x:Name="MyMediaElement" Stretch="Fill"  HorizontalAlignment="Right" Margin="5,5,5,5" AutoPlay="False" AreTransportControlsEnabled="True"  MediaOpened="MyMediaElement_MediaOpened">
-                    <MediaElement.TransportControls>
-                        <MediaTransportControls IsCompact="True"
+        <Grid Grid.Row="2" Grid.ColumnSpan="2" Background="Beige">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" ></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image  Grid.Column="0" x:Name="MediaElementImage" Height="80" Width="80" HorizontalAlignment="Left" Stretch="Fill" ></Image>
+            <MediaElement Grid.Column="1" x:Name="MyMediaElement" Stretch="Fill"    Margin="5,5,5,5" AutoPlay="False" AreTransportControlsEnabled="True"  >
+                <MediaElement.TransportControls>
+                    <MediaTransportControls IsCompact="True"
                                             IsZoomButtonVisible="False"
                                             IsFullWindowButtonVisible="False">
 
-                        </MediaTransportControls>
-                    </MediaElement.TransportControls>
-                </MediaElement>
+                    </MediaTransportControls>
+                </MediaElement.TransportControls>
+            </MediaElement>
 
 
-            </Grid>
-            
 
             <!--
             <StackPanel Orientation="Horizontal"  Height="100" Width="auto">

@@ -49,7 +49,7 @@ namespace MusicLibraryApp
         private async void SoundGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             //if (!mediaPlayerPopup.IsOpen) { mediaPlayerPopup.IsOpen = true; }
-            
+           
             //getting song from e
             Song Clickedsong =(Song) e.ClickedItem;
             StorageFile ClickedSongFile = Clickedsong.AudioFilePath;
@@ -57,9 +57,9 @@ namespace MusicLibraryApp
             {
                 IRandomAccessStream stream = await ClickedSongFile.OpenAsync(FileAccessMode.Read);
                 MyMediaElement.SetSource(stream, ClickedSongFile.ContentType);
-                MyMediaElement.AreTransportControlsEnabled = true;
-                MyMediaElement.TransportControls.IsCompact = true;
-                //MyMediaElement.PosterSource = Clickedsong.AlbumCover;
+                //MyMediaElement.AreTransportControlsEnabled = true;
+                //MyMediaElement.TransportControls.IsCompact = true;
+                MyMediaElement.PosterSource = Clickedsong.AlbumCover;
               
         
             }
