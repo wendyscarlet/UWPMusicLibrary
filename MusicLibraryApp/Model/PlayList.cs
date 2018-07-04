@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicLibraryApp.Model
 {
-    class PlayList
+    public class PlayList
     {
         public string PlayListName { get; set; }
         public List<int> PlayListSongIDs { get; set; }

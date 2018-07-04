@@ -22,26 +22,34 @@ namespace MusicLibraryApp
         {
             List<Model.PlayList> playlists = new List<Model.PlayList>();
             StorageFolder allPLfolder = ApplicationData.Current.LocalFolder;
-            StorageFile allPLFile = await allPLfolder.GetFileAsync(FILE_NAME);
+            StorageFile allPLFile = await allPLfolder.CreateFileAsync(FILE_NAME, CreationCollisionOption.OpenIfExists);
+
             var allplines = await FileIO.ReadLinesAsync(allPLFile);
 
-            foreach (var pline in allplines) { 
+            foreach (var pline in allplines) {
+                if (pline != "")
+                {
+                    StorageFolder PLfolder = ApplicationData.Current.LocalFolder;
+                    StorageFile PLFile = await PLfolder.GetFileAsync(pline);
 
-            StorageFolder PLfolder = ApplicationData.Current.LocalFolder;
-            StorageFile PLFile = await PLfolder.GetFileAsync(pline);
-            var line = await FileIO.ReadTextAsync(PLFile);
+                    var line = await FileIO.ReadTextAsync(PLFile);
 
-            
-                var plData = line.Split(',');
-                var playlist = new Model.PlayList();
 
-                //read data from file and put in a playlist
-                playlist.PlayListName = plData[0];
-                for (int i = 1; i < plData.Count(); i++)
-                    playlist.PlayListSongIDs.Add(Convert.ToInt32(plData[i]));
-                playlist.PlayListFilePath = pline;
+                    var plData = line.Split(',');
+                    var playlist = new Model.PlayList();
 
-                playlists.Add(playlist);
+                    //read data from file and put in a playlist
+                    playlist.PlayListName = plData[0];
+
+                    for (int i = 1; i < plData.Length; i++)
+                    {
+                        if (plData[i] != "\r\n")
+                            playlist.PlayListSongIDs.Add(Convert.ToInt32(plData[i]));
+                    }
+                    playlist.PlayListFilePath = pline;
+
+                    playlists.Add(playlist);
+                }
             }
 
             return playlists;
@@ -61,20 +69,23 @@ namespace MusicLibraryApp
             StorageFile PLFile = await PLlocalFolder.CreateFileAsync(playlist.PlayListName, CreationCollisionOption.OpenIfExists);
 
             var plData = $"{playlist.PlayListName},";
+           
+
             //check if playlist does not have songs
 
             if (playlist.PlayListSongIDs == null)
                 songcount = 0;
-        
-            //add all song ids in file
-            if (songcount > 0 )
-            {
-                for (int i = 0; i < songcount - 1; i++)
-                    plData = plData + $"{playlist.PlayListSongIDs[i].ToString()},";
-                plData = plData + $"{playlist.PlayListSongIDs[songcount - 1].ToString()}";
-            }
-            plData = plData + Environment.NewLine;
 
+            //add all song ids in file
+            if (songcount > 0)
+            {
+                for (int i = 0; i < songcount; i++)
+                    plData = plData + $"{playlist.PlayListSongIDs[i].ToString()},";
+
+               // plData = plData + $"{playlist.PlayListSongIDs[songcount - 1].ToString()}";
+            }
+                plData = plData + Environment.NewLine;
+            
             //overwite the playlist data if already exist , writes if it is new
             await FileIO.WriteTextAsync(PLFile, plData);
 
@@ -99,7 +110,9 @@ namespace MusicLibraryApp
             }
             if (exist == false)
             {
-                await FileIO.WriteTextAsync(allPLFile, playlist.PlayListName);
+                var playlistfilename = playlist.PlayListName + Environment.NewLine;
+                await FileIO.AppendTextAsync(allPLFile, playlistfilename);
+                
             }
         }
     }

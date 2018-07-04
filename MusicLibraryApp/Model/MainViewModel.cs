@@ -67,6 +67,8 @@ namespace MusicLibraryApp.Model
         /// <param name="song">the song you want to save</param>
         public static async void addSong(Model.Song song)
         {
+           
+
             var songFile = song.sourceSongFile;
             var localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             try
@@ -101,26 +103,17 @@ namespace MusicLibraryApp.Model
             PlayListFileHelper.WritePlayListToFileAsync(p);
         }
 
-        public void DisplayAllPlaylists()
+        public async void DisplayAllPlaylists()
         {
 
-            playLists.Add(new PlayList
+            ObservableCollection<PlayList>  tempplayLists = new ObservableCollection<PlayList>( await PlayListFileHelper.GetAllPlayListsAsync());
+
+            playLists.Clear();
+
+            for (int i=0; i<tempplayLists.Count; i++)
             {
-                PlayListName = "Favorites",
-
-            });
-            playLists.Add(new PlayList
-            {
-                PlayListName = "Happy Songs",
-
-            });
-            playLists.Add(new PlayList
-            {
-                PlayListName = "Sad Songs",
-
-            });
-
-            //playLists = new ObservableCollection<PlayList>( await PlayListFileHelper.GetAllPlayListsAsync());
+                playLists.Add(tempplayLists[i]);
+            }
 
         }
     }
