@@ -36,7 +36,8 @@ namespace MusicLibraryApp.AppDialogs
 
                 var song = new Model.Song
                 {
-                    sourceSongFile = songFile,
+                                    
+                sourceSongFile = songFile,
 
                 };
 

@@ -67,7 +67,7 @@
                             <Button x:Name="AddPlayListButton" Background="LightGray" BorderThickness="0"  Margin="5,0,0,0" Width="50" FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#59152;" Click="AddPlayListButton_Click"/>
                         </StackPanel>
                     </Button>
-                    <ListView x:Name ="PlayListNames" Visibility ="Collapsed" ItemsSource ="{x:Bind vm.playLists}" ItemClick="PlayListNames_ItemClick">
+                    <ListView x:Name ="PlayListNames" Visibility ="Collapsed" ItemsSource ="{x:Bind vm.playLists}" ItemClick="PlayListNames_ItemClick" RightTapped="PlayListNames_ItemRightTapped">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local1:PlayList">
                                 <TextBlock Text="{x:Bind PlayListName}" FontSize="14" FontWeight="Bold" />

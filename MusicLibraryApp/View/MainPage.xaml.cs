@@ -33,6 +33,8 @@ namespace MusicLibraryApp
         //private MediaSource _mediaSource;
         bool playing;
 
+        public int Playlist { get; private set; }
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -137,6 +139,7 @@ namespace MusicLibraryApp
         private void MySplitView_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
         {
             Search.Visibility = Visibility.Visible;
+            PlayListNames.Visibility = Visibility.Collapsed;
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
@@ -158,8 +161,14 @@ namespace MusicLibraryApp
         private void PlayListsButton_Click(object sender, RoutedEventArgs e)
         {
             vm.DisplayAllPlaylists();
-            MySplitView.IsPaneOpen = true;
-            PlayListNames.Visibility = Visibility.Visible;
+            this.DataContext = vm;
+            this.PlayListNames.ItemsSource = vm.playLists;
+            //display if there is a playlist in the playlist collection
+            if (vm.playLists.Count > 0)
+            {
+                MySplitView.IsPaneOpen = true;
+                PlayListNames.Visibility = Visibility.Visible;
+            }
         }
 
         private async void AddPlayListButton_Click(object sender, RoutedEventArgs e)
@@ -193,6 +202,26 @@ namespace MusicLibraryApp
         private void PlayListNames_ItemClick(object sender, ItemClickEventArgs e)
         {
             //writecode to display songs of selected playlist
+        }
+
+        private void PlayListNames_ItemRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            //bring out a menu context to add song to playlist , delete playlist name and edit playlist name
+            MenuFlyout myFlyout = new MenuFlyout();
+            
+            MenuFlyoutItem addSongsPlaylist = new MenuFlyoutItem { Text = "Add Songs to playlist" };
+            MenuFlyoutItem deletePlaylist = new MenuFlyoutItem { Text = "Delete playlist" };
+            MenuFlyoutItem renamePlaylist = new MenuFlyoutItem { Text = "Rename playlist" };
+            myFlyout.Items.Add(addSongsPlaylist);
+            myFlyout.Items.Add(deletePlaylist);
+            myFlyout.Items.Add(renamePlaylist);
+            //if you only want to show in left or buttom 
+            //myFlyout.Placement = FlyoutPlacementMode.Left;
+
+            FrameworkElement senderElement = sender as FrameworkElement;
+
+            //the code can show the flyout in your mouse click 
+            myFlyout.ShowAt(sender as UIElement, e.GetPosition(sender as UIElement));
         }
     }
 }
