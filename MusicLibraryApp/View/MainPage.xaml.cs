@@ -69,6 +69,7 @@ namespace MusicLibraryApp
                 //this.mediaPlayer.AutoPlay = true;
                 IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
                 MyMediaElement.SetSource(stream, file.ContentType);
+                //MyMediaElement.PosterSource = songInContext.CoverImage;
             }
             if(playing)
             {
@@ -79,6 +80,7 @@ namespace MusicLibraryApp
             {
                 playing = true;
                 MyMediaElement.AutoPlay = true;
+                MediaElementImage.Source = songInContext.CoverImage;
 
             }
         }
