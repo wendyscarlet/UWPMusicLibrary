@@ -11,6 +11,11 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" ></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
+        </Grid.RowDefinitions>
 
         <SplitView Grid.Row="0" Grid.RowSpan="2" x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
                CompactPaneLength="50" OpenPaneLength="220" PaneClosing="MySplitView_PaneClosing">
@@ -120,6 +125,24 @@
 
             </StackPanel>
         </SplitView>
+
+        <Grid Grid.Row="2" Grid.ColumnSpan="2" Background="Beige">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" ></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image  Grid.Column="0" x:Name="MediaElementImage" Height="80" Width="80" HorizontalAlignment="Left" Stretch="Fill" ></Image>
+            <MediaElement Grid.Column="1" x:Name="MyMediaElement" Stretch="Fill"    Margin="5,5,5,5" AutoPlay="False" AreTransportControlsEnabled="True"  >
+                <MediaElement.TransportControls>
+                    <MediaTransportControls IsCompact="True"
+                                            IsZoomButtonVisible="False"
+                                            IsFullWindowButtonVisible="False">
+
+                    </MediaTransportControls>
+                </MediaElement.TransportControls>
+            </MediaElement>
+        </Grid>
 
 
 
