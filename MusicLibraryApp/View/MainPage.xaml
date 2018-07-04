@@ -125,7 +125,7 @@
 
             </StackPanel>
         </SplitView>
-
+        <!-- Grid to hold Media element-->
         <Grid Grid.Row="2" Grid.ColumnSpan="2" Background="Beige">
 
             <Grid.ColumnDefinitions>
@@ -143,6 +143,7 @@
                 </MediaElement.TransportControls>
             </MediaElement>
         </Grid>
+        <!-- End Grid Media Element-->
 
 
 
