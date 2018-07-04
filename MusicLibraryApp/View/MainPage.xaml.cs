@@ -43,6 +43,18 @@ namespace MusicLibraryApp
 
         }
 
+        private void UpdateGreeting()
+        {
+            var now = DateTime.Now;
+            var greeting =
+                now.Hour < 12 ? "Good Morning!" :
+                now.Hour < 18 ? "Good Afternoon!" :
+                /* otherwise */ "Good Evening!";
+
+            TextGreeting.Text = $"{greeting}";
+
+        }
+
         private async void SoundGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             Song songInContext = (Song)e.ClickedItem;
@@ -72,6 +84,7 @@ namespace MusicLibraryApp
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
             Search.Visibility = MySplitView.IsPaneOpen ? Visibility.Collapsed : Visibility.Visible;
+            PlayListNames.Visibility = MySplitView.IsPaneOpen ? Visibility.Visible : Visibility.Collapsed;
 
         }
          
@@ -134,7 +147,47 @@ namespace MusicLibraryApp
         {
             mediaPlayer.Pause();
             
-        }        
+        }
+
+        private void PlayListsButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.DisplayAllPlaylists();
+            MySplitView.IsPaneOpen = true;
+            PlayListNames.Visibility = Visibility.Visible;
+        }
+
+        private async void AddPlayListButton_Click(object sender, RoutedEventArgs e)
+        {
+            //call addplaylist
+            var AddPlayListDialog = new AddPlaylist();
+            var result = await AddPlayListDialog.ShowAsync();
+            //if add was selected
+            if (result == ContentDialogResult.Primary)
+            {
+                //playlistname inputted by user in textbox
+                var plname = AddPlayListDialog.Content;
+
+
+                //create a playlist object and call AddPlayList from viewmodel
+                vm.AddPlayList(new PlayList
+                {
+                    PlayListName = plname.ToString(),
+
+                    //i need to add code to the list of songIDs here
+
+                });
+
+            }
+            else if (result == ContentDialogResult.Secondary) //cancel was selected
+            {
+                AddPlayListDialog.Hide();
+            }
+        }
+
+        private void PlayListNames_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            //writecode to display songs of selected playlist
+        }
     }
-    }
+}
 

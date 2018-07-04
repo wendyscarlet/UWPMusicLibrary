@@ -13,13 +13,20 @@ namespace MusicLibraryApp.Model
 {
     class MainViewModel
     {
+        /// <summary>
+        /// Contain the Songs to be shown in the UI
+        /// </summary>
         public ObservableCollection<Song> songsList { get; private set; }
+        public ObservableCollection<PlayList> playLists { get; private set; }
+
+        private static int lastSongID = 0;
         /// <summary>
         /// Constructor
         /// </summary>
         public MainViewModel()
         {
             songsList = new ObservableCollection<Song>();
+            playLists = new ObservableCollection<PlayList>();
         }
 
          /// <summary>
@@ -83,6 +90,37 @@ namespace MusicLibraryApp.Model
                          select s);
                          //.Skip(pageSize * currentPage).Take(pageSize);
             songsList = new ObservableCollection<Song>(query);
+
+        }
+
+        //add playlist to observable collection of playlist and creates a playlist file
+        public void AddPlayList(PlayList p)
+        {
+            playLists.Add(p);
+            //also call Write to file function
+            PlayListFileHelper.WritePlayListToFileAsync(p);
+        }
+
+        public void DisplayAllPlaylists()
+        {
+
+            playLists.Add(new PlayList
+            {
+                PlayListName = "Favorites",
+
+            });
+            playLists.Add(new PlayList
+            {
+                PlayListName = "Happy Songs",
+
+            });
+            playLists.Add(new PlayList
+            {
+                PlayListName = "Sad Songs",
+
+            });
+
+            //playLists = new ObservableCollection<PlayList>( await PlayListFileHelper.GetAllPlayListsAsync());
 
         }
     }

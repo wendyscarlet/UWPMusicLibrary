@@ -92,15 +92,18 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AppDialogs\AddPlayList.xaml.cs" />
     <Compile Include="AppDialogs\AddSongContentDialog.xaml.cs">
       <DependentUpon>AddSongContentDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\PlayList.cs" />
     <Compile Include="Model\Song.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\MainViewModel.cs" />
     <Compile Include="Player\BackgroundPlayer.cs" />
+    <Compile Include="PlayListFileHelper.cs" />
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -128,6 +131,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="AppDialogs\AddPlayList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="AppDialogs\AddSongContentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
