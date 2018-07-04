@@ -51,7 +51,7 @@ namespace MusicLibraryApp
                 now.Hour < 18 ? "Good Afternoon!" :
                 /* otherwise */ "Good Evening!";
 
-            TextGreeting.Text = $"{greeting}";
+           // TextGreeting.Text = $"{greeting}";
 
         }
 
@@ -126,6 +126,7 @@ namespace MusicLibraryApp
                 vm.GetAllSongs();
                 MySplitView.IsPaneOpen = true;
                 Search.Visibility = Visibility.Collapsed;
+                SearchAutoSuggestBox.Text = "";
             }
 
         private void MySplitView_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)

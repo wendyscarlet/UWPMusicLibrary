@@ -72,60 +72,45 @@
                 </StackPanel>
             </SplitView.Pane>
             <StackPanel>
-                <RelativePanel Background="White"  Grid.Row="0" Grid.Column="0">
+              
                     <MediaElement x:Name="mediaPlayer"
                     Width="400"
                     AutoPlay="True"
                     AreTransportControlsEnabled="True"/>
 
-                    <TextBlock
-                    Name="Username"
-                    Margin="5,10,6,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Stretch"
-                    FontSize="22"
-                    Opacity="1.0"
-                    Text="User"
-                    TextAlignment="Center"
-                    TextWrapping="Wrap" Foreground="Black"  RelativePanel.AlignRightWithPanel="True"/>
-                    <TextBlock
-                 x:Name="TextGreeting"
-                    Margin="10,10,0,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    FontSize="22"
-                    Opacity="1.0"
-                    Text="Good Night"
-                    TextAlignment="Center"
-                    TextWrapping="Wrap" Foreground="Black"  RelativePanel.LeftOf ="Username"/>
-                </RelativePanel>
-
-                <!--<Pivot x:Name="rootPivot" Title="My Music">
-                    <PivotItem>Song
-
-
-                    </PivotItem>
-
-                    <PivotItem>Album</PivotItem>
-                </Pivot>-->
-
-
-                <GridView  Name="SongGridView" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged" >
-                    <!--<GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.SongsList}" ScrollViewer.VerticalScrollBarVisibility="Visible">-->
-                    <GridView.ItemTemplate >
-                        <DataTemplate x:DataType="local1:Song">
-                            <StackPanel  Margin ="50" Name="Display">
-                                <Image Margin="6" Width="200" Height="200" Source="{x:Bind CoverImage}" Stretch="Fill"></Image>
-                                <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" TextWrapping="Wrap" />
-                                <Button x:Name="PauseButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
+                <Pivot x:Name="rootPivot" Title="My Library Collection">
+                    <PivotItem Header="Songs">
+                        <!--Pivot content goes here-->
+                        <GridView  Name="SongGridView" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged" >
+                            <!--<GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.SongsList}" ScrollViewer.VerticalScrollBarVisibility="Visible">-->
+                            <GridView.ItemTemplate >
+                                <DataTemplate x:DataType="local1:Song">
+                                    <StackPanel  Margin ="50" Name="Display">
+                                        <Image Margin="6" Width="200" Height="200" Source="{x:Bind CoverImage}" Stretch="Fill"></Image>
+                                        <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" TextWrapping="Wrap" />
+                                        <Button x:Name="PauseButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
                                 FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE103;" Click="PauseButton_Click"/>
-                                <Button x:Name="PlayButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
+                                        <Button x:Name="PlayButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
                                 FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE102;" Click="PlayButton_Click"/>
 
-                            </StackPanel>
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
-                </GridView>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </PivotItem>
+                    <PivotItem Header="Artist">
+                        <!--Pivot content goes here-->
+                        <TextBlock Text="Content of pivot item 2."/>
+                    </PivotItem>
+                    <PivotItem Header="Album">
+                        <!--Pivot content goes here-->
+                        <TextBlock Text="Content of pivot item 3."/>
+                    </PivotItem>
+                </Pivot>
+
+
+
+               
 
 
                 
