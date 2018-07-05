@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
+  <CommandSet xml:lang="en-us" Name="CustomCommandSet">
+    <CommandPrefix>Music</CommandPrefix>
+    <Example> You can list example commands here. </Example>
+
+    <Command Name="AddSong">
+      <Example> Add Song,Add Music </Example>
+      <ListenFor> Add [Song] </ListenFor>
+      <ListenFor>Add [Music]</ListenFor>
+      <Feedback> I'll Add Music </Feedback>
+      <Navigate/>
+    </Command>
+
+    <Command Name="OpenPlayList">
+      <Example> Open Play List </Example>
+      <ListenFor>Open Play List</ListenFor>
+      <ListenFor>Open Songs</ListenFor>
+      <Feedback> Opening Play List in MusicLibrary App </Feedback>
+      <Navigate/>
+    </Command>
+  </CommandSet>
+</VoiceCommands>

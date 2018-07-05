@@ -2,6 +2,7 @@
 using MusicLibraryApp.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -10,6 +11,7 @@ using Windows.Foundation.Collections;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -29,8 +31,9 @@ namespace MusicLibraryApp
     public sealed partial class MainPage : Page
     {
         private MainViewModel vm;
-        private MediaSource _mediaSource;
+        //private MediaSource _mediaSource;
         bool playing;
+        private VoiceCommandObjects.CortanaCommands _pageParameters;
 
         public int Playlist { get; private set; }
 
@@ -65,19 +68,23 @@ namespace MusicLibraryApp
             StorageFile file = await localFolder.GetFileAsync(songInContext.SongFileName);
             if (file != null)
             {
-                _mediaSource = MediaSource.CreateFromStorageFile(file);
-                this.mediaPlayer.SetPlaybackSource(_mediaSource);
+                //_mediaSource = MediaSource.CreateFromStorageFile(file);
+                //this.mediaPlayer.SetPlaybackSource(_mediaSource);
                 //this.mediaPlayer.AutoPlay = true;
+                IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+                MyMediaElement.SetSource(stream, file.ContentType);
+                //MyMediaElement.PosterSource = songInContext.CoverImage;
             }
             if(playing)
             {
-                mediaPlayer.AutoPlay = false;
+                MyMediaElement.AutoPlay = false;
                 playing = false;
             }
             else
             {
                 playing = true;
-                mediaPlayer.AutoPlay = true;
+                MyMediaElement.AutoPlay = true;
+                MediaElementImage.Source = songInContext.CoverImage;
 
             }
         }
@@ -139,17 +146,17 @@ namespace MusicLibraryApp
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            if (mediaPlayer.DefaultPlaybackRate != 1)
+            if (MyMediaElement.DefaultPlaybackRate != 1)
             {
-                mediaPlayer.DefaultPlaybackRate = 1.0;
+                MyMediaElement.DefaultPlaybackRate = 1.0;
             }
-            mediaPlayer.Play();
+            MyMediaElement.Play();
             
         }
 
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
-            mediaPlayer.Pause();
+            MyMediaElement.Pause();
             
         }
 
@@ -217,6 +224,41 @@ namespace MusicLibraryApp
 
             //the code can show the flyout in your mouse click 
             myFlyout.ShowAt(sender as UIElement, e.GetPosition(sender as UIElement));
+        }
+
+        //Cortana Commands
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            Debug.Write("OnNavigated to");
+            _pageParameters = e.Parameter as VoiceCommandObjects.CortanaCommands;
+            if (_pageParameters != null)
+            {
+                switch (_pageParameters.VoiceCommandName)
+                {
+                    case "AddSong":
+                        var dialog = new ContentDialog1();
+                        await dialog.ShowAsync();
+                        break;
+                    case "OpenPlayList":
+                        MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
+                        Search.Visibility = MySplitView.IsPaneOpen ? Visibility.Collapsed : Visibility.Visible;
+                        PlayListNames.Visibility = MySplitView.IsPaneOpen ? Visibility.Visible : Visibility.Collapsed;
+                        vm.DisplayAllPlaylists();
+                        this.DataContext = vm;
+                        this.PlayListNames.ItemsSource = vm.playLists;
+
+                        if (vm.playLists.Count > 0)
+                        {
+                            MySplitView.IsPaneOpen = true;
+                            PlayListNames.Visibility = Visibility.Visible;
+                        }
+                        break;
+                    default:
+                        Debug.Write("Couldn't find command Name");
+                        break;
+                }
+            }
+
         }
 
         private void rootPivot_PivotItemLoading(Pivot sender, PivotItemEventArgs args)
