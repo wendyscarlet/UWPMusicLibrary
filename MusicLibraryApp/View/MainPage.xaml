@@ -10,6 +10,39 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+
+        <CollectionViewSource  Source="{Binding Albums}" x:Name="albumsCVS" IsSourceGrouped="true"/>
+        <CollectionViewSource  Source="{Binding Artists}" x:Name="artistsCVS" IsSourceGrouped="true"/>
+        
+        <Style x:Key="AlbumGroupHeaderContainerStyle" TargetType="ListViewHeaderItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+
+        <DataTemplate x:Key="AlbumGroupHeaderTemplate">
+            <Border Margin="0,0,0,0" >
+                <TextBlock Text="{Binding Key}" Margin="9.6,0,0,4.8" Style="{StaticResource SubtitleTextBlockStyle}" Foreground="Black" VerticalAlignment="Center" />
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="SongTemplate">
+            <Grid Name ="GridSongTemplate " Margin="0,0,0,8" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Border Width="56" Height="56">
+                    <Image Source="{Binding CoverImage}" Stretch="UniformToFill"/>
+                </Border>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Title}" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
+                    <TextBlock Text="{Binding Artist}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
+                </StackPanel>
+                <!--<Button Name="playBtn" Grid.Column="2"  FontFamily="Segoe MDL2 Assets" FontSize="20"  Content="&#xE102;" Background="LightGray"></Button>-->
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
     <Grid>
 
         <SplitView Grid.Row="0" Grid.RowSpan="2" x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
@@ -72,13 +105,13 @@
                 </StackPanel>
             </SplitView.Pane>
             <StackPanel>
-              
-                    <MediaElement x:Name="mediaPlayer"
+
+                <MediaElement x:Name="mediaPlayer"
                     Width="400"
                     AutoPlay="True"
                     AreTransportControlsEnabled="True"/>
-
-                <Pivot x:Name="rootPivot" Title="My Library Collection">
+                <TextBlock Text=" My Music" Style="{StaticResource SubheaderTextBlockStyle}"/>
+                <Pivot RequestedTheme="Light" x:Name="rootPivot"  PivotItemLoading="rootPivot_PivotItemLoading" SelectionChanged="rootPivot_SelectionChanged" >
                     <PivotItem Header="Songs">
                         <!--Pivot content goes here-->
                         <GridView  Name="SongGridView" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged" >
@@ -99,31 +132,46 @@
                         </GridView>
                     </PivotItem>
                     <PivotItem Header="Artist">
-                        <!--Pivot content goes here-->
-                        <TextBlock Text="Content of pivot item 2."/>
+                        <ListView x:Name="listViewArtists" ItemsSource="{Binding Source={StaticResource artistsCVS}}">
+                            <ListView.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Key}"/>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </ListView.GroupStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType ="local1:Song">
+                                    <Border Background="{Binding Color}" Width="200" CornerRadius="10" HorizontalAlignment="Left">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Width="40" Height="40">
+                                                <Image Source="{Binding CoverImage}" Stretch="UniformToFill"/>
+                                            </Border>
+                                            <TextBlock Text="{x:Bind Title}" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
+                                            <!--<TextBlock Text="{Binding Artist}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>-->
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
                     </PivotItem>
-                    <PivotItem Header="Album">
-                        <!--Pivot content goes here-->
-                        <TextBlock Text="Content of pivot item 3."/>
+                    <PivotItem  Header="Album">
+                        <ListView RequestedTheme="Light"
+				ItemsSource="{Binding Source={StaticResource albumsCVS}}"
+				ItemTemplate="{StaticResource SongTemplate}">
+                            <ListView.GroupStyle>
+                                <GroupStyle
+						HeaderContainerStyle="{StaticResource AlbumGroupHeaderContainerStyle}"
+						HeaderTemplate="{StaticResource AlbumGroupHeaderTemplate}"
+						HidesIfEmpty="True"/>
+                            </ListView.GroupStyle>
+                        </ListView>
                     </PivotItem>
                 </Pivot>
-
-
-
-               
-
-
-                
-
-                <!--</Grid>-->
-
-
             </StackPanel>
         </SplitView>
-
-
-
-
-
     </Grid>
 </Page>

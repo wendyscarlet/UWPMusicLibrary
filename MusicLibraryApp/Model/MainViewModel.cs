@@ -18,7 +18,7 @@ namespace MusicLibraryApp.Model
         /// </summary>
         public ObservableCollection<Song> songsList { get; private set; }
         public ObservableCollection<PlayList> playLists { get; private set; }
-
+       
         private static int lastSongID = 0;
         /// <summary>
         /// Constructor
@@ -102,7 +102,41 @@ namespace MusicLibraryApp.Model
             //also call Write to file function
             PlayListFileHelper.WritePlayListToFileAsync(p);
         }
+        #region Pivot
 
+        private IOrderedEnumerable<IGrouping<string, Song>> albums;
+        private IOrderedEnumerable<IGrouping<string, Song>> artists;
+
+        public IEnumerable<IGrouping<string, Song>> Albums
+        {
+            get
+            {        
+                var queryGroupByAlbum =
+                    from song in songsList
+                    group song by song.Album into albums
+                    orderby albums.Key
+                    select albums;
+
+                return queryGroupByAlbum;
+
+            }
+        }
+
+        public IEnumerable<IGrouping<string, Song>> Artists
+        {
+            get
+            {               
+                var queryGroupByArtist =
+                    from song in songsList
+                    group song by song.Artist into artists
+                    orderby artists.Key
+                    select artists;
+
+                return queryGroupByArtist;
+
+            }
+        }
+        #endregion
         public async void DisplayAllPlaylists()
         {
 

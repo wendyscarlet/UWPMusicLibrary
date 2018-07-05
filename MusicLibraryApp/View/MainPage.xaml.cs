@@ -218,6 +218,20 @@ namespace MusicLibraryApp
             //the code can show the flyout in your mouse click 
             myFlyout.ShowAt(sender as UIElement, e.GetPosition(sender as UIElement));
         }
+
+        private void rootPivot_PivotItemLoading(Pivot sender, PivotItemEventArgs args)
+        {
+
+        }
+
+        private void rootPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            if (rootPivot.SelectedIndex == 1)
+                artistsCVS.Source = vm.Artists;
+            if (rootPivot.SelectedIndex == 2)
+                 albumsCVS.Source = vm.Albums;
+        }
     }
 }
 
