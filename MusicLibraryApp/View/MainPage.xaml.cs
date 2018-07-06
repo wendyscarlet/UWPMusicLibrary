@@ -235,8 +235,13 @@ namespace MusicLibraryApp
 
         private void SongGridView_GotFocus(object sender, RoutedEventArgs e)
         {
+            
             Control gridView = (Control)sender as Control;
-            gridView.FocusState
+           if( gridView.FocusState.Equals(Windows.UI.Xaml.FocusState.Pointer))
+            {
+                gridView.ItemContainerStyle
+
+            }
 
         }
 
