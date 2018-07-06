@@ -194,6 +194,11 @@ namespace MusicLibraryApp
         {
             //writecode to display songs of selected playlist
         }
+
+        private void SongGridView_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
 

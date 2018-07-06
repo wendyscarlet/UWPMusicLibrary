@@ -86,7 +86,7 @@
                 <Pivot x:Name="rootPivot" Title="My Library Collection">
                     <PivotItem Header="Songs">
                         <!--Pivot content goes here-->
-                        <GridView  Name="SongGridView" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged" >
+                        <GridView  Name="SongGridView" IsItemClickEnabled="True" GotFocus="SongGridView_GotFocus" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged" >
                             <!--<GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.SongsList}" ScrollViewer.VerticalScrollBarVisibility="Visible">-->
                             <GridView.ItemTemplate >
                                 <DataTemplate x:DataType="local1:Song">
@@ -99,6 +99,7 @@
                                 FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE102;" Click="PlayButton_Click"/>
                                         -->
                                     </StackPanel>
+                                    
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
