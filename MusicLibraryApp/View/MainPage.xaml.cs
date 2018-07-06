@@ -184,16 +184,23 @@ namespace MusicLibraryApp
                 //playlistname inputted by user in textbox
                 var plname = AddPlayListDialog.Content;
 
-
-                //create a playlist object and call AddPlayList from viewmodel
-                vm.AddPlayList(new PlayList
+                if (!plname.ToString().Contains(","))
                 {
-                    PlayListName = plname.ToString(),
 
-                    //i need to add code to the list of songIDs here
 
-                });
+                    //create a playlist object and call AddPlayList from viewmodel
+                    vm.AddPlayList(new PlayList
+                    {
+                        PlayListName = plname.ToString(),
 
+
+
+                    });
+                }
+                else
+                {
+                    throw new ArgumentException("Commas cannot be used");
+                }
             }
             else if (result == ContentDialogResult.Secondary) //cancel was selected
             {
@@ -203,28 +210,98 @@ namespace MusicLibraryApp
 
         private void PlayListNames_ItemClick(object sender, ItemClickEventArgs e)
         {
-            //writecode to display songs of selected playlist
+            //writecode to display  and play songs of selected playlist
         }
 
         private void PlayListNames_ItemRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             //bring out a menu context to add song to playlist , delete playlist name and edit playlist name
             MenuFlyout myFlyout = new MenuFlyout();
-            
-            MenuFlyoutItem addSongsPlaylist = new MenuFlyoutItem { Text = "Add Songs to playlist" };
-            MenuFlyoutItem deletePlaylist = new MenuFlyoutItem { Text = "Delete playlist" };
-            MenuFlyoutItem renamePlaylist = new MenuFlyoutItem { Text = "Rename playlist" };
+
+            if (PlayListNames.SelectedItems.Count > 0)
+            {
+                PlayList p = (PlayList)PlayListNames.SelectedItem;
+
+                MenuFlyoutItem addSongsPlaylist = new MenuFlyoutItem { Text = "Add Songs to " + $"{p.PlayListName}" };
+                MenuFlyoutItem deletePlaylist = new MenuFlyoutItem { Text = "Delete " + $"{p.PlayListName}" };
+
+                myFlyout.Items.Add(addSongsPlaylist);
+                myFlyout.Items.Add(deletePlaylist);
+
+                addSongsPlaylist.Click += AddSongsToPlayList_Click;
+                deletePlaylist.Click += DeletePlayList_Click;
+                // renamePlaylist.Click += RenamePlaylist_Click;
+
+                FrameworkElement senderElement = sender as FrameworkElement;
+
+                //the code can show the flyout in your mouse click 
+                myFlyout.ShowAt(sender as UIElement, e.GetPosition(sender as UIElement));
+            }
+        }
+
+        private void AddSongsToPlayList_Click(object sender, RoutedEventArgs e)
+        {
+            if (PlayListNames.SelectedItems.Count > 0)
+            {
+                PlayList p = (PlayList)PlayListNames.SelectedItem;
+                vm.GetAllSongs();
+                this.DataContext = vm;
+
+                if (SongGridView.SelectedItems.Count > 0)
+                {
+                    for (int i = 0; i < SongGridView.SelectedItems.Count; i++)
+                    {
+                        Song s = (Song)SongGridView.SelectedItems[i];
+                        p.PlayListSongIDs.Add(s.ID);
+                    }
+                    vm.AddSongtoPlayList(p);
+                }
+            }
+        }
+
+        private void DeletePlayList_Click(object sender, RoutedEventArgs e)
+        {
+
+            vm.DisplayAllPlaylists();
+            PlayList dp = (PlayList)PlayListNames.SelectedItem;
+
+            foreach (var p in vm.playLists)
+            {
+                if (p.PlayListName == dp.PlayListName)
+                    vm.DeletePlayList(dp);
+            }
+
+        }
+
+        private void SongGridViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            MenuFlyout myFlyout = new MenuFlyout();
+
+            Song s = (Song)this.SongGridView.SelectedItem;
+
+            PlayList p = (PlayList)this.PlayListNames.SelectedItem;
+
+            MenuFlyoutItem addSongsPlaylist = new MenuFlyoutItem { Text = "Add this Songs to " }; //+ $"{p.PlayListName}" };
+
             myFlyout.Items.Add(addSongsPlaylist);
-            myFlyout.Items.Add(deletePlaylist);
-            myFlyout.Items.Add(renamePlaylist);
-            //if you only want to show in left or buttom 
-            //myFlyout.Placement = FlyoutPlacementMode.Left;
+
+            addSongsPlaylist.Click += AddSongsToPlayList_Click;
 
             FrameworkElement senderElement = sender as FrameworkElement;
 
             //the code can show the flyout in your mouse click 
             myFlyout.ShowAt(sender as UIElement, e.GetPosition(sender as UIElement));
         }
+
+
+
+
+
+        /* private void RenamePlaylist_Click(object sender, RoutedEventArgs e)
+         {
+
+         }
+         */
 
         //Cortana Commands
         protected async override void OnNavigatedTo(NavigationEventArgs e)

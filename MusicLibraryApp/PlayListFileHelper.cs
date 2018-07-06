@@ -11,7 +11,8 @@ namespace MusicLibraryApp
     {
 
         public static string FILE_NAME = "AllPlayListFileNames.txt";
-
+        public static string FILE_NAME2 = "SongStorage.txt";
+        public static string FILE_NAME3 = "tempStorage.txt";
         /// <summary>
         /// Gets all playlist file names from a text file in local storage called AllPlayListFileNames.txt
         /// Goes to each file path and get playlistname and all its songids 
@@ -34,7 +35,6 @@ namespace MusicLibraryApp
 
                     var line = await FileIO.ReadTextAsync(PLFile);
 
-
                     var plData = line.Split(',');
                     var playlist = new Model.PlayList();
 
@@ -53,6 +53,37 @@ namespace MusicLibraryApp
             }
 
             return playlists;
+        }
+
+        public static async void DeletePlayListAsync(Model.PlayList p)
+        {
+            
+            StorageFolder allPLfolder = ApplicationData.Current.LocalFolder;
+            StorageFile allPLFile = await allPLfolder.CreateFileAsync(FILE_NAME, CreationCollisionOption.OpenIfExists);
+            StorageFolder tempfolder = ApplicationData.Current.LocalFolder;
+            StorageFile tempFile = await tempfolder.CreateFileAsync(FILE_NAME3, CreationCollisionOption.OpenIfExists);
+
+            var allplines = await FileIO.ReadLinesAsync(allPLFile);
+           
+            foreach (var pline in allplines)
+            {
+                if (pline != "")
+                {
+                    
+                    if (!pline.Contains(p.PlayListName))
+                    {
+
+                        var tline = pline + Environment.NewLine;
+                        await FileIO.AppendTextAsync(tempFile, tline);
+                    }
+
+                    
+                }
+            }
+
+            await tempFile.CopyAndReplaceAsync(allPLFile);
+            await tempFile.DeleteAsync();
+            
         }
 
         /// <summary>
@@ -115,5 +146,117 @@ namespace MusicLibraryApp
                 
             }
         }
+
+                
+        /// <summary>
+        /// Write a song with its song title , artist and assigned ID into txt file in local storage 
+        /// checks to see if song exist before adding in this collection
+        /// </summary>
+        /// <param name="song">the song you want to save</param>
+        public static async void WriteSongToFileAsync(Model.Song song)
+        {
+          
+            StorageFolder sFolder = ApplicationData.Current.LocalFolder;
+            StorageFile sFile = await sFolder.CreateFileAsync(FILE_NAME2, CreationCollisionOption.OpenIfExists);
+
+            //checks if song title and artist is already in SongStorage.txt file
+            var slines = await FileIO.ReadLinesAsync(sFile);
+            bool exist = false;
+            foreach (var sline in slines)
+            {
+                if (sline != "")
+                {
+                    var check = sline.Split(',');
+                    if (check[0] == song.Title)
+                    {
+                        exist = true;
+                    }
+                }
+            }
+            if (exist == false)
+            {
+                // create song data  and add into SongStorage.txt file
+                var sData = $"{song.Title},";
+                sData = sData + $"{song.ID.ToString()},";
+                sData = sData + Environment.NewLine;
+                await FileIO.AppendTextAsync(sFile, sData);
+
+            }
+        }
+
+        /// <summary>
+        /// Passes in all songs in songlist 
+        /// checks file for all song id mapped to song title
+        /// Gets all song ids with its song title and puts it in a dictionary 
+        /// returns the dictionary
+        /// faster performance less unique, for example 
+        /// Hello by Adele and Hello by Beatles will cause a problem
+        /// unless we sort our songlist before we call  the function
+        /// </summary>
+        /// 
+        public static async Task<Dictionary<string, int>> GetAllSongIDsFromFileAsync(List<Model.Song> allsongs)
+        {
+            var songIDs = new Dictionary<string, int>();
+            StorageFolder sFolder = ApplicationData.Current.LocalFolder;
+            StorageFile sFile = await sFolder.CreateFileAsync(FILE_NAME2, CreationCollisionOption.OpenIfExists);
+
+            //checks if song title and artist is already in SongStorage.txt file
+            var slines = await FileIO.ReadLinesAsync(sFile);
+           
+            //searches for songs, if it find it add it into a dictionary
+
+            for (int i = 0; i < allsongs.Count; i++)
+            {
+                foreach (var sline in slines)
+                {
+                    if (sline != "") 
+                    {
+                        var check = sline.Split(',');
+                        if (check[0] == allsongs[i].Title)
+                        {
+                            songIDs.Add(allsongs[i].Title, Convert.ToInt32(check[1]));
+                        }
+                    }
+                }
+            }
+            //when called in main view model must check if it dictionary is empty, means song does not have id
+            return songIDs;
+        }
+
+        /// <summary>
+        /// Passes in a song
+        /// checks file for it song id mapped to song title and artist 
+        /// returns the songid
+        /// more unique selection poor performance
+        /// </summary>
+        /// 
+        public static async Task<int> GetSongIDFromFileAsync(Model.Song song)
+        {
+            int songID=-1;
+
+            StorageFolder sFolder = ApplicationData.Current.LocalFolder;
+            StorageFile sFile = await sFolder.CreateFileAsync(FILE_NAME2, CreationCollisionOption.OpenIfExists);
+
+            //checks if song title and artist is already in SongStorage.txt file
+            var slines = await FileIO.ReadLinesAsync(sFile);
+
+            //searches for songs, if it find it add it into a dictionary
+
+           
+                foreach (var sline in slines)
+                {
+                    if (sline != "")
+                    {
+                        var check = sline.Split(',');
+                        if (check[0] == song.Title)
+                        {
+                            songID= Convert.ToInt32(check[1]);
+                        }
+                    }
+                }
+            //when called in main view model must check if it is -1, means song does not have id
+            return songID;
+        }
+
     }
 }

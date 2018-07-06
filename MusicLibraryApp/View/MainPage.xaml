@@ -119,7 +119,7 @@
                 <Pivot RequestedTheme="Light" x:Name="rootPivot"  PivotItemLoading="rootPivot_PivotItemLoading" SelectionChanged="rootPivot_SelectionChanged" >
                     <PivotItem Header="Songs">
                         <!--Pivot content goes here-->
-                        <GridView  Name="SongGridView" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged" >
+                        <GridView  Name="SongGridView" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged" RightTapped="SongGridViewItem_RightTapped" >
                             <!--<GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.SongsList}" ScrollViewer.VerticalScrollBarVisibility="Visible">-->
                             <GridView.ItemTemplate >
                                 <DataTemplate x:DataType="local1:Song">
