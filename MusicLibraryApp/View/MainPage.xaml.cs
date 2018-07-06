@@ -130,9 +130,22 @@ namespace MusicLibraryApp
 
         }
 
-        private void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var count = e.AddedItems.Count;
+            if (count > 0) { 
+            Song songInContext = (Song)e.AddedItems.ElementAt(count - 1);
 
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            StorageFile file = await localFolder.GetFileAsync(songInContext.SongFileName);
+            if (file != null)
+            {
+                IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+                MyMediaElement.SetSource(stream, file.ContentType);
+            }
+            MyMediaElement.AutoPlay = true;
+            MediaElementImage.Source = songInContext.CoverImage;
+            }
         }
 
         private void SearchSongButton_Click(object sender, RoutedEventArgs e)
