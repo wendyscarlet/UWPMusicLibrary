@@ -364,7 +364,20 @@ namespace MusicLibraryApp
             if (rootPivot.SelectedIndex == 2)
                 albumsCVS.Source = vm.Albums;
         }
+
+
+        private void PlaySongBtnInPivot_Click(object sender, RoutedEventArgs e)
+        {
+            //Add the code to play the Song selected in the ListView
+        }
+
+        private void AddToPlaylistBtnInPivot_Click(object sender, RoutedEventArgs e)
+        {
+            //Add the code to Add  the Song selected in the ListView to a PlayList
+        }
         #endregion
+
+
     }
 }
 
