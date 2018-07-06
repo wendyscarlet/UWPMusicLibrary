@@ -44,7 +44,7 @@ namespace MusicLibraryApp
             vm.GetAllSongs();
             this.DataContext = vm;
             playing = false;
-           
+
 
         }
 
@@ -57,10 +57,10 @@ namespace MusicLibraryApp
                 now.Hour < 18 ? "Good Afternoon!" :
                 /* otherwise */ "Good Evening!";
 
-           // TextGreeting.Text = $"{greeting}";
+            // TextGreeting.Text = $"{greeting}";
 
         }
-       
+
         private async void SoundGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             Song songInContext = (Song)e.ClickedItem;
@@ -76,7 +76,7 @@ namespace MusicLibraryApp
                 MyMediaElement.SetSource(stream, file.ContentType);
                 //MyMediaElement.PosterSource = songInContext.CoverImage;
             }
-            if(playing)
+            if (playing)
             {
                 MyMediaElement.AutoPlay = false;
                 playing = false;
@@ -97,47 +97,51 @@ namespace MusicLibraryApp
             PlayListNames.Visibility = MySplitView.IsPaneOpen ? Visibility.Visible : Visibility.Collapsed;
 
         }
-         
-            private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+
+        private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (SearchAutoSuggestBox.Text.Trim() != "")
             {
-                if (SearchAutoSuggestBox.Text.Trim() != "")
-                {
-                    vm.SearchSongs(SearchAutoSuggestBox.Text);
-                    this.SongGridView.ItemsSource = vm.songsList;
-                }
-                else {
-                    vm.GetAllSongs();
-                    this.SongGridView.ItemsSource = vm.songsList;
-                }
-                MySplitView.IsPaneOpen = false;
-                Search.Visibility = Visibility.Visible;
-
+                vm.SearchSongs(SearchAutoSuggestBox.Text);
+                this.SongGridView.ItemsSource = vm.songsList;
             }
-
-            private void DisplaySongList_Click(object sender, RoutedEventArgs e)
+            else
             {
                 vm.GetAllSongs();
-                this.DataContext = vm;
+                this.SongGridView.ItemsSource = vm.songsList;
             }
+            rootPivot.SelectedIndex = 0;// Go to the ItemPivot(Tab) Songs
+            MySplitView.IsPaneOpen = false;
+            Search.Visibility = Visibility.Visible;
 
-            private async void AddSongButton_Click(object sender, RoutedEventArgs e)
-            {
-                var dialog = new ContentDialog1();
-                await dialog.ShowAsync();
-            }
+        }
 
-            private void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-            {
+        private void DisplaySongList_Click(object sender, RoutedEventArgs e)
+        {
+            vm.GetAllSongs();
+            rootPivot.SelectedIndex = 0;// Go to the ItemPivot(Tab) Songs
+            this.DataContext = vm;
+        }
 
-            }
+        private async void AddSongButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new ContentDialog1();
+            await dialog.ShowAsync();
 
-            private void SearchSongButton_Click(object sender, RoutedEventArgs e)
-            {
-                vm.GetAllSongs();
-                MySplitView.IsPaneOpen = true;
-                Search.Visibility = Visibility.Collapsed;
-                SearchAutoSuggestBox.Text = "";
-            }
+        }
+
+        private void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void SearchSongButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.GetAllSongs();
+            MySplitView.IsPaneOpen = true;
+            Search.Visibility = Visibility.Collapsed;
+            SearchAutoSuggestBox.Text = "";
+        }
 
         private void MySplitView_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
         {
@@ -154,160 +158,160 @@ namespace MusicLibraryApp
                 MyMediaElement.DefaultPlaybackRate = 1.0;
             }
             MyMediaElement.Play();
-            
+
         }
 
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
             MyMediaElement.Pause();
-            
+
         }
         #endregion
 
         #region PlayList
         private void PlayListsButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.DisplayAllPlaylists();
+            this.DataContext = vm;
+            this.PlayListNames.ItemsSource = vm.playLists;
+            //display if there is a playlist in the playlist collection
+            if (vm.playLists.Count > 0)
+            {
+                MySplitView.IsPaneOpen = true;
+                PlayListNames.Visibility = Visibility.Visible;
+            }
+        }
+
+        private async void AddPlayListButton_Click(object sender, RoutedEventArgs e)
+        {
+            //call addplaylist
+            var AddPlayListDialog = new AddPlaylist();
+            var result = await AddPlayListDialog.ShowAsync();
+            //if add was selected
+            if (result == ContentDialogResult.Primary)
+            {
+                //playlistname inputted by user in textbox
+                var plname = AddPlayListDialog.Content;
+
+                if (!plname.ToString().Contains(","))
                 {
-                    vm.DisplayAllPlaylists();
-                    this.DataContext = vm;
-                    this.PlayListNames.ItemsSource = vm.playLists;
-                    //display if there is a playlist in the playlist collection
-                    if (vm.playLists.Count > 0)
+
+
+                    //create a playlist object and call AddPlayList from viewmodel
+                    vm.AddPlayList(new PlayList
                     {
-                        MySplitView.IsPaneOpen = true;
-                        PlayListNames.Visibility = Visibility.Visible;
-                    }
-                }
+                        PlayListName = plname.ToString(),
 
-                private async void AddPlayListButton_Click(object sender, RoutedEventArgs e)
+
+
+                    });
+                }
+                else
                 {
-                    //call addplaylist
-                    var AddPlayListDialog = new AddPlaylist();
-                    var result = await AddPlayListDialog.ShowAsync();
-                    //if add was selected
-                    if (result == ContentDialogResult.Primary)
+                    throw new ArgumentException("Commas cannot be used");
+                }
+            }
+            else if (result == ContentDialogResult.Secondary) //cancel was selected
+            {
+                AddPlayListDialog.Hide();
+            }
+        }
+
+        private void PlayListNames_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            //writecode to display  and play songs of selected playlist
+        }
+
+        private void PlayListNames_ItemRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            //bring out a menu context to add song to playlist , delete playlist name and edit playlist name
+            MenuFlyout myFlyout = new MenuFlyout();
+
+            if (PlayListNames.SelectedItems.Count > 0)
+            {
+                PlayList p = (PlayList)PlayListNames.SelectedItem;
+
+                MenuFlyoutItem addSongsPlaylist = new MenuFlyoutItem { Text = "Add Songs to " + $"{p.PlayListName}" };
+                MenuFlyoutItem deletePlaylist = new MenuFlyoutItem { Text = "Delete " + $"{p.PlayListName}" };
+
+                myFlyout.Items.Add(addSongsPlaylist);
+                myFlyout.Items.Add(deletePlaylist);
+
+                addSongsPlaylist.Click += AddSongsToPlayList_Click;
+                deletePlaylist.Click += DeletePlayList_Click;
+                // renamePlaylist.Click += RenamePlaylist_Click;
+
+                FrameworkElement senderElement = sender as FrameworkElement;
+
+                //the code can show the flyout in your mouse click 
+                myFlyout.ShowAt(sender as UIElement, e.GetPosition(sender as UIElement));
+            }
+        }
+
+        private void AddSongsToPlayList_Click(object sender, RoutedEventArgs e)
+        {
+            if (PlayListNames.SelectedItems.Count > 0)
+            {
+                PlayList p = (PlayList)PlayListNames.SelectedItem;
+                vm.GetAllSongs();
+                this.DataContext = vm;
+
+                if (SongGridView.SelectedItems.Count > 0)
+                {
+                    for (int i = 0; i < SongGridView.SelectedItems.Count; i++)
                     {
-                        //playlistname inputted by user in textbox
-                        var plname = AddPlayListDialog.Content;
-
-                        if (!plname.ToString().Contains(","))
-                        {
-
-
-                            //create a playlist object and call AddPlayList from viewmodel
-                            vm.AddPlayList(new PlayList
-                            {
-                                PlayListName = plname.ToString(),
-
-
-
-                            });
-                        }
-                        else
-                        {
-                            throw new ArgumentException("Commas cannot be used");
-                        }
+                        Song s = (Song)SongGridView.SelectedItems[i];
+                        p.PlayListSongIDs.Add(s.ID);
                     }
-                    else if (result == ContentDialogResult.Secondary) //cancel was selected
-                    {
-                        AddPlayListDialog.Hide();
-                    }
+                    vm.AddSongtoPlayList(p);
                 }
+            }
+        }
 
-                private void PlayListNames_ItemClick(object sender, ItemClickEventArgs e)
-                {
-                    //writecode to display  and play songs of selected playlist
-                }
+        private void DeletePlayList_Click(object sender, RoutedEventArgs e)
+        {
 
-                private void PlayListNames_ItemRightTapped(object sender, RightTappedRoutedEventArgs e)
-                {
-                    //bring out a menu context to add song to playlist , delete playlist name and edit playlist name
-                    MenuFlyout myFlyout = new MenuFlyout();
+            vm.DisplayAllPlaylists();
+            PlayList dp = (PlayList)PlayListNames.SelectedItem;
 
-                    if (PlayListNames.SelectedItems.Count > 0)
-                    {
-                        PlayList p = (PlayList)PlayListNames.SelectedItem;
+            foreach (var p in vm.playLists)
+            {
+                if (p.PlayListName == dp.PlayListName)
+                    vm.DeletePlayList(dp);
+            }
 
-                        MenuFlyoutItem addSongsPlaylist = new MenuFlyoutItem { Text = "Add Songs to " + $"{p.PlayListName}" };
-                        MenuFlyoutItem deletePlaylist = new MenuFlyoutItem { Text = "Delete " + $"{p.PlayListName}" };
+        }
 
-                        myFlyout.Items.Add(addSongsPlaylist);
-                        myFlyout.Items.Add(deletePlaylist);
+        private void SongGridViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            MenuFlyout myFlyout = new MenuFlyout();
 
-                        addSongsPlaylist.Click += AddSongsToPlayList_Click;
-                        deletePlaylist.Click += DeletePlayList_Click;
-                        // renamePlaylist.Click += RenamePlaylist_Click;
+            Song s = (Song)this.SongGridView.SelectedItem;
 
-                        FrameworkElement senderElement = sender as FrameworkElement;
+            PlayList p = (PlayList)this.PlayListNames.SelectedItem;
 
-                        //the code can show the flyout in your mouse click 
-                        myFlyout.ShowAt(sender as UIElement, e.GetPosition(sender as UIElement));
-                    }
-                }
+            MenuFlyoutItem addSongsPlaylist = new MenuFlyoutItem { Text = "Add this Songs to " }; //+ $"{p.PlayListName}" };
 
-                private void AddSongsToPlayList_Click(object sender, RoutedEventArgs e)
-                {
-                    if (PlayListNames.SelectedItems.Count > 0)
-                    {
-                        PlayList p = (PlayList)PlayListNames.SelectedItem;
-                        vm.GetAllSongs();
-                        this.DataContext = vm;
+            myFlyout.Items.Add(addSongsPlaylist);
 
-                        if (SongGridView.SelectedItems.Count > 0)
-                        {
-                            for (int i = 0; i < SongGridView.SelectedItems.Count; i++)
-                            {
-                                Song s = (Song)SongGridView.SelectedItems[i];
-                                p.PlayListSongIDs.Add(s.ID);
-                            }
-                            vm.AddSongtoPlayList(p);
-                        }
-                    }
-                }
+            addSongsPlaylist.Click += AddSongsToPlayList_Click;
 
-                private void DeletePlayList_Click(object sender, RoutedEventArgs e)
-                {
+            FrameworkElement senderElement = sender as FrameworkElement;
 
-                    vm.DisplayAllPlaylists();
-                    PlayList dp = (PlayList)PlayListNames.SelectedItem;
-
-                    foreach (var p in vm.playLists)
-                    {
-                        if (p.PlayListName == dp.PlayListName)
-                            vm.DeletePlayList(dp);
-                    }
-
-                }
-
-                private void SongGridViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
-                {
-                    MenuFlyout myFlyout = new MenuFlyout();
-
-                    Song s = (Song)this.SongGridView.SelectedItem;
-
-                    PlayList p = (PlayList)this.PlayListNames.SelectedItem;
-
-                    MenuFlyoutItem addSongsPlaylist = new MenuFlyoutItem { Text = "Add this Songs to " }; //+ $"{p.PlayListName}" };
-
-                    myFlyout.Items.Add(addSongsPlaylist);
-
-                    addSongsPlaylist.Click += AddSongsToPlayList_Click;
-
-                    FrameworkElement senderElement = sender as FrameworkElement;
-
-                    //the code can show the flyout in your mouse click 
-                    myFlyout.ShowAt(sender as UIElement, e.GetPosition(sender as UIElement));
-                }
+            //the code can show the flyout in your mouse click 
+            myFlyout.ShowAt(sender as UIElement, e.GetPosition(sender as UIElement));
+        }
 
 
 
 
 
-                /* private void RenamePlaylist_Click(object sender, RoutedEventArgs e)
-                 {
+        /* private void RenamePlaylist_Click(object sender, RoutedEventArgs e)
+         {
 
-                 }
-                 */
-                #endregion
+         }
+         */
+        #endregion
 
         #region Cortana Commands
         //Cortana Commands
@@ -358,7 +362,7 @@ namespace MusicLibraryApp
             if (rootPivot.SelectedIndex == 1)
                 artistsCVS.Source = vm.Artists;
             if (rootPivot.SelectedIndex == 2)
-                 albumsCVS.Source = vm.Albums;
+                albumsCVS.Source = vm.Albums;
         }
         #endregion
     }
