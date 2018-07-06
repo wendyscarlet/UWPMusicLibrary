@@ -17,5 +17,10 @@ namespace MusicLibraryApp.Model
         public BitmapImage CoverImage { get; set; }
         public string SongFileName { get; set; }
         public Windows.Storage.StorageFile sourceSongFile { get; set; }
+        public string ShortArtistName { get {
+                if (Artist.Length > 31)
+                    return Artist.Substring(0, 30);
+                else return Artist;
+            } }
     }
 }

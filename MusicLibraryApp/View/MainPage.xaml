@@ -174,21 +174,39 @@
                         </ListView>
 
                     </PivotItem>
-                    <PivotItem  Header="Album">
-                        <ListView RequestedTheme="Light"
-				ItemsSource="{Binding Source={StaticResource albumsCVS}}"
-				ItemTemplate="{StaticResource SongTemplate}">
+
+                    <PivotItem Header="Albums">
+                        <ListView x:Name="listViewAlbum" ItemsSource="{Binding Source={StaticResource albumsCVS}}"  >
                             <ListView.GroupStyle>
-                                <!--<GroupStyle
-						HeaderContainerStyle="{StaticResource AlbumGroupHeaderContainerStyle}"
-						HeaderTemplate="{StaticResource AlbumGroupHeaderTemplate}"
-						HidesIfEmpty="True"/>-->
-                                <GroupStyle						
-						HeaderTemplate="{StaticResource AlbumGroupHeaderTemplate}"
-						HidesIfEmpty="True"/>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Key}" Margin="0,30,0,0"/>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
                             </ListView.GroupStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType ="local1:Song">
+                                  
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Name="AddToPlaylistBtnInPivot" Grid.Column="0" FontFamily="Segoe MDL2 Assets"  FontSize="20"  Content="&#59152;" Background="Transparent" Click="AddToPlaylistBtnInPivot_Click" />
+                                        <Button  Name="PlaySongBtnInPivot"  Grid.Column="1" FontFamily="Segoe MDL2 Assets" FontSize="20"  Content="&#xE102;" Background="Transparent" Click="PlaySongBtnInPivot_Click"/>
+
+                                        <Border Width="40" Height="40" Margin=" 5,0,0,0">
+                                            <Image Source="{Binding CoverImage}" Stretch="UniformToFill"/>
+                                        </Border>
+
+                                        <TextBlock Text="{Binding ShortArtistName}" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
+                                        <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
+                                    </StackPanel>
+                                
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                         </ListView>
+
                     </PivotItem>
+                    
                 </Pivot>
             </StackPanel>
         </SplitView>

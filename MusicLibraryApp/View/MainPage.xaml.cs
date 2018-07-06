@@ -192,6 +192,7 @@ namespace MusicLibraryApp
             {
                 MySplitView.IsPaneOpen = true;
                 PlayListNames.Visibility = Visibility.Visible;
+                Search.Visibility = Visibility.Collapsed;
             }
         }
 
