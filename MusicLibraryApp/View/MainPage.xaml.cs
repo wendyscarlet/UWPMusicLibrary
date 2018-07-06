@@ -40,6 +40,7 @@ namespace MusicLibraryApp
             vm.GetAllSongs();
             this.DataContext = vm;
             playing = false;
+           // this.SongGridView.SelectedIndex = 0;
            
 
         }
@@ -71,6 +72,7 @@ namespace MusicLibraryApp
                 MyMediaElement.SetSource(stream, file.ContentType);
                 //MyMediaElement.PosterSource = songInContext.CoverImage;
             }
+            
             if(playing)
             {
                 MyMediaElement.AutoPlay = false;
@@ -83,6 +85,8 @@ namespace MusicLibraryApp
                 MediaElementImage.Source = songInContext.CoverImage;
 
             }
+
+            
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
@@ -117,16 +121,50 @@ namespace MusicLibraryApp
 
             private async void AddSongButton_Click(object sender, RoutedEventArgs e)
             {
+
                 var dialog = new ContentDialog1();
                 await dialog.ShowAsync();
             }
 
-            private void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+            private async void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+            {
+            var count = e.AddedItems.Count;
+
+            Song songInContext = (Song)e.AddedItems.ElementAt(count - 1);
+
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            StorageFile file = await localFolder.GetFileAsync(songInContext.SongFileName);
+            if (file != null)
             {
 
+                //_mediaSource = MediaSource.CreateFromStorageFile(file);
+                //this.mediaPlayer.SetPlaybackSource(_mediaSource);
+                //this.mediaPlayer.AutoPlay = true;
+                IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+                MyMediaElement.SetSource(stream, file.ContentType);
+                //MyMediaElement.PosterSource = songInContext.CoverImage;
             }
+            /****
+            if (playing)
+            {
+                MyMediaElement.AutoPlay = false;
+                playing = false;
+            }
+            else
+            {
+                playing = true;
+                MyMediaElement.AutoPlay = true;
+                MediaElementImage.Source = songInContext.CoverImage;
 
-            private void SearchSongButton_Click(object sender, RoutedEventArgs e)
+            }***/
+            MyMediaElement.AutoPlay = true;
+            MediaElementImage.Source = songInContext.CoverImage;
+
+
+
+        }
+
+        private void SearchSongButton_Click(object sender, RoutedEventArgs e)
             {
                 vm.GetAllSongs();
                 MySplitView.IsPaneOpen = true;
@@ -196,6 +234,13 @@ namespace MusicLibraryApp
         }
 
         private void SongGridView_GotFocus(object sender, RoutedEventArgs e)
+        {
+            Control gridView = (Control)sender as Control;
+            gridView.FocusState
+
+        }
+
+        private void buttonadd_Click(object sender, RoutedEventArgs e)
         {
 
         }

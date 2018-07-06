@@ -72,7 +72,9 @@
                             <DataTemplate x:DataType="local1:PlayList">
                                 <TextBlock Text="{x:Bind PlayListName}" FontSize="14" FontWeight="Bold" />
                             </DataTemplate>
+                            
                         </ListView.ItemTemplate>
+                        
                     </ListView>
                 </StackPanel>
             </SplitView.Pane>
@@ -85,26 +87,26 @@
 
                 <Pivot x:Name="rootPivot" Title="My Library Collection">
                     <PivotItem Header="Songs">
+                       
+                            
                         <!--Pivot content goes here-->
-                        <GridView  Name="SongGridView" IsItemClickEnabled="True" GotFocus="SongGridView_GotFocus" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged" >
+                        <GridView  Name="SongGridView" SelectedIndex="-1" IsItemClickEnabled="false" GotFocus="SongGridView_GotFocus" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged"  >
                             <!--<GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.SongsList}" ScrollViewer.VerticalScrollBarVisibility="Visible">-->
                             <GridView.ItemTemplate >
                                 <DataTemplate x:DataType="local1:Song">
                                     <StackPanel  Margin ="10" Name="Display">
+                                        <Button x:Name="buttonadd" Visibility="Collapsed" Content="&#x2716;" VerticalAlignment="Top"  HorizontalAlignment="Right" Margin="0,0,0,0"  Click="buttonadd_Click"  FontFamily="Segoe UI Symbol" FontSize="18.667" RenderTransformOrigin="0,0" Height="36" Background="#00F6E8BF" />
                                         <Image Margin="6" Width="100" Height="100" Source="{x:Bind CoverImage}" Stretch="Fill"></Image>
                                         <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" TextWrapping="Wrap" />
-                                        <!--<Button x:Name="PauseButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
-                                FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE103;" Click="PauseButton_Click"/>
-                                        <Button x:Name="PlayButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
-                                FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE102;" Click="PlayButton_Click"/>
-                                        -->
+                                        
                                     </StackPanel>
-                                    
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
+                       
                     </PivotItem>
-                    <PivotItem Header="Artist">
+   
+    <PivotItem Header="Artist">
                         <!--Pivot content goes here-->
                         <TextBlock Text="Content of pivot item 2."/>
                     </PivotItem>
