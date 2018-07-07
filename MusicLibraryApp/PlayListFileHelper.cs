@@ -101,13 +101,14 @@ namespace MusicLibraryApp
             StorageFile PLFile = await PLlocalFolder.CreateFileAsync(playlist.PlayListName, CreationCollisionOption.OpenIfExists);
 
             var plData = $"{playlist.PlayListName},";
-           
+
 
             //check if playlist does not have songs
 
             if (playlist.PlayListSongIDs == null)
                 songcount = 0;
-
+            else
+                songcount = playlist.PlayListSongIDs.Count;
             //add all song ids in file
             if (songcount > 0)
             {
@@ -117,9 +118,27 @@ namespace MusicLibraryApp
                // plData = plData + $"{playlist.PlayListSongIDs[songcount - 1].ToString()}";
             }
                 plData = plData + Environment.NewLine;
-            
+
+           
+
+            var oldplData = await FileIO.ReadTextAsync(PLFile);
+
+            bool rewrite = false;
+
+            if (oldplData != "")
+            {
+                var oldplDatasongs = oldplData.Split(',');
+                
+                //not including playlistname and newline
+                var oldplDatacount = oldplDatasongs.Length - 2;
+                if(songcount > oldplDatacount)
+                {
+                    rewrite = true;
+                }
+
+            }
             //overwite the playlist data if already exist , writes if it is new
-            await FileIO.WriteTextAsync(PLFile, plData);
+            //await FileIO.WriteTextAsync(PLFile, plData);
 
             //save the playlist name in AllPlayListFileNames.txt"
 
@@ -140,22 +159,104 @@ namespace MusicLibraryApp
                     }
                 }
             }
+            //playlist does not exist and should be added
             if (exist == false)
             {
+
+
+                //writes create new playlist
+                await FileIO.WriteTextAsync(PLFile, plData);
+
                 var playlistfilename = playlist.PlayListName + Environment.NewLine;
                 await FileIO.AppendTextAsync(allPLFile, playlistfilename);
-                
+
             }
             else
             {
-                var messageDialog = new MessageDialog("The playlist name already exist.Please chose another one");
-                // Show the message dialog
-                await messageDialog.ShowAsync();
-                return;
+                if (rewrite == false)
+                {
+                    var messageDialog = new MessageDialog("The playlist name already exist.Please chose another one");
+                    // Show the message dialog
+                    await messageDialog.ShowAsync();
+                    return;
+                }
+                else
+                {
+                    //overwite the playlist data if already exist
+                    await FileIO.WriteTextAsync(PLFile, plData);
+
+                }
             }
         }
 
+        public static async Task<bool> IsDuplicateNewPlaylistAsync(Model.PlayList playlist)
+        {
+            var isduplicate = false;
+            var songcount = 0;
+
+            StorageFolder PLlocalFolder = ApplicationData.Current.LocalFolder;
+            StorageFile PLFile = await PLlocalFolder.CreateFileAsync(playlist.PlayListName, CreationCollisionOption.OpenIfExists);
+
+            var plData = $"{playlist.PlayListName},";
+
+
+            //check if playlist does not have songs
+
+            if (playlist.PlayListSongIDs == null)
+                songcount = 0;
+            else
+                songcount = playlist.PlayListSongIDs.Count;
+            
+            var oldplData = await FileIO.ReadTextAsync(PLFile);
+
+            bool rewrite = false;
+
+            if (oldplData != "")
+            {
+                var oldplDatasongs = oldplData.Split(',');
+
+                //not including playlistname and newline
+                var oldplDatacount = oldplDatasongs.Length - 2;
+                if (songcount > oldplDatacount)
+                {
+                    rewrite = true;
+                }
+
+            }
+            //check if playlist exist
+
+            StorageFolder allPLfolder = ApplicationData.Current.LocalFolder;
+            StorageFile allPLFile = await allPLfolder.CreateFileAsync(FILE_NAME, CreationCollisionOption.OpenIfExists);
+
+            var allplines = await FileIO.ReadLinesAsync(allPLFile);
+
+            //checks if playlist name is already in allplaylist file
+            bool exist = false;
+            foreach (var pline in allplines)
+            {
+                if (pline != null)
+                {
+                    if (pline == playlist.PlayListName)
+                    {
+                        exist = true;
+                    }
+                }
+            }
+            //playlist does not exist and should be added
+            if (exist == true)
+            {
+
+
+                if (rewrite == false)
+                {
+                    
+                    isduplicate = true; ;
+                }
                 
+            }
+            return isduplicate;
+        }
+
         /// <summary>
         /// Write a song with its song title , artist and assigned ID into txt file in local storage 
         /// checks to see if song exist before adding in this collection

@@ -45,6 +45,14 @@ namespace MusicLibraryApp.Model
                 if (file.FileType.Equals(".mp3"))
                 {
                     MusicProperties musicProperties = await file.Properties.GetMusicPropertiesAsync();
+
+                    if (musicProperties.Artist == null || musicProperties.Artist == "")
+                        musicProperties.Artist = "Unknown";
+                    
+                    if (musicProperties.Album == null || musicProperties.Album == "")
+                        musicProperties.Album = "Unknown";
+                    
+
                     StorageItemThumbnail storageItemThumbnail = await file.GetThumbnailAsync(ThumbnailMode.MusicView,
                          200, ThumbnailOptions.UseCurrentScale);
                     var AlbumCover = new BitmapImage();
@@ -88,7 +96,7 @@ namespace MusicLibraryApp.Model
                 if (musicProperties.Title ==null || musicProperties.Title == "")
                 {
 
-                    throw new ArgumentException("Cannot add music file without Title and Artist");
+                    throw new ArgumentException("Cannot add music file without Title");
 
                 }
                     
@@ -106,7 +114,16 @@ namespace MusicLibraryApp.Model
                
                 //add song id and title and artist
                 song.Title = musicProperties.Title;
+                if (musicProperties.Artist == null || musicProperties.Artist == "")
+                    song.Artist = "Unknown";
+                else
                 song.Artist = musicProperties.Artist;
+
+                if (musicProperties.Album == null || musicProperties.Album == "")
+                    song.Album = "Unknown";
+                else
+                    song.Album = musicProperties.Album;
+
                 song.ID = ++lastSongID;
                 PlayListFileHelper.WriteSongToFileAsync(song);
 
@@ -137,11 +154,21 @@ namespace MusicLibraryApp.Model
         }
 
         //add playlist to observable collection of playlist and creates a playlist file
-        public void AddPlayList(PlayList p)
+        public async void AddPlayList(PlayList p)
         {
-            playLists.Add(p);
-            //also call Write to file function
-            PlayListFileHelper.WritePlayListToFileAsync(p);
+            if (await PlayListFileHelper.IsDuplicateNewPlaylistAsync(p) == false)
+            {
+                playLists.Add(p);
+                //also call Write to file function
+                PlayListFileHelper.WritePlayListToFileAsync(p);
+            }
+            else
+            {
+                var messageDialog = new MessageDialog("The playlist name already exist.Please chose another one");
+                // Show the message dialog
+                await messageDialog.ShowAsync();
+                return;
+            }
         }
 
         public void DeletePlayList(PlayList p)

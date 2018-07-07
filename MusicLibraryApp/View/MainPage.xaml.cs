@@ -129,7 +129,7 @@ namespace MusicLibraryApp
         {
             var dialog = new ContentDialog1();
             await dialog.ShowAsync();
-
+            vm.GetAllSongs();
         }
 
         private async void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
