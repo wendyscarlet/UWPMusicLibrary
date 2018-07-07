@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI.Popups;
 
 namespace MusicLibraryApp
 {
@@ -133,7 +134,7 @@ namespace MusicLibraryApp
             {
                 if (pline != null)
                 {
-                    if (pline.Contains(playlist.PlayListName))
+                    if (pline == playlist.PlayListName)
                     {
                         exist = true;
                     }
@@ -144,6 +145,13 @@ namespace MusicLibraryApp
                 var playlistfilename = playlist.PlayListName + Environment.NewLine;
                 await FileIO.AppendTextAsync(allPLFile, playlistfilename);
                 
+            }
+            else
+            {
+                var messageDialog = new MessageDialog("The playlist name already exist.Please chose another one");
+                // Show the message dialog
+                await messageDialog.ShowAsync();
+                return;
             }
         }
 

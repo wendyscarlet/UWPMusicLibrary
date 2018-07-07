@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -17,7 +18,7 @@ namespace MusicLibraryApp.Model
         /// <summary>
         /// Contain the Songs to be shown in the UI
         /// </summary>
-        public ObservableCollection<Song> songsList { get; private set; }
+        public ObservableCollection<Song> songsList { get;  private set; }
         public ObservableCollection<PlayList> playLists { get; private set; }
 
         private static int lastSongID = 0;
@@ -76,34 +77,49 @@ namespace MusicLibraryApp.Model
         /// <param name="song">the song you want to save</param>
         public static async void addSong(Model.Song song)
         {
-
+            
+           
             var songFile = song.sourceSongFile;
             var localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            MusicProperties musicProperties = await songFile.Properties.GetMusicPropertiesAsync();
             try
             {
-                Windows.Storage.StorageFile existingFile = await localFolder.GetFileAsync(songFile.Name);
+              
+                if (musicProperties.Title ==null || musicProperties.Title == "")
+                {
+
+                    throw new ArgumentException("Cannot add music file without Title and Artist");
+
+                }
+                    
                 
+                try
+                {
+                    Windows.Storage.StorageFile existingFile = await localFolder.GetFileAsync(songFile.Name);
 
-            }
-            catch (FileNotFoundException ex)
-            {
-                await songFile.CopyAsync(localFolder);
-            }
 
-            //get songid, title , artist and write to SongStorage
-            MusicProperties musicProperties = await songFile.Properties.GetMusicPropertiesAsync();
-            if(musicProperties.Title != "")
-            {
+                }
+                catch (FileNotFoundException ex)
+                {
+                    await songFile.CopyAsync(localFolder);
+                }
+               
+                //add song id and title and artist
                 song.Title = musicProperties.Title;
+                song.Artist = musicProperties.Artist;
                 song.ID = ++lastSongID;
                 PlayListFileHelper.WriteSongToFileAsync(song);
+
             }
-            else 
+            catch (ArgumentException ex)
             {
-                throw new System.ArgumentException("Title cannot be empty");
-                //need help in handiling this exception  with a message in UI 
-                //and not allowed to add the song
+                var messageDialog = new MessageDialog(ex.Message);
+                // Show the message dialog
+                await messageDialog.ShowAsync();
+                return;
             }
+           
+            
         }
         
         public  void SearchSongs(string str, int pageSize = 1, int currentPage = 0)
@@ -133,7 +149,7 @@ namespace MusicLibraryApp.Model
            
             // delete playlist from file
             PlayListFileHelper.DeletePlayListAsync(p);
-            
+           
         }
 
         public async void DisplayAllPlaylists()
