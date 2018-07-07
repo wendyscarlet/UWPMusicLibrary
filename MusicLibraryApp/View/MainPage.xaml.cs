@@ -446,6 +446,12 @@ namespace MusicLibraryApp
             vm.GetAllSongs();
             this.DataContext = vm;
         }
+
+        private void rootPivot_Unloaded(object sender, RoutedEventArgs e)
+        {
+            vm.GetAllSongs();
+            this.DataContext = vm;
+        }
     }
 }
 
