@@ -107,7 +107,7 @@
                             <Button x:Name="AddPlayListButton" Background="Transparent" BorderThickness="0"  Margin="5,0,0,0" Width="50" FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#59152;" Click="AddPlayListButton_Click"/>
                         </StackPanel>
                     </Button>
-                    <ListView x:Name ="PlayListNames" Visibility ="Collapsed" ItemsSource ="{x:Bind vm.playLists}" ItemClick="PlayListNames_ItemClick" RightTapped="PlayListNames_ItemRightTapped">
+                    <ListView x:Name ="PlayListNames" Visibility ="Collapsed" ItemsSource ="{x:Bind vm.playLists}" ItemClick="PlayListNames_ItemClick" RightTapped="PlayListNames_ItemRightTapped" Height="300" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility ="Auto">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local1:PlayList">
                                 <TextBlock Text="{x:Bind PlayListName}" FontSize="14" FontWeight="Bold" />
@@ -132,7 +132,9 @@
                                 <DataTemplate x:DataType="local1:Song">
                                     <StackPanel  Margin ="10" Name="Display">
                                         <Image Margin="6" Width="100" Height="100" Source="{x:Bind CoverImage}" Stretch="Fill"></Image>
-                                        <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" TextWrapping="Wrap" />
+                                        <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" TextWrapping="Wrap" FontWeight="SemiBold"/>
+                                        <TextBlock TextAlignment="Center" Text="{x:Bind ShortArtistName}" TextWrapping="Wrap" Style="{StaticResource CaptionTextBlockStyle}" />
+                                        <TextBlock TextAlignment="Center" Text="{x:Bind Album}" TextWrapping="Wrap" Style="{StaticResource CaptionTextBlockStyle}" />
                                         <!--<Button x:Name="PauseButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
                                 FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE103;" Click="PauseButton_Click"/>
                                         <Button x:Name="PlayButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
@@ -143,8 +145,8 @@
                             </GridView.ItemTemplate>
                         </GridView>
                     </PivotItem>
-                    <PivotItem Header="Artist">
-                        <ListView x:Name="listViewArtists" ItemsSource="{Binding Source={StaticResource artistsCVS}}"  >
+                    <PivotItem Name ="ItemPivotArtists" Header="Artist">
+                        <ListView x:Name="listViewArtists" ItemsSource="{Binding Source={StaticResource artistsCVS}}"  Height="400" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility ="Auto" >
                             <ListView.GroupStyle>
                                 <GroupStyle>
                                     <GroupStyle.HeaderTemplate>
@@ -176,7 +178,7 @@
                     </PivotItem>
 
                     <PivotItem Header="Albums">
-                        <ListView x:Name="listViewAlbum" ItemsSource="{Binding Source={StaticResource albumsCVS}}"  >
+                        <ListView x:Name="listViewAlbum" ItemsSource="{Binding Source={StaticResource albumsCVS}}"  Height="400" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility ="Auto" >
                             <ListView.GroupStyle>
                                 <GroupStyle>
                                     <GroupStyle.HeaderTemplate>
@@ -206,7 +208,14 @@
                         </ListView>
 
                     </PivotItem>
-                    
+                    <!--<PivotItem Name=" PivotItemPlayList" Header="PlayList">
+                        <StackPanel>
+                            <TextBlock Name="playListName" Text="PLayList Name "> </TextBlock>
+                            
+                            
+                        </StackPanel>
+                        
+                    </PivotItem>-->
                 </Pivot>
             </StackPanel>
         </SplitView>

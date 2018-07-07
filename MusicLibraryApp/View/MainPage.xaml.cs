@@ -46,6 +46,7 @@ namespace MusicLibraryApp
             vm.DisplayAllPlaylists();
             this.DataContext = vm;
             playing = false;
+          
 
 
         }
@@ -129,7 +130,7 @@ namespace MusicLibraryApp
         {
             var dialog = new ContentDialog1();
             await dialog.ShowAsync();
-
+            vm.GetAllSongs();
         }
 
         private async void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -418,7 +419,8 @@ namespace MusicLibraryApp
 
         private void rootPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            
+            //listViewArtists.Height = rootPivot.Height - 100;
             if (rootPivot.SelectedIndex == 1)
                 artistsCVS.Source = vm.Artists;
             if (rootPivot.SelectedIndex == 2)
