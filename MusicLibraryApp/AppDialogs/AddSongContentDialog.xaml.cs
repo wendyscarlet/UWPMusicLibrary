@@ -42,11 +42,7 @@ namespace MusicLibraryApp.AppDialogs
                 };
 
             MainViewModel.addSong(song);
-             //Frame addSongsFrame = Window.Current.Content as Frame;
-             //addSongsFrame.Navigate(typeof(MainPage));
-
-            }
-            
+        }
 
         }
 
