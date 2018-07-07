@@ -123,7 +123,7 @@
                     AutoPlay="True"
                     AreTransportControlsEnabled="True"/>
                 <TextBlock Text=" My Music" Style="{StaticResource SubheaderTextBlockStyle}"/>
-                <Pivot RequestedTheme="Light" x:Name="rootPivot" SelectionChanged="rootPivot_SelectionChanged" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="1450" Tapped="rootPivot_Tapped" Loaded="rootPivot_Loaded" Unloaded="rootPivot_Unloaded" >
+                <Pivot RequestedTheme="Light" x:Name="rootPivot" SelectionChanged="rootPivot_SelectionChanged" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="1450" Tapped="rootPivot_Tapped" Loaded="rootPivot_Loaded" >
                     <PivotItem Header="Songs">
                         <!--Pivot content goes here-->
                         <GridView  Name="SongGridView" IsItemClickEnabled="False"  ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged" RightTapped="SongGridViewItem_RightTapped"  >
