@@ -46,13 +46,8 @@ namespace MusicLibraryApp.Model
                 {
                     MusicProperties musicProperties = await file.Properties.GetMusicPropertiesAsync();
 
-                    if (musicProperties.Artist == null || musicProperties.Artist == "")
-                        musicProperties.Artist = "Unknown";
-                    
-                    if (musicProperties.Album == null || musicProperties.Album == "")
-                        musicProperties.Album = "Unknown";
-                    
-
+                  
+         
                     StorageItemThumbnail storageItemThumbnail = await file.GetThumbnailAsync(ThumbnailMode.MusicView,
                          200, ThumbnailOptions.UseCurrentScale);
                     var AlbumCover = new BitmapImage();
@@ -61,9 +56,9 @@ namespace MusicLibraryApp.Model
                     Song s = new Song
                     {
 
-                        Title = musicProperties.Title,
-                        Artist = musicProperties.Artist,
-                        Album = musicProperties.Album,
+                        Title = ((musicProperties.Title == null || musicProperties.Title == "") ? "Unknown" : musicProperties.Title),
+                        Artist = ((musicProperties.Artist == null || musicProperties.Artist == "") ? "Unknown": musicProperties.Artist),
+                        Album = ((musicProperties.Album == null || musicProperties.Album == "") ? "Unknown" : musicProperties.Album),
                         SongFileName = file.Name,
                         CoverImage = AlbumCover
 

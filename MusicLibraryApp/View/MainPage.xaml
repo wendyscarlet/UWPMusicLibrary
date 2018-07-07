@@ -143,8 +143,8 @@
                             </GridView.ItemTemplate>
                         </GridView>
                     </PivotItem>
-                    <PivotItem Header="Artist">
-                        <ListView x:Name="listViewArtists" ItemsSource="{Binding Source={StaticResource artistsCVS}}"  >
+                    <PivotItem Name ="ItemPivotArtists" Header="Artist">
+                        <ListView x:Name="listViewArtists" ItemsSource="{Binding Source={StaticResource artistsCVS}}" >
                             <ListView.GroupStyle>
                                 <GroupStyle>
                                     <GroupStyle.HeaderTemplate>
