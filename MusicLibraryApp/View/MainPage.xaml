@@ -208,7 +208,14 @@
                         </ListView>
 
                     </PivotItem>
-                    
+                    <!--<PivotItem Name=" PivotItemPlayList" Header="PlayList">
+                        <StackPanel>
+                            <TextBlock Name="playListName" Text="PLayList Name "> </TextBlock>
+                            
+                            
+                        </StackPanel>
+                        
+                    </PivotItem>-->
                 </Pivot>
             </StackPanel>
         </SplitView>
