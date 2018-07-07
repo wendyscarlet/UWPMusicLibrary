@@ -42,9 +42,9 @@ namespace MusicLibraryApp
         {
             this.InitializeComponent();
             vm = new MainViewModel();
-            vm.GetAllSongs();
+            //vm.GetAllSongs();
             vm.DisplayAllPlaylists();
-            this.DataContext = vm;
+            //this.DataContext = vm;
             playing = false;
 
 
@@ -411,10 +411,7 @@ namespace MusicLibraryApp
         #endregion
 
         #region Pivot
-        private void rootPivot_PivotItemLoading(Pivot sender, PivotItemEventArgs args)
-        {
-
-        }
+        
 
         private void rootPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -435,9 +432,26 @@ namespace MusicLibraryApp
         {
             //Add the code to Add  the Song selected in the ListView to a PlayList
         }
+
         #endregion
 
+        private void rootPivot_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            vm.GetAllSongs();
+            this.DataContext = vm;
+        }
 
+        private void rootPivot_Loaded(object sender, RoutedEventArgs e)
+        {
+            vm.GetAllSongs();
+            this.DataContext = vm;
+        }
+
+        private void rootPivot_Unloaded(object sender, RoutedEventArgs e)
+        {
+            vm.GetAllSongs();
+            this.DataContext = vm;
+        }
     }
 }
 
