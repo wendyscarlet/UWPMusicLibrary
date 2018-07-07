@@ -46,10 +46,11 @@ namespace MusicLibraryApp
             vm.DisplayAllPlaylists();
             this.DataContext = vm;
             playing = false;
-           
+
 
         }
 
+        #region SplitView
         private void UpdateGreeting()
         {
             var now = DateTime.Now;
@@ -58,7 +59,7 @@ namespace MusicLibraryApp
                 now.Hour < 18 ? "Good Afternoon!" :
                 /* otherwise */ "Good Evening!";
 
-           // TextGreeting.Text = $"{greeting}";
+            // TextGreeting.Text = $"{greeting}";
 
         }
 
@@ -77,7 +78,7 @@ namespace MusicLibraryApp
                 MyMediaElement.SetSource(stream, file.ContentType);
                 //MyMediaElement.PosterSource = songInContext.CoverImage;
             }
-            if(playing)
+            if (playing)
             {
                 MyMediaElement.AutoPlay = false;
                 playing = false;
@@ -98,54 +99,73 @@ namespace MusicLibraryApp
             PlayListNames.Visibility = MySplitView.IsPaneOpen ? Visibility.Visible : Visibility.Collapsed;
 
         }
-         
-            private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+
+        private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (SearchAutoSuggestBox.Text.Trim() != "")
             {
-                if (SearchAutoSuggestBox.Text.Trim() != "")
-                {
-                    vm.SearchSongs(SearchAutoSuggestBox.Text);
-                    this.SongGridView.ItemsSource = vm.songsList;
-                }
-                else {
-                    vm.GetAllSongs();
-                    this.SongGridView.ItemsSource = vm.songsList;
-                }
-                MySplitView.IsPaneOpen = false;
-                Search.Visibility = Visibility.Visible;
-
+                vm.SearchSongs(SearchAutoSuggestBox.Text);
+                this.SongGridView.ItemsSource = vm.songsList;
             }
-
-            private void DisplaySongList_Click(object sender, RoutedEventArgs e)
+            else
             {
                 vm.GetAllSongs();
-                this.DataContext = vm;
+                this.SongGridView.ItemsSource = vm.songsList;
             }
+            rootPivot.SelectedIndex = 0;// Go to the ItemPivot(Tab) Songs
+            MySplitView.IsPaneOpen = false;
+            Search.Visibility = Visibility.Visible;
 
-            private async void AddSongButton_Click(object sender, RoutedEventArgs e)
+        }
+
+        private void DisplaySongList_Click(object sender, RoutedEventArgs e)
+        {
+            vm.GetAllSongs();
+            rootPivot.SelectedIndex = 0;// Go to the ItemPivot(Tab) Songs
+            this.DataContext = vm;
+        }
+
+        private async void AddSongButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new ContentDialog1();
+            await dialog.ShowAsync();
+
+        }
+
+        private async void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var count = e.AddedItems.Count;
+            if (count > 0) { 
+            Song songInContext = (Song)e.AddedItems.ElementAt(count - 1);
+
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            StorageFile file = await localFolder.GetFileAsync(songInContext.SongFileName);
+            if (file != null)
             {
-                var dialog = new ContentDialog1();
-                await dialog.ShowAsync();
+                IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+                MyMediaElement.SetSource(stream, file.ContentType);
             }
-
-            private void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-            {
-
+            MyMediaElement.AutoPlay = true;
+            MediaElementImage.Source = songInContext.CoverImage;
             }
+        }
 
-            private void SearchSongButton_Click(object sender, RoutedEventArgs e)
-            {
-                vm.GetAllSongs();
-                MySplitView.IsPaneOpen = true;
-                Search.Visibility = Visibility.Collapsed;
-                SearchAutoSuggestBox.Text = "";
-            }
+        private void SearchSongButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.GetAllSongs();
+            MySplitView.IsPaneOpen = true;
+            Search.Visibility = Visibility.Collapsed;
+            SearchAutoSuggestBox.Text = "";
+        }
 
         private void MySplitView_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
         {
             Search.Visibility = Visibility.Visible;
             PlayListNames.Visibility = Visibility.Collapsed;
         }
+        #endregion
 
+        #region PlayControl
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
             if (MyMediaElement.DefaultPlaybackRate != 1)
@@ -153,15 +173,17 @@ namespace MusicLibraryApp
                 MyMediaElement.DefaultPlaybackRate = 1.0;
             }
             MyMediaElement.Play();
-            
+
         }
 
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
             MyMediaElement.Pause();
-            
-        }
 
+        }
+        #endregion
+
+        #region PlayList
         private void PlayListsButton_Click(object sender, RoutedEventArgs e)
         {
             vm.DisplayAllPlaylists();
@@ -345,7 +367,10 @@ namespace MusicLibraryApp
          //the actual add songs to playlist will be done here
         }
 
+         }
+         */
 
+        #region Cortana Commands
         //Cortana Commands
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -380,7 +405,9 @@ namespace MusicLibraryApp
             }
 
         }
+        #endregion
 
+        #region Pivot
         private void rootPivot_PivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
 
@@ -392,8 +419,22 @@ namespace MusicLibraryApp
             if (rootPivot.SelectedIndex == 1)
                 artistsCVS.Source = vm.Artists;
             if (rootPivot.SelectedIndex == 2)
-                 albumsCVS.Source = vm.Albums;
+                albumsCVS.Source = vm.Albums;
         }
+
+
+        private void PlaySongBtnInPivot_Click(object sender, RoutedEventArgs e)
+        {
+            //Add the code to play the Song selected in the ListView
+        }
+
+        private void AddToPlaylistBtnInPivot_Click(object sender, RoutedEventArgs e)
+        {
+            //Add the code to Add  the Song selected in the ListView to a PlayList
+        }
+        #endregion
+
+
     }
 }
 

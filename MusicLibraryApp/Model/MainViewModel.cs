@@ -174,8 +174,8 @@ namespace MusicLibraryApp.Model
 
         #region Pivot
 
-        private IOrderedEnumerable<IGrouping<string, Song>> albums;
-        private IOrderedEnumerable<IGrouping<string, Song>> artists;
+        //private IOrderedEnumerable<IGrouping<string, Song>> albums;
+        //private IOrderedEnumerable<IGrouping<string, Song>> artists;
 
         public IEnumerable<IGrouping<string, Song>> Albums
         {

@@ -6,41 +6,48 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title=""
+    Title="Add Songs"
     PrimaryButtonText="Add"
     SecondaryButtonText="Cancel"
     PrimaryButtonClick="ContentDialog_AddButtonClick"
     SecondaryButtonClick="ContentDialog_CancelButtonClick" Width="910" Height="488"
     IsPrimaryButtonEnabled="False">
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width = "278.536"/>
-            <ColumnDefinition Width="143.864"/>
-            <ColumnDefinition Width="Auto "/>
-        </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="211,0,0,0" Grid.RowSpan="3"/>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="211,0,0,0" Grid.RowSpan="2"/>
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,0,0">
+        <StackPanel>
+            <Image 
+            x:Name="image"
+            Width="121"
+            Height="115"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Source="ms-appx:///Assets/addMusic.jpg" Margin="0,0,0,0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBox 
             x:Name="Song"
-            Width="322"
-            Height="64"
+            Width="206"
+            Height="38"
+             Margin="10,10,0,0"
+              PlaceholderText="Click Browse To Select Songs"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"/>
             <Button 
             x:Name="Browse"
-            Width="100"
-            Height="63"
+            Width="88"
+            Height="38"
+             Margin="10,10,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Click="ContentDialog_TakeImage_Clicked" 
-            Content="Browse" Margin="0,0,0,0" />
+            Content="Browse" />
         </StackPanel>
 
 

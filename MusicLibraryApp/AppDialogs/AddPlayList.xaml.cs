@@ -47,6 +47,12 @@ namespace MusicLibraryApp.AppDialogs
         {
 
         }
-       
+
+        private void PlayListName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string input = PlayListName.Text;
+            if (input != null && input.Count() > 2)
+                IsPrimaryButtonEnabled = true;
+        }
     }
 }
