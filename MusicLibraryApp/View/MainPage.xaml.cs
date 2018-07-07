@@ -367,12 +367,15 @@ namespace MusicLibraryApp
          //the actual add songs to playlist will be done here
         }
 
-         }
-         */
+      
 
-        #region Cortana Commands
-        //Cortana Commands
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+
+
+    #endregion
+
+    #region Cortana Commands
+    //Cortana Commands
+    protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             Debug.Write("OnNavigated to");
             _pageParameters = e.Parameter as VoiceCommandObjects.CortanaCommands;
