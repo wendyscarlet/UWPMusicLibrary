@@ -7,15 +7,16 @@
     <Command Name="AddSong">
       <Example> Add Song,Add Music </Example>
       <ListenFor> Add [Song] </ListenFor>
-      <ListenFor>Add [Music]</ListenFor>
+      <ListenFor> Add [Songs] </ListenFor>
+      <ListenFor>Add [Music] to {builtin:AppName}</ListenFor>
       <Feedback> I'll Add Music </Feedback>
       <Navigate/>
     </Command>
 
     <Command Name="OpenPlayList">
       <Example> Open Play List </Example>
-      <ListenFor>Open Play List</ListenFor>
       <ListenFor>Open Songs</ListenFor>
+      <ListenFor>Open Play List in {builtin:AppName}</ListenFor>
       <Feedback> Opening Play List in MusicLibrary App </Feedback>
       <Navigate/>
     </Command>
