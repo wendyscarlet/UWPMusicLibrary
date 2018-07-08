@@ -18,7 +18,7 @@ namespace MusicLibraryApp.Model
         /// <summary>
         /// Contain the Songs to be shown in the UI
         /// </summary>
-        public ObservableCollection<Song> songsList { get;  private set; }
+        public ObservableCollection<Song> songsList { get; private set; }
         public ObservableCollection<PlayList> playLists { get; private set; }
 
         private static int lastSongID = 0;
@@ -31,7 +31,7 @@ namespace MusicLibraryApp.Model
             playLists = new ObservableCollection<PlayList>();
         }
 
-         /// <summary>
+        /// <summary>
         /// Gets all songs from a text file in local storage called SongStorage.txt
         /// </summary>
         /// <returns>collection of Songs</returns>
@@ -46,18 +46,18 @@ namespace MusicLibraryApp.Model
                 {
                     MusicProperties musicProperties = await file.Properties.GetMusicPropertiesAsync();
 
-                  
-         
+
+
                     StorageItemThumbnail storageItemThumbnail = await file.GetThumbnailAsync(ThumbnailMode.MusicView,
                          200, ThumbnailOptions.UseCurrentScale);
                     var AlbumCover = new BitmapImage();
                     AlbumCover.SetSource(storageItemThumbnail);
-                                        
+
                     Song s = new Song
                     {
 
                         Title = ((musicProperties.Title == null || musicProperties.Title == "") ? "Unknown" : musicProperties.Title),
-                        Artist = ((musicProperties.Artist == null || musicProperties.Artist == "") ? "Unknown": musicProperties.Artist),
+                        Artist = ((musicProperties.Artist == null || musicProperties.Artist == "") ? "Unknown" : musicProperties.Artist),
                         Album = ((musicProperties.Album == null || musicProperties.Album == "") ? "Unknown" : musicProperties.Album),
                         SongFileName = file.Name,
                         CoverImage = AlbumCover
@@ -80,22 +80,22 @@ namespace MusicLibraryApp.Model
         /// <param name="song">the song you want to save</param>
         public static async void addSong(Model.Song song)
         {
-            
-           
+
+
             var songFile = song.sourceSongFile;
             var localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             MusicProperties musicProperties = await songFile.Properties.GetMusicPropertiesAsync();
             try
             {
-              
-                if (musicProperties.Title ==null || musicProperties.Title == "")
+
+                if (musicProperties.Title == null || musicProperties.Title == "")
                 {
 
                     throw new ArgumentException("Cannot add music file without Title");
 
                 }
-                    
-                
+
+
                 try
                 {
                     Windows.Storage.StorageFile existingFile = await localFolder.GetFileAsync(songFile.Name);
@@ -106,13 +106,13 @@ namespace MusicLibraryApp.Model
                 {
                     await songFile.CopyAsync(localFolder);
                 }
-               
+
                 //add song id and title and artist
                 song.Title = musicProperties.Title;
                 if (musicProperties.Artist == null || musicProperties.Artist == "")
                     song.Artist = "Unknown";
                 else
-                song.Artist = musicProperties.Artist;
+                    song.Artist = musicProperties.Artist;
 
                 if (musicProperties.Album == null || musicProperties.Album == "")
                     song.Album = "Unknown";
@@ -130,11 +130,11 @@ namespace MusicLibraryApp.Model
                 await messageDialog.ShowAsync();
                 return;
             }
-           
-            
+
+
         }
-        
-        public  void SearchSongs(string str, int pageSize = 1, int currentPage = 0)
+
+        public void SearchSongs(string str, int pageSize = 1, int currentPage = 0)
         {
             str = str.ToLower();
             // GetAllSongs();
@@ -143,7 +143,7 @@ namespace MusicLibraryApp.Model
                          || s.Album.ToLower().Contains(str)
                          || s.Artist.ToLower().Contains(str)
                          select s);
-                         //.Skip(pageSize * currentPage).Take(pageSize);
+            //.Skip(pageSize * currentPage).Take(pageSize);
             songsList = new ObservableCollection<Song>(query);
 
         }
@@ -168,31 +168,33 @@ namespace MusicLibraryApp.Model
 
         public void DeletePlayList(PlayList p)
         {
-           
+
             // delete playlist from file
             PlayListFileHelper.DeletePlayListAsync(p);
-           
+
         }
 
         public async void DisplayAllPlaylists()
         {
 
-            ObservableCollection<PlayList>  tempplayLists = new ObservableCollection<PlayList>( await PlayListFileHelper.GetAllPlayListsAsync());
+            ObservableCollection<PlayList> tempplayLists = new ObservableCollection<PlayList>(await PlayListFileHelper.GetAllPlayListsAsync());
 
             playLists.Clear();
 
-            for (int i=0; i<tempplayLists.Count; i++)
+            for (int i = 0; i < tempplayLists.Count; i++)
             {
                 playLists.Add(tempplayLists[i]);
             }
 
         }
 
-        public void AddSongtoPlayList(PlayList p)
+        public void AddSongtoPlayList(PlayList p, Song song)
         {
-            //add song to playlist on file
-            PlayListFileHelper.WritePlayListToFileAsync(p);
+            p.PlayListSongs.Add(song);
         }
+
+
+
 
         #region Pivot
 
@@ -229,6 +231,11 @@ namespace MusicLibraryApp.Model
             }
         }
         #endregion
+        public int Itemscount()
+        {
+            int count = playLists.ElementAt(0).PlayListSongs.Count;
+            return count;
+        }
 
     }
 }

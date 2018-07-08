@@ -35,6 +35,7 @@ namespace MusicLibraryApp
         //private MediaSource _mediaSource;
         bool playing;
         private VoiceCommandObjects.CortanaCommands _pageParameters;
+        private int selectedSongIndex;
 
         public int Playlist { get; private set; }
 
@@ -46,7 +47,7 @@ namespace MusicLibraryApp
             vm.DisplayAllPlaylists();
             this.DataContext = vm;
             playing = false;
-          
+
 
 
         }
@@ -136,18 +137,19 @@ namespace MusicLibraryApp
         private async void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var count = e.AddedItems.Count;
-            if (count > 0) { 
-            Song songInContext = (Song)e.AddedItems.ElementAt(count - 1);
-
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-            StorageFile file = await localFolder.GetFileAsync(songInContext.SongFileName);
-            if (file != null)
+            if (count > 0)
             {
-                IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
-                MyMediaElement.SetSource(stream, file.ContentType);
-            }
-            MyMediaElement.AutoPlay = true;
-            MediaElementImage.Source = songInContext.CoverImage;
+                Song songInContext = (Song)e.AddedItems.ElementAt(count - 1);
+
+                StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+                StorageFile file = await localFolder.GetFileAsync(songInContext.SongFileName);
+                if (file != null)
+                {
+                    IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+                    MyMediaElement.SetSource(stream, file.ContentType);
+                }
+                MyMediaElement.AutoPlay = true;
+                MediaElementImage.Source = songInContext.CoverImage;
             }
         }
 
@@ -195,7 +197,7 @@ namespace MusicLibraryApp
             Search.Visibility = Visibility.Collapsed;
             if (vm.playLists.Count > 0)
             {
-               
+
                 PlayListNames.Visibility = Visibility.Visible;
             }
         }
@@ -237,7 +239,7 @@ namespace MusicLibraryApp
                 AddPlayListDialog.Hide();
             }
         }
-
+        #region no use Playlist functions
         private void PlayListNames_ItemClick(object sender, ItemClickEventArgs e)
         {
             //writecode to display  and play songs of selected playlist
@@ -252,13 +254,13 @@ namespace MusicLibraryApp
             {
                 PlayList p = (PlayList)PlayListNames.SelectedItem;
 
-               // MenuFlyoutItem addSongsPlaylist = new MenuFlyoutItem { Text = "Add Songs to " + $"{p.PlayListName}" };
+                // MenuFlyoutItem addSongsPlaylist = new MenuFlyoutItem { Text = "Add Songs to " + $"{p.PlayListName}" };
                 MenuFlyoutItem deletePlaylist = new MenuFlyoutItem { Text = "Delete " + $"{p.PlayListName}" };
 
-              //  myFlyout.Items.Add(addSongsPlaylist);
+                //  myFlyout.Items.Add(addSongsPlaylist);
                 myFlyout.Items.Add(deletePlaylist);
 
-              //  addSongsPlaylist.Click += AddSongsToPlayList_Click;
+                //  addSongsPlaylist.Click += AddSongsToPlayList_Click;
                 deletePlaylist.Click += DeletePlayList_Click;
                 // renamePlaylist.Click += RenamePlaylist_Click;
 
@@ -270,6 +272,7 @@ namespace MusicLibraryApp
         }
 
         //no longer used
+        /********
         private void AddSongsToPlayList_Click(object sender, RoutedEventArgs e)
         {
             if (PlayListNames.SelectedItems.Count > 0)
@@ -283,56 +286,56 @@ namespace MusicLibraryApp
                     for (int i = 0; i < SongGridView.SelectedItems.Count; i++)
                     {
                         Song s = (Song)SongGridView.SelectedItems[i];
-                        p.PlayListSongIDs.Add(s.ID);
+                       // p.PlayListSongIDs.Add(s.ID);
                     }
                     vm.AddSongtoPlayList(p);
                 }
             }
-        }
-
+        }*********/
+        #endregion
         private void DeletePlayList_Click(object sender, RoutedEventArgs e)
         {
 
             bool plremove = false;
 
-          //  vm.DisplayAllPlaylists();
+            //  vm.DisplayAllPlaylists();
             PlayList dp = (PlayList)PlayListNames.SelectedItem;
 
             //vm.playLists.Remove(dp);
 
             foreach (var p in vm.playLists)
             {
-              //  vm.DisplayAllPlaylists();
+                //  vm.DisplayAllPlaylists();
                 if (p.PlayListName == dp.PlayListName)
                 {
-                   // vm.DeletePlayList(dp);
+                    // vm.DeletePlayList(dp);
                     plremove = true;
                 }
-            
+
             }
-            
-            if(plremove == true)
+
+            if (plremove == true)
             {
                 vm.DeletePlayList(dp);
                 vm.playLists.Remove(dp);
             }
-            
+
         }
 
         private void SongGridViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            
+
             Song s = (e.OriginalSource as FrameworkElement)?.DataContext as Song;
 
             FrameworkElement senderElement = sender as FrameworkElement;
 
-           
+
             MenuFlyout myFlyout = new MenuFlyout();
             MenuFlyoutItem addSongsPlayListMenu = new MenuFlyoutItem { Text = "Add " + $"{s.Title}" };
 
             myFlyout.Items.Add(addSongsPlayListMenu);
 
-            addSongsPlayListMenu.RightTapped+= AddSongsToPlayListMenu_RightTapped;
+            addSongsPlayListMenu.RightTapped += AddSongsToPlayListMenu_RightTapped;
 
             // FrameworkElement senderElement = sender as FrameworkElement;
 
@@ -343,18 +346,18 @@ namespace MusicLibraryApp
 
         private void AddSongsToPlayListMenu_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-         
+
             MenuFlyout allPlayLists = new MenuFlyout();
 
             FrameworkElement senderElement = sender as FrameworkElement;
 
             var datacontext = senderElement.DataContext;
             //var datacontext = (e.OriginalSource as FrameworkElement)?.DataContext;
-            
-           ListViewItem pl = this.PlayListNames.ContainerFromItem(datacontext) as ListViewItem;
+
+            ListViewItem pl = this.PlayListNames.ContainerFromItem(datacontext) as ListViewItem;
 
             //bind the menus item to Listview of playlist
-            MenuFlyoutItem addSongsSelectedPlayList = new MenuFlyoutItem { Text =  $" playlists" };
+            MenuFlyoutItem addSongsSelectedPlayList = new MenuFlyoutItem { Text = $" playlists" };
 
             allPlayLists.Items.Add(addSongsSelectedPlayList);
             addSongsSelectedPlayList.Click += addSongsSelectedPlayList_Click;
@@ -365,18 +368,18 @@ namespace MusicLibraryApp
 
         private void addSongsSelectedPlayList_Click(object sender, RoutedEventArgs e)
         {
-         //the actual add songs to playlist will be done here
+            //the actual add songs to playlist will be done here
         }
 
-      
 
 
 
-    #endregion
 
-    #region Cortana Commands
-    //Cortana Commands
-    protected async override void OnNavigatedTo(NavigationEventArgs e)
+        #endregion
+
+        #region Cortana Commands
+        //Cortana Commands
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             Debug.Write("OnNavigated to");
             _pageParameters = e.Parameter as VoiceCommandObjects.CortanaCommands;
@@ -419,7 +422,7 @@ namespace MusicLibraryApp
 
         private void rootPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
             //listViewArtists.Height = rootPivot.Height - 100;
             if (rootPivot.SelectedIndex == 1)
                 artistsCVS.Source = vm.Artists;
@@ -430,14 +433,49 @@ namespace MusicLibraryApp
 
         private void PlaySongBtnInPivot_Click(object sender, RoutedEventArgs e)
         {
+            var item = (sender as FrameworkElement).DataContext;
+            selectedSongIndex = listViewArtists.Items.IndexOf(item);
+            Song s = vm.Artists.
             //Add the code to play the Song selected in the ListView
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            //StorageFile file = await localFolder.GetFileAsync(songInContext.SongFileName);
+            if (file != null)
+            {
+                IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+                MyMediaElement.SetSource(stream, file.ContentType);
+            }
+            MyMediaElement.AutoPlay = true;
         }
 
         private void AddToPlaylistBtnInPivot_Click(object sender, RoutedEventArgs e)
         {
+            // var x = (sender as ListView).SelectedIndex;
+            var item = (sender as FrameworkElement).DataContext;
+            selectedSongIndex = listViewArtists.Items.IndexOf(item);
+
             //Add the code to Add  the Song selected in the ListView to a PlayList
+            if (!playListsPopup.IsOpen)
+            {
+                int width = (vm.playLists.Count()) * 110;
+                rootPopupBorder2.Width = 16 + width;
+                rootPopupBorder2.Height = 128;
+                playListsPopup.HorizontalOffset = 0;
+                playListsPopup.VerticalOffset = ActualHeight - 208;
+                playListsPopup.IsOpen = true;
+            }
         }
+
         #endregion
+
+        private void PlayListPicker_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            playListsPopup.IsOpen = false;
+            Song song = vm.songsList.ElementAt(selectedSongIndex);
+            PlayList playList = (sender as ListView).SelectedItem as PlayList;
+            vm.AddSongtoPlayList(playList, song);
+            int x = vm.Itemscount();
+
+        }
 
 
     }

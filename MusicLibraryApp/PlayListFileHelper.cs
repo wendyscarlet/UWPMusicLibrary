@@ -28,7 +28,8 @@ namespace MusicLibraryApp
 
             var allplines = await FileIO.ReadLinesAsync(allPLFile);
 
-            foreach (var pline in allplines) {
+            foreach (var pline in allplines)
+            {
                 if (pline != "")
                 {
                     StorageFolder PLfolder = ApplicationData.Current.LocalFolder;
@@ -44,8 +45,8 @@ namespace MusicLibraryApp
 
                     for (int i = 1; i < plData.Length; i++)
                     {
-                        if (plData[i] != "\r\n")
-                            playlist.PlayListSongIDs.Add(Convert.ToInt32(plData[i]));
+                        // if (plData[i] != "\r\n")
+                        // playlist.PlayListSongIDs.Add(Convert.ToInt32(plData[i]));
                     }
                     playlist.PlayListFilePath = pline;
 
@@ -58,19 +59,19 @@ namespace MusicLibraryApp
 
         public static async void DeletePlayListAsync(Model.PlayList p)
         {
-            
+
             StorageFolder allPLfolder = ApplicationData.Current.LocalFolder;
             StorageFile allPLFile = await allPLfolder.CreateFileAsync(FILE_NAME, CreationCollisionOption.OpenIfExists);
             StorageFolder tempfolder = ApplicationData.Current.LocalFolder;
             StorageFile tempFile = await tempfolder.CreateFileAsync(FILE_NAME3, CreationCollisionOption.OpenIfExists);
 
             var allplines = await FileIO.ReadLinesAsync(allPLFile);
-           
+
             foreach (var pline in allplines)
             {
                 if (pline != "")
                 {
-                    
+
                     if (!pline.Contains(p.PlayListName))
                     {
 
@@ -78,13 +79,13 @@ namespace MusicLibraryApp
                         await FileIO.AppendTextAsync(tempFile, tline);
                     }
 
-                    
+
                 }
             }
 
             await tempFile.CopyAndReplaceAsync(allPLFile);
             await tempFile.DeleteAsync();
-            
+
         }
 
         /// <summary>
@@ -104,7 +105,7 @@ namespace MusicLibraryApp
 
 
             //check if playlist does not have songs
-
+            /*******
             if (playlist.PlayListSongIDs == null)
                 songcount = 0;
             else
@@ -116,10 +117,10 @@ namespace MusicLibraryApp
                     plData = plData + $"{playlist.PlayListSongIDs[i].ToString()},";
 
                // plData = plData + $"{playlist.PlayListSongIDs[songcount - 1].ToString()}";
-            }
-                plData = plData + Environment.NewLine;
+            }****/
+            plData = plData + Environment.NewLine;
 
-           
+
 
             var oldplData = await FileIO.ReadTextAsync(PLFile);
 
@@ -128,10 +129,10 @@ namespace MusicLibraryApp
             if (oldplData != "")
             {
                 var oldplDatasongs = oldplData.Split(',');
-                
+
                 //not including playlistname and newline
                 var oldplDatacount = oldplDatasongs.Length - 2;
-                if(songcount > oldplDatacount)
+                if (songcount > oldplDatacount)
                 {
                     rewrite = true;
                 }
@@ -201,12 +202,12 @@ namespace MusicLibraryApp
 
 
             //check if playlist does not have songs
-
+            /****
             if (playlist.PlayListSongIDs == null)
                 songcount = 0;
             else
-                songcount = playlist.PlayListSongIDs.Count;
-            
+                songcount = playlist.PlayListSongIDs.Count;****/
+
             var oldplData = await FileIO.ReadTextAsync(PLFile);
 
             bool rewrite = false;
@@ -249,10 +250,10 @@ namespace MusicLibraryApp
 
                 if (rewrite == false)
                 {
-                    
+
                     isduplicate = true; ;
                 }
-                
+
             }
             return isduplicate;
         }
@@ -264,7 +265,7 @@ namespace MusicLibraryApp
         /// <param name="song">the song you want to save</param>
         public static async void WriteSongToFileAsync(Model.Song song)
         {
-          
+
             StorageFolder sFolder = ApplicationData.Current.LocalFolder;
             StorageFile sFile = await sFolder.CreateFileAsync(FILE_NAME2, CreationCollisionOption.OpenIfExists);
 
@@ -311,14 +312,14 @@ namespace MusicLibraryApp
 
             //checks if song title and artist is already in SongStorage.txt file
             var slines = await FileIO.ReadLinesAsync(sFile);
-           
+
             //searches for songs, if it find it add it into a dictionary
 
             for (int i = 0; i < allsongs.Count; i++)
             {
                 foreach (var sline in slines)
                 {
-                    if (sline != "") 
+                    if (sline != "")
                     {
                         var check = sline.Split(',');
                         if (check[0] == allsongs[i].Title)
@@ -341,7 +342,7 @@ namespace MusicLibraryApp
         /// 
         public static async Task<int> GetSongIDFromFileAsync(Model.Song song)
         {
-            int songID=-1;
+            int songID = -1;
 
             StorageFolder sFolder = ApplicationData.Current.LocalFolder;
             StorageFile sFile = await sFolder.CreateFileAsync(FILE_NAME2, CreationCollisionOption.OpenIfExists);
@@ -351,18 +352,18 @@ namespace MusicLibraryApp
 
             //searches for songs, if it find it add it into a dictionary
 
-           
-                foreach (var sline in slines)
+
+            foreach (var sline in slines)
+            {
+                if (sline != "")
                 {
-                    if (sline != "")
+                    var check = sline.Split(',');
+                    if (check[0] == song.Title)
                     {
-                        var check = sline.Split(',');
-                        if (check[0] == song.Title)
-                        {
-                            songID= Convert.ToInt32(check[1]);
-                        }
+                        songID = Convert.ToInt32(check[1]);
                     }
                 }
+            }
             //when called in main view model must check if it is -1, means song does not have id
             return songID;
         }

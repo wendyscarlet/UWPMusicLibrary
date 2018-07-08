@@ -14,7 +14,7 @@
 
         <CollectionViewSource  Source="{Binding Albums}" x:Name="albumsCVS" IsSourceGrouped="true"/>
         <CollectionViewSource  Source="{Binding Artists}" x:Name="artistsCVS" IsSourceGrouped="true"/>
-        
+
         <Style x:Key="AlbumGroupHeaderContainerStyle" TargetType="ListViewHeaderItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         </Style>
@@ -30,10 +30,10 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="10*" />
                     <ColumnDefinition Width="*" />
-                  
+
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                <!--<Button  Name="playBtn"  Grid.Column="1" FontFamily="Segoe MDL2 Assets" FontSize="20"  Content="&#xE102;" Background="Transparent"></Button>
+                    <!--<Button  Name="playBtn"  Grid.Column="1" FontFamily="Segoe MDL2 Assets" FontSize="20"  Content="&#xE102;" Background="Transparent"></Button>
                 <Button Name="AddToPlaylistBtn" Grid.Column="0" FontFamily="Segoe MDL2 Assets"  FontSize="20"  Content="&#59152;" Background="Transparent" />-->
                 </StackPanel>
                 <Border Width="56" Height="56"  >
@@ -159,17 +159,17 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType ="local1:Song">
                                     <!--<Border Background="{Binding Color}" Width="200" CornerRadius="10" HorizontalAlignment="Left">-->
-                                        <StackPanel Orientation="Horizontal" >
+                                    <StackPanel Orientation="Horizontal" >
                                         <Button Name="AddToPlaylistBtnInPivot" Grid.Column="0" FontFamily="Segoe MDL2 Assets"  FontSize="20"  Content="&#59152;" Background="Transparent" Click="AddToPlaylistBtnInPivot_Click" />
                                         <Button  Name="PlaySongBtnInPivot"  Grid.Column="1" FontFamily="Segoe MDL2 Assets" FontSize="20"  Content="&#xE102;" Background="Transparent" Click="PlaySongBtnInPivot_Click"/>
 
                                         <Border Width="40" Height="40" Margin=" 5,0,0,0">
-                                                <Image Source="{Binding CoverImage}" Stretch="UniformToFill"/>
-                                            </Border>
-                                            
+                                            <Image Source="{Binding CoverImage}" Stretch="UniformToFill"/>
+                                        </Border>
+
                                         <TextBlock Text="{Binding Album}" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
                                         <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
-                                        </StackPanel>
+                                    </StackPanel>
                                     <!--</Border>-->
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -190,7 +190,7 @@
                             </ListView.GroupStyle>
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType ="local1:Song">
-                                  
+
                                     <StackPanel Orientation="Horizontal" >
                                         <Button Name="AddToPlaylistBtnInPivot" Grid.Column="0" FontFamily="Segoe MDL2 Assets"  FontSize="20"  Content="&#59152;" Background="Transparent" Click="AddToPlaylistBtnInPivot_Click" />
                                         <Button  Name="PlaySongBtnInPivot"  Grid.Column="1" FontFamily="Segoe MDL2 Assets" FontSize="20"  Content="&#xE102;" Background="Transparent" Click="PlaySongBtnInPivot_Click"/>
@@ -202,7 +202,7 @@
                                         <TextBlock Text="{Binding ShortArtistName}" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
                                         <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
                                     </StackPanel>
-                                
+
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
@@ -239,9 +239,72 @@
         </Grid>
         <!-- End Grid Media Element-->
 
+        <!-- pop for playlists begin-->
+        <Popup
+            x:Name="playListsPopup"
+            IsLightDismissEnabled="True"
+            IsOpen="False" >
 
+            <Popup.ChildTransitions>
+                <TransitionCollection>
+                    <PaneThemeTransition Edge="Left" />
+                </TransitionCollection>
+            </Popup.ChildTransitions>
 
+            <Border
+                x:Name="rootPopupBorder2"
+                BorderBrush="{ThemeResource AppBarItemPointerOverForegroundThemeBrush}"
+                BorderThickness="1" CornerRadius="0" Margin="-8,0,0,0">
 
+                <Border.Background>
+                    <LinearGradientBrush
+                        EndPoint="0.5,1"
+                        StartPoint="0.5,0">
+                        <GradientStop
+                            Color="#FF22222C"
+                            Offset="0.52"/>
+                        <GradientStop
+                            Color="Black"
+                            Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
 
+                <Grid  HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <ListView
+                        ItemsSource="{x:Bind vm.playLists}"
+                        Tapped="PlayListPicker_Tapped"
+                        Grid.ColumnSpan="2">
+
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="local1:PlayList">
+                                <StackPanel
+                                    Margin="8,10,0,0"
+                                    Opacity="1.0">
+                                    <TextBlock
+                                        TextAlignment="Center"
+                                        Foreground="White"
+                                        Text="{x:Bind PlayListName}">
+                                    </TextBlock>
+
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Border>
+        </Popup>
+        <!--pop up end-->
     </Grid>
 </Page>
+
+
+
+
+
+
