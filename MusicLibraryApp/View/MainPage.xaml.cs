@@ -430,12 +430,13 @@ namespace MusicLibraryApp
                 albumsCVS.Source = vm.Albums;
         }
 
-
+        
         private void PlaySongBtnInPivot_Click(object sender, RoutedEventArgs e)
         {
+            /*
             var item = (sender as FrameworkElement).DataContext;
             selectedSongIndex = listViewArtists.Items.IndexOf(item);
-            Song s = vm.Artists.
+            
             //Add the code to play the Song selected in the ListView
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             //StorageFile file = await localFolder.GetFileAsync(songInContext.SongFileName);
@@ -444,7 +445,7 @@ namespace MusicLibraryApp
                 IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
                 MyMediaElement.SetSource(stream, file.ContentType);
             }
-            MyMediaElement.AutoPlay = true;
+            MyMediaElement.AutoPlay = true;*/
         }
 
         private void AddToPlaylistBtnInPivot_Click(object sender, RoutedEventArgs e)
