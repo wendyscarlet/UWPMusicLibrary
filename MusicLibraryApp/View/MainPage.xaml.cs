@@ -46,7 +46,8 @@ namespace MusicLibraryApp
             vm.DisplayAllPlaylists();
             this.DataContext = vm;
             playing = false;
-          
+            ItemPivotPlayList.Header = "";
+
 
 
         }
@@ -103,6 +104,7 @@ namespace MusicLibraryApp
 
         private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
+            CollapsedPlayListItemPivot();
             if (SearchAutoSuggestBox.Text.Trim() != "")
             {
                 vm.SearchSongs(SearchAutoSuggestBox.Text);
@@ -124,6 +126,7 @@ namespace MusicLibraryApp
             vm.GetAllSongs();
             rootPivot.SelectedIndex = 0;// Go to the ItemPivot(Tab) Songs
             this.DataContext = vm;
+            CollapsedPlayListItemPivot();
         }
 
         private async void AddSongButton_Click(object sender, RoutedEventArgs e)
@@ -131,6 +134,7 @@ namespace MusicLibraryApp
             var dialog = new ContentDialog1();
             await dialog.ShowAsync();
             vm.GetAllSongs();
+            CollapsedPlayListItemPivot();
         }
 
         private async void SongGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -163,6 +167,8 @@ namespace MusicLibraryApp
         {
             Search.Visibility = Visibility.Visible;
             PlayListNames.Visibility = Visibility.Collapsed;
+           // CollapsedPlayListItemPivot();
+
         }
         #endregion
 
@@ -236,11 +242,23 @@ namespace MusicLibraryApp
             {
                 AddPlayListDialog.Hide();
             }
+            CollapsedPlayListItemPivot();
         }
 
         private void PlayListNames_ItemClick(object sender, ItemClickEventArgs e)
         {
-            //writecode to display  and play songs of selected playlist
+            //writecode to display and play songs of selected playlist
+
+           PlayList pl = (e.OriginalSource as FrameworkElement)?.DataContext as PlayList;
+
+            vm.currentPlayList = pl;
+
+            vm.currentPlayListSongs = vm.songsList; //Change this for the SOngs of the PlayList
+            PlayListGridView.ItemsSource = vm.currentPlayListSongs;
+
+            
+            MySplitView.IsPaneOpen = true;
+
         }
 
         private void PlayListNames_ItemRightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -419,12 +437,13 @@ namespace MusicLibraryApp
 
         private void rootPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
-            //listViewArtists.Height = rootPivot.Height - 100;
+                      
             if (rootPivot.SelectedIndex == 1)
                 artistsCVS.Source = vm.Artists;
             if (rootPivot.SelectedIndex == 2)
                 albumsCVS.Source = vm.Albums;
+           // if (rootPivot.SelectedIndex == 3)
+              //  PlayListGridView.ItemsSource = vm.currentPlayListSongs;
         }
 
 
@@ -437,9 +456,61 @@ namespace MusicLibraryApp
         {
             //Add the code to Add  the Song selected in the ListView to a PlayList
         }
+
+
+        private void ItemPivotPlayList_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+
+        }
+
+        private void ItemPivotAlbums_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            CollapsedPlayListItemPivot();
+        }
+
+        private void ItemPivotArtists_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            CollapsedPlayListItemPivot();
+        }
+
+        private void CollapsedPlayListItemPivot()
+        {
+            ItemPivotPlayList.Header = "";
+
+            ItemPivotArtists.Header = "Artist"; 
+            ItemPivotSongs.Header = "Songs"; 
+            ItemPivotAlbums.Header = "Albums";
+            rootPivot.SelectedIndex = 0;
+
+        }
+
+        private void ItemPivotSongs_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            //CollapsedPlayListItemPivot();
+        }
+
         #endregion
 
+        private void PlayListNames_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            rootPivot.SelectedItem = ItemPivotPlayList;
 
+            PlayList pl = (e.OriginalSource as FrameworkElement)?.DataContext as PlayList;
+
+            vm.currentPlayList = pl;
+
+            vm.currentPlayListSongs = vm.songsList; //Change this for the SOngs of the PlayList
+            PlayListGridView.ItemsSource = vm.currentPlayListSongs;
+            TextBlockPlayList.Text = pl.PlayListName + "  Playlist ";
+
+            
+            ItemPivotArtists.Header = ""; 
+            ItemPivotSongs.Header = ""; 
+            ItemPivotAlbums.Header = "";
+            ItemPivotPlayList.Header = "";
+           // ItemPivotPlayList.Header =  pl.PlayListName +  " PlayList ";
+            MySplitView.IsPaneOpen = false;
+        }
     }
 }
 
