@@ -107,7 +107,7 @@
                             <Button x:Name="AddPlayListButton" Background="Transparent" BorderThickness="0"  Margin="5,0,0,0" Width="50" FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#59152;" Click="AddPlayListButton_Click"/>
                         </StackPanel>
                     </Button>
-                    <ListView x:Name ="PlayListNames" Visibility ="Collapsed" ItemsSource ="{x:Bind vm.playLists}" ItemClick="PlayListNames_ItemClick" RightTapped="PlayListNames_ItemRightTapped" Height="300" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility ="Auto">
+                    <ListView x:Name ="PlayListNames" Visibility ="Collapsed" ItemsSource ="{x:Bind vm.playLists}" ItemClick="PlayListNames_ItemClick" RightTapped="PlayListNames_ItemRightTapped" Height="300" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility ="Auto" Tapped="PlayListNames_Tapped">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local1:PlayList">
                                 <TextBlock Text="{x:Bind PlayListName}" FontSize="14" FontWeight="Bold" />
@@ -118,13 +118,13 @@
             </SplitView.Pane>
             <StackPanel>
 
-                <MediaElement x:Name="mediaPlayer"
+                <!--<MediaElement x:Name="mediaPlayer"
                     Width="400"
                     AutoPlay="True"
-                    AreTransportControlsEnabled="True"/>
+                    AreTransportControlsEnabled="True"/>-->
                 <TextBlock Text=" My Music" Style="{StaticResource SubheaderTextBlockStyle}"/>
                 <Pivot RequestedTheme="Light" x:Name="rootPivot"  PivotItemLoading="rootPivot_PivotItemLoading" SelectionChanged="rootPivot_SelectionChanged" >
-                    <PivotItem Header="Songs">
+                    <PivotItem Name ="ItemPivotSongs"  Header="Songs" Tapped="ItemPivotSongs_Tapped">
                         <!--Pivot content goes here-->
                         <GridView  Name="SongGridView" IsItemClickEnabled="False"  ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.songsList}" SelectionChanged="SongGridView_SelectionChanged" RightTapped="SongGridViewItem_RightTapped"  >
                             <!--<GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.SongsList}" ScrollViewer.VerticalScrollBarVisibility="Visible">-->
@@ -145,7 +145,7 @@
                             </GridView.ItemTemplate>
                         </GridView>
                     </PivotItem>
-                    <PivotItem Name ="ItemPivotArtists" Header="Artist">
+                    <PivotItem Name ="ItemPivotArtists" Header="Artist" Tapped="ItemPivotArtists_Tapped">
                         <ListView x:Name="listViewArtists" ItemsSource="{Binding Source={StaticResource artistsCVS}}"  Height="400" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility ="Auto" >
                             <ListView.GroupStyle>
                                 <GroupStyle>
@@ -177,8 +177,8 @@
 
                     </PivotItem>
 
-                    <PivotItem Header="Albums">
-                        <ListView x:Name="listViewAlbum" ItemsSource="{Binding Source={StaticResource albumsCVS}}"  Height="400" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility ="Auto" >
+                    <PivotItem Name="ItemPivotAlbums" Header="Albums" Tapped="ItemPivotAlbums_Tapped">
+                        <ListView x:Name="listViewAlbum" ItemsSource="{Binding Source={StaticResource albumsCVS}}"  Height="400" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility ="Auto" Tapped="listViewAlbum_Tapped" >
                             <ListView.GroupStyle>
                                 <GroupStyle>
                                     <GroupStyle.HeaderTemplate>
@@ -208,14 +208,29 @@
                         </ListView>
 
                     </PivotItem>
-                    <!--<PivotItem Name=" PivotItemPlayList" Header="PlayList">
+                    <PivotItem Name="ItemPivotPlayList"  Header="Playlists" Tapped="ItemPivotPlayList_Tapped">
                         <StackPanel>
-                            <TextBlock Name="playListName" Text="PLayList Name "> </TextBlock>
-                            
-                            
+                            <!--Pivot content goes here-->
+                            <TextBlock Name ="TextBlockPlayList"  TextAlignment="Left" TextWrapping="Wrap"  Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,30"/>
+                            <GridView  Name="PlayListGridView" IsItemClickEnabled="False"  ItemsSource="{x:Bind vm.currentPlayListSongs}" SelectionChanged="SongGridView_SelectionChanged"  >
+           
+                                <GridView.ItemTemplate >
+                                    <DataTemplate x:DataType="local1:Song">
+                                        <StackPanel  Margin ="10" Name="Display">
+                                            <Image Margin="6" Width="100" Height="100" Source="{x:Bind CoverImage}" Stretch="Fill"></Image>
+                                            <TextBlock TextAlignment="Center" FontSize="14" Text="{x:Bind Title}" TextWrapping="Wrap" FontWeight="SemiBold"/>
+                                            <TextBlock TextAlignment="Center" Text="{x:Bind ShortArtistName}" TextWrapping="Wrap" Style="{StaticResource CaptionTextBlockStyle}" />
+                                            <TextBlock TextAlignment="Center" Text="{x:Bind Album}" TextWrapping="Wrap" Style="{StaticResource CaptionTextBlockStyle}" />
+                                           
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+
+
                         </StackPanel>
-                        
-                    </PivotItem>-->
+
+                    </PivotItem>
                 </Pivot>
             </StackPanel>
         </SplitView>
@@ -270,7 +285,7 @@
                 </Border.Background>
 
                 <Grid  HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <ListView
+                    <ListView 
                         ItemsSource="{x:Bind vm.playLists}"
                         Tapped="PlayListPicker_Tapped"
                         Grid.ColumnSpan="2">

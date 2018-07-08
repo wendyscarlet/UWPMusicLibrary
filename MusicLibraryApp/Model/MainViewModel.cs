@@ -20,6 +20,8 @@ namespace MusicLibraryApp.Model
         /// </summary>
         public ObservableCollection<Song> songsList { get; private set; }
         public ObservableCollection<PlayList> playLists { get; private set; }
+        public ObservableCollection<Song> currentPlayListSongs { get; set; }
+        public PlayList currentPlayList { get; set; }
 
         private static int lastSongID = 0;
         /// <summary>
@@ -29,6 +31,10 @@ namespace MusicLibraryApp.Model
         {
             songsList = new ObservableCollection<Song>();
             playLists = new ObservableCollection<PlayList>();
+            currentPlayListSongs = new ObservableCollection<Song>();
+            currentPlayList = new PlayList();
+            
+
         }
 
         /// <summary>
@@ -234,6 +240,7 @@ namespace MusicLibraryApp.Model
         public int Itemscount()
         {
             int count = playLists.ElementAt(0).PlayListSongs.Count;
+       
             return count;
         }
 
