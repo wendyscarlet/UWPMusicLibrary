@@ -466,6 +466,10 @@ namespace MusicLibraryApp
         private void ItemPivotAlbums_Tapped(object sender, TappedRoutedEventArgs e)
         {
             CollapsedPlayListItemPivot();
+         
+            
+            
+
         }
 
         private void ItemPivotArtists_Tapped(object sender, TappedRoutedEventArgs e)
@@ -510,6 +514,44 @@ namespace MusicLibraryApp
             ItemPivotPlayList.Header = "";
            // ItemPivotPlayList.Header =  pl.PlayListName +  " PlayList ";
             MySplitView.IsPaneOpen = false;
+        }
+
+        private  void listViewAlbum_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+           
+        }
+
+        private async void listViewAlbum_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+
+            Song songInContext = (Song)listViewAlbum.SelectedItem;
+            
+
+            //  Song songInContext = (Song)e.ClickedItem;
+
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            StorageFile file = await localFolder.GetFileAsync(songInContext.SongFileName);
+            if (file != null)
+            {
+                //_mediaSource = MediaSource.CreateFromStorageFile(file);
+                //this.mediaPlayer.SetPlaybackSource(_mediaSource);
+                //this.mediaPlayer.AutoPlay = true;
+                IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+                MyMediaElement.SetSource(stream, file.ContentType);
+                //MyMediaElement.PosterSource = songInContext.CoverImage;
+            }
+            if (playing)
+            {
+                MyMediaElement.AutoPlay = false;
+                playing = false;
+            }
+            else
+            {
+                playing = true;
+                MyMediaElement.AutoPlay = true;
+                MediaElementImage.Source = songInContext.CoverImage;
+
+            }
         }
     }
 }

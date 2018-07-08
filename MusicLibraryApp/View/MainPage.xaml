@@ -178,7 +178,7 @@
                     </PivotItem>
 
                     <PivotItem Name="ItemPivotAlbums" Header="Albums" Tapped="ItemPivotAlbums_Tapped">
-                        <ListView x:Name="listViewAlbum" ItemsSource="{Binding Source={StaticResource albumsCVS}}"  Height="400" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility ="Auto" >
+                        <ListView x:Name="listViewAlbum" ItemsSource="{Binding Source={StaticResource albumsCVS}}"  Height="400" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility ="Auto" SelectionChanged="listViewAlbum_SelectionChanged" Tapped="listViewAlbum_Tapped" >
                             <ListView.GroupStyle>
                                 <GroupStyle>
                                     <GroupStyle.HeaderTemplate>
